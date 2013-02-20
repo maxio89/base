@@ -1,0 +1,44 @@
+<FindBugsFilter>
+
+    <Match>
+        <!--EI: May expose internal representation by returning reference to mutable object (EI_EXPOSE_REP)-->
+        <Bug code="EI,EI2"/>
+    </Match>
+
+    <Match>
+        <Field type="javax.persistence.EntityManager"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+    <Match>
+        <Field type="javax.enterprise.context.Conversation"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+    <Match>
+        <Field type="javax.enterprise.event.Event"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+    <Match>
+        <Field type="org.jboss.seam.security.Credentials"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+    <Match>
+        <Field type="org.jboss.seam.security.Identity"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+    <Match>
+        <Field type="javax.enterprise.inject.Instance"/>
+        <!--Se: Non-transient non-serializable instance field in serializable class (SE_BAD_FIELD)-->
+        <Bug code="Se"/>
+    </Match>
+
+</FindBugsFilter>

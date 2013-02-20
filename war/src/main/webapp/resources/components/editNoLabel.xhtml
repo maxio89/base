@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <title>This will not be present in rendered output</title>
+</head>
+
+<body>
+
+<cc:interface componentType="com.project.web.UIInputContainer">
+    <cc:attribute name="ajax" required="false" default="false"/>
+    <cc:attribute name="inputs" required="false" default="1"/>
+    <cc:attribute name="rendered" required="false" type="java.lang.Boolean"/>
+    <cc:attribute name="styleClass" required="false" type="java.lang.String"/>
+</cc:interface>
+<cc:implementation>
+
+    <div class="prop#{empty cc.attrs.styleClass ? '' : ' '.concat(cc.attrs.styleClass)}#{cc.attrs.invalid ? ' errors' : ''}" id="#{cc.clientId}">
+        <span class="input">
+             <f:validateBean>
+                 <h:panelGroup>
+                     <cc:insertChildren/>
+                 </h:panelGroup>
+             </f:validateBean>
+         </span>
+        <h:panelGroup rendered="#{cc.attrs.invalid}" styleClass="messages">
+            <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
+                <h:message id="message#{i}" for=""/>
+            </c:forEach>
+        </h:panelGroup>
+    </div>
+
+</cc:implementation>
+
+</body>
+
+</html>

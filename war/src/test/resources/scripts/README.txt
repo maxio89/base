@@ -1,0 +1,13 @@
+-- SQL to generate script that disables FK constraints
+-- SELECT 'ALTER TABLE '||relname||' DROP CONSTRAINT IF EXISTS'||conname||';'
+-- FROM pg_constraint
+-- INNER JOIN pg_class ON conrelid=pg_class.oid
+-- INNER JOIN pg_namespace ON pg_namespace.oid=pg_class.relnamespace where contype='f'
+-- ORDER BY contype,nspname,relname,conname
+
+--SQL to generate script that enables FK constraints
+-- SELECT 'ALTER TABLE '||relname||' ADD CONSTRAINT '||conname||' '|| pg_get_constraintdef(pg_constraint.oid)||';'
+-- FROM pg_constraint
+-- INNER JOIN pg_class ON conrelid=pg_class.oid
+-- INNER JOIN pg_namespace ON pg_namespace.oid=pg_class.relnamespace where contype='f'
+-- ORDER BY contype DESC,nspname DESC,relname DESC,conname DESC;

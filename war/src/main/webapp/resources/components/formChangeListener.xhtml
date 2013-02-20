@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:cc="http://java.sun.com/jsf/composite">
+<head>
+    <title>This will not be present in rendered output</title>
+</head>
+
+<body>
+
+<cc:interface componentType="com.project.web.UIFormChangeListener">
+    <cc:attribute name="listener" method-signature="void action()"/>
+    <cc:attribute name="render" type="java.lang.String"/>
+</cc:interface>
+<cc:implementation>
+    <h:outputScript library="javax.faces" name="jsf.js" target="head"/>
+    <h:outputScript library="org/richfaces" name="formChangeListener.js" target="head"/>
+
+    <div id="#{cc.clientId}">
+        <script type="text/javascript">new RichFaces.ui.FormChangeListener("#{cc.clientId}");</script>
+    </div>
+</cc:implementation>
+
+</body>
+
+</html>

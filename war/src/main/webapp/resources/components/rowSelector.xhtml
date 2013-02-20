@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://java.sun.com/jsf/composite">
+<head>
+    <title>This will not be present in rendered output</title>
+</head>
+
+<body>
+
+<cc:interface>
+    <cc:attribute name="for" type="java.lang.String" required="true"/>
+</cc:interface>
+<cc:implementation>
+    <script type="text/javascript" id="#{cc.clientId}">
+        (function ($)
+        {
+            const selectedClass = "selected";
+            var rowClickHandler = function (e)
+            {
+                var checkbox = jQuery("input.rowSelectionFlag", this)[0];
+                checkbox.checked = !checkbox.checked;
+                if (checkbox.checked) {
+                    $(this).addClass(selectedClass);
+                } else {
+                    $(this).removeClass(selectedClass)
+                }
+            };
+            $("tr", document.getElementById("#{cc.attrs.for}")).click(rowClickHandler);
+        })(jQuery);
+    </script>
+</cc:implementation>
+
+</body>
+
+</html>

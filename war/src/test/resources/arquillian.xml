@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jboss.org/schema/arquillian" xsi:schemaLocation="http://jboss.org/schema/arquillian
+                         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <defaultProtocol type="Servlet 3.0"/>
+
+    <engine>
+        <property name="deploymentExportPath">target/</property>
+        <property name="maxTestClassesBeforeRestart">1</property>
+    </engine>
+
+    <extension qualifier="persistence">
+        <property name="scriptsToExecuteBeforeTest">scripts/disableConstraints.sql</property>
+        <property name="scriptsToExecuteAfterTest">scripts/enableConstraints.sql</property>
+        <property name="dumpData">true</property>
+        <property name="defaultDataSource">${pu.jta.data.source}</property>
+        <property name="userTransactionJndi">java:jboss/UserTransaction</property>
+        <property name="alwaysExcludeFromDataSetsComparision">id</property>
+        <property name="defaultDataSeedStrategy">CLEAN_INSERT</property>
+    </extension>
+
+    <extension qualifier="persistence-dbunit">
+        <property name="datatypeFactory">org.dbunit.ext.postgresql.PostgresqlDataTypeFactory</property>
+        <property name="excludeTablesFromCleanup">hibernate_sequence</property>
+    </extension>
+
+</arquillian>

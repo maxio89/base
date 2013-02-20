@@ -1,0 +1,41 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core" template="/layout/template.xhtml">
+
+    <ui:param name="showGlobalMessages" value="false"/>
+    <ui:param name="skipProfileCheck" value="true"/>
+
+    <ui:define name="body">
+
+        <h1>#{messages['view.error.headline']}</h1>
+
+        <h:messages id="errorMessage" styleClass="message"/>
+
+        #{exceptionMessage.internationalizedMessage}
+
+        <!--TODO this should be visible only to admin-->
+        <rich:panel>
+            <f:facet name="header">Handled exception</f:facet>
+            #{handledException.current}<br/>
+            Root: #{handledException.root}<br/>
+            <rich:list value="#{exceptionView.causes}" var="exception">
+                #{exception}
+                <rich:list value="#{exception.stackTrace}" var="line">
+                    #{line}
+                </rich:list>
+            </rich:list>
+        </rich:panel>
+
+        <!--TODO this should be visible only to admin-->
+        <rich:panel>
+            <f:facet name="header">Caught exception</f:facet>
+            #{caughtException.exception}<br/>
+            Handled: #{caughtException.handled}<br/>
+            <rich:list value="#{caughtException.exception.stackTrace}" var="line">
+                #{line}
+            </rich:list>
+        </rich:panel>
+
+    </ui:define>
+</ui:composition>

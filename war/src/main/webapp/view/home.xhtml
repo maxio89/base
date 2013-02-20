@@ -1,0 +1,138 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                template="/layout/template.xhtml">
+
+    <!-- content area with white bg -->
+    <ui:define name="content">
+        <div class="grid_14 player">
+            EMPTY IN THIS ITERATION
+        </div>
+        <div class="grid_10 tabContent">
+            EMPTY IN THIS ITERATION
+        </div>
+    </ui:define>
+
+    <!-- bottom panels with tweets, blogs, and projects -->
+    <ui:define name="panels">
+        <div class="container_24">
+            <!-- OUR TWEETS -->
+            <div class="grid_8 panel">
+                <div class="panelHeader">
+                    <img src="#{request.contextPath}/img/our_tweets.png" alt="our tweets"/>
+                </div>
+
+                <!-- example tweets -->
+                <div class="tweet">
+                    <p>
+                        <h:outputText styleClass="tweetAuthor" value="Author1:"/>
+                        Nam metus diam, pharetra sit amet adipiscing sit amet, adipiscing id eros. Suspendisse potenti. Nam metus diam, pharetra sit amet adipiscing sit amet, adipiscing id eros. Suspendisse potenti.
+                    </p>
+
+                    <div class="tweetTimestamp">
+                        <img src="#{request.contextPath}/img/twitter_clock.png" alt=""/>
+                        added 2 hours ago.
+                        <h:link styleClass="openTweetLink" value="open tweet"/>
+                    </div>
+                </div>
+
+                <div class="panelEntryDivider"></div>
+
+                <div class="tweet">
+                    <p><h:outputText styleClass="tweetAuthor" value="Author1:"/>
+                        Nam metus diam, pharetra sit amet adipiscing sit amet, adipiscing id eros. Suspendisse potenti.</p>
+
+                    <div class="tweetTimestamp">
+                        <img src="#{request.contextPath}/img/twitter_clock.png" alt=""/>
+                        added 2 hours ago.
+                        <h:link styleClass="openTweetLink" value="open tweet"/>
+                    </div>
+                </div>
+
+                <div class="panelEntryDivider"></div>
+
+                <div class="tweet">
+                    <p><h:outputText styleClass="tweetAuthor" value="Author1:"/>
+                        Nam metus diam, pharetra sit amet adipiscing sit amet, adipiscing id eros. Suspendisse potenti.</p>
+
+                    <div class="tweetTimestamp">
+                        <img src="#{request.contextPath}/img/twitter_clock.png" alt=""/>
+                        added 2 hours ago.
+                        <h:link styleClass="openTweetLink" value="open tweet"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOG NEWS -->
+            <div class="grid_8 panel">
+                <div class="alpha grid_8 omega panelHeader">
+                    <img src="#{request.contextPath}/img/blog_news.png" alt=""/>
+                </div>
+
+                <!-- example blog entries -->
+                <div class="blogEntry">
+                    <img src="#{request.contextPath}/img/blog_example_img.png" alt=""/>
+
+                    <h1 class="blogTitle">Lorem ipsum</h1>
+                    Nam metus diam, pharetra sit amet adipiscing sit amet. Nam metus diam, pharetra sit amet adipiscing sit amet.Nam metus diam, pharetra sit amet adipiscing sit amet.Nam metus diam, pharetra sit amet adipiscing sit amet.Nam metus diam, pharetra sit amet adipiscing sit amet.Nam metus diam, pharetra sit amet adipiscing sit amet.
+                    <br/>
+                    <h:link styleClass="panelLink" value="More..."/>
+                </div>
+                <div class="panelEntryDivider"></div>
+
+                <div class="blogEntry">
+                    <img src="#{request.contextPath}/img/blog_example_img.png" alt=""/>
+
+                    <h1 class="blogTitle">Lorem ipsum</h1>
+                    Nam metus diam, pharetra sit amet adipiscing sit amet.
+                    <br/>
+                    <h:link styleClass="panelLink" value="More..."/>
+                </div>
+                <div class="panelEntryDivider"></div>
+                <div class="blogEntry">
+                    <img src="#{request.contextPath}/img/blog_example_img.png" alt=""/>
+
+                    <h1 class="blogTitle">Lorem ipsum</h1>
+                    Nam metus diam, pharetra sit amet adipiscing sit amet.
+                    <br/>
+                    <h:link styleClass="panelLink" value="More..."/>
+                </div>
+
+            </div>
+
+
+            <!-- LATEST PROJECT -->
+            <div class="grid_8 panel">
+                <div class="alpha grid_8 omega latestProject">
+                    <div class="panelHeader">
+                        <img src="#{request.contextPath}/img/latest_projects.png" alt=""/>
+                    </div>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <img class="project" src="#{request.contextPath}/img/latest_project_example_img.png" alt=""/>
+                    <h:link styleClass="panelLink" value="More >>"/>
+                </div>
+
+                <!-- SOCIAL NETWORKS -->
+                <div class="alpha grid_8 omega socialNetworkBox">
+                    <div class="panelHeader">
+                        <img src="#{request.contextPath}/img/social_network.png" alt=""/>
+                    </div>
+
+                    <!-- social icons -->
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/twitter.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/fb.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/skype.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/linkedin.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/rss.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/yt.png" alt=""/>
+                    <img class="socialNetworkIcon" src="#{request.contextPath}/img/flickr.png" alt=""/>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
