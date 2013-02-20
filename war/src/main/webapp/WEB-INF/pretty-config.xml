@@ -3,12 +3,12 @@
 
     <url-mapping id="accessDenied">
         <pattern value="/accessDenied"/>
-        <view-id value="/view/denied.jsf"/>
+        <view-id value="/view/401.jsf"/>
     </url-mapping>
 
     <url-mapping id="error">
         <pattern value="/error"/>
-        <view-id value="/view/error.jsf"/>
+        <view-id value="/view/500.jsf"/>
     </url-mapping>
 
     <url-mapping id="home">

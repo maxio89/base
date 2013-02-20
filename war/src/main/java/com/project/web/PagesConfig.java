@@ -21,7 +21,7 @@ public interface PagesConfig {
         LAYOUTS,
         @Authenticated @RestrictAtPhase(PhaseIdType.RESTORE_VIEW) @ViewPattern("/view/private/*")
         PRIVATE,
-        @FacesRedirect @ViewPattern("/view/*") @AccessDeniedView("/view/denied.xhtml") @LoginView("/view/login.xhtml")
+        @FacesRedirect @ViewPattern("/view/*") @AccessDeniedView("/view/401.xhtml") @LoginView("/view/login.xhtml")
         ALL
     }
 }

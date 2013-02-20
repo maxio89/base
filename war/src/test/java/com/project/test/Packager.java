@@ -104,8 +104,8 @@ public class Packager {
     public Packager addAllViews()
     {
         archive.addAsWebResource(new File("src/main/webapp/error.html"), ArchivePaths.create("error.html"));
-        archive.addAsWebResource(new File("src/main/webapp/view/denied.xhtml"), ArchivePaths.create("view/denied.xhtml"));
-        archive.addAsWebResource(new File("src/main/webapp/view/error.xhtml"), ArchivePaths.create("view/error.xhtml"));
+        archive.addAsWebResource(new File("src/main/webapp/view/401.xhtml"), ArchivePaths.create("view/401.xhtml"));
+        archive.addAsWebResource(new File("src/main/webapp/view/500.xhtml"), ArchivePaths.create("view/500.xhtml"));
         archive.addAsWebResource(new File("src/main/webapp/view/home.xhtml"), ArchivePaths.create("view/home.xhtml"));
         return this;
     }
