@@ -1,4 +1,4 @@
-package com.project.setting;
+package com.project;
 
 import com.project.framework.business.Unmanaged;
 import pl.com.it_crowd.seam.framework.EntityHome;

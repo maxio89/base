@@ -1,10 +1,10 @@
 package com.project.framework.view;
 
-import com.project.domain.Language;
 import com.project.domain.Translatable;
 import com.project.framework.business.EntityHome;
 import com.project.framework.business.EntitySelected;
-import com.project.language.business.LanguageList;
+import com.project.language.Language;
+import com.project.language.LanguageList;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.solder.core.Veto;
 import org.jboss.solder.logging.Logger;

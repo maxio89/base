@@ -1,6 +1,6 @@
-package com.project.language.business;
+package com.project.language;
 
-import com.project.domain.Language;
+import com.project.language.Language;
 import com.project.framework.business.EntityQuery;
 
 import java.io.Serializable;

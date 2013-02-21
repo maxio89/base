@@ -1,7 +1,7 @@
 package com.project.language;
 
 import com.project.ProjectConfig;
-import com.project.domain.Language;
+import com.project.language.Language;
 import com.project.framework.business.ApplicationDefault;
 
 import javax.enterprise.context.ApplicationScoped;

@@ -1,6 +1,6 @@
-package com.project.language.business;
+package com.project.language;
 
-import com.project.domain.Language;
+import com.project.language.Language;
 import pl.com.it_crowd.seam.framework.EntityHome;
 
 public class LanguageHome extends EntityHome<Language> {
