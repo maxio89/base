@@ -21,13 +21,13 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>11.0.2</version>
+                <version>14.0-rc2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.ocpsoft</groupId>
                 <artifactId>prettyfaces-jsf2</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.3</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.4</version>
+                <version>1.7</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -63,7 +63,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.1</version>
+                <version>2.4</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -72,17 +72,17 @@
                 <version>2.6</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>edu.uci.ics</groupId>
-                <artifactId>crawler4j</artifactId>
-                <version>3.3</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>edu.uci.ics</groupId>-->
+                <!--<artifactId>crawler4j</artifactId>-->
+                <!--<version>3.3</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<artifactId>geronimo-stax-api_1.0_spec</artifactId>-->
+                        <!--<groupId>org.apache.geronimo.specs</groupId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
@@ -128,31 +128,31 @@
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
-                <version>1.2.16</version>
+                <version>1.2.17</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.cssparser</groupId>
                 <artifactId>cssparser</artifactId>
-                <version>0.9.5</version>
+                <version>0.9.8</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.1.2</version>
+                <version>4.2.2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.1.2</version>
+                <version>4.2.2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
-                <version>2.3.18</version>
+                <version>2.3.19</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
@@ -181,7 +181,7 @@
             <dependency>
                 <groupId>org.jacoco</groupId>
                 <artifactId>org.jacoco.core</artifactId>
-                <version>0.5.6.201201232323</version>
+                <version>0.6.1.201212231917</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>
@@ -415,7 +415,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
-                <version>1.9.0</version>
+                <version>1.9.5</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
