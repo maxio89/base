@@ -26,7 +26,7 @@ CREATE TABLE users (
     lastname character varying(255) NOT NULL,
     password_digest character varying(255) NOT NULL,
     registration_date timestamp without time zone NOT NULL,
-    active boolean NOT NULL,
+    active boolean NOT NULL
 );
 
 CREATE SEQUENCE users_id_sequence
@@ -54,3 +54,4 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
