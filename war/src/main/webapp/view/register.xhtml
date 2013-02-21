@@ -1,0 +1,41 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:focus="http://richfaces.org/sandbox/focus" xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
+
+    <ui:define name="body">
+        <div class="grid_8 prefix_8 suffix_8">
+            <rich:panel rendered="#{not identity.loggedIn}">
+                <f:facet name="header">#{messages['view.register.register']}</f:facet>
+                <h:form id="rF">
+                    <focus:focus/>
+                    <rich:message for="pM"/>
+                    <rich:graphValidator id="pM" value="#{registerView.passwords}"/>
+                    <cu:edit id="e" label="#{domain['User.email']}">
+                        <h:inputText id="i" value="#{registerView.user.email}" required="true">
+                            <f:validator validatorId="uniqueEmailValidator"/>
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <cu:edit id="p" label="#{domain['User.passwordDigest']}">
+                        <h:inputSecret id="i" value="#{registerView.passwords.password}" required="true">
+                            <rich:validator/>
+                        </h:inputSecret>
+                    </cu:edit>
+                    <cu:edit id="pC" label="#{messages['view.register.passwordConfirmation']}">
+                        <h:inputSecret id="i" value="#{registerView.passwords.passwordConfirmation}" required="true">
+                            <rich:validator/>
+                        </h:inputSecret>
+                    </cu:edit>
+                    <cu:edit id="r" label="#{null}">
+                        <h:commandButton id="r" value="#{messages['view.register.register']}" action="#{registerView.register}"/>
+                    </cu:edit>
+                </h:form>
+            </rich:panel>
+            <h:panelGroup rendered="#{identity.loggedIn}">
+                <h1>#{messages['view.register.mayNotBeLoggedIn']}</h1>
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>

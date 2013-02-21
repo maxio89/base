@@ -6,35 +6,37 @@
 
     <ui:param name="hideLoginPopup" value="true"/>
 
-    <ui:define name="content">
-        <h:panelGroup rendered="#{identity.loggedIn}">
-            <script type="text/javascript">
-                location = '#{request.contextPath}/view/private/admin/periods.jsf'
-            </script>
-        </h:panelGroup>
-        <rich:panel rendered="#{not identity.loggedIn}">
-            <f:facet name="header">#{messages['view.login.login']}</f:facet>
-            <h:form id="lF">
-                <focus:focus/>
-                <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
-                    <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
-                                 requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
-                        <rich:validator/>
-                    </h:inputText>
-                </cu:edit>
-                <rich:notifyMessage for="e:i"/>
-                <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                    <h:inputText id="i" value="#{credentials.password}" required="true"
-                                 requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
-                        <rich:validator/>
-                    </h:inputText>
-                </cu:edit>
-                <rich:notifyMessage for="p:i"/>
-                <h:panelGrid columns="2">
-                    <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
-                    <a4j:commandButton value="#{messages['layout.template.loginPanel.register']}" action="#{registerView.register}" immediate="true"/>
-                </h:panelGrid>
-            </h:form>
-        </rich:panel>
+    <ui:define name="body">
+        <div class="prefix_8 grid_8 suffix_8">
+            <h:panelGroup rendered="#{identity.loggedIn}">
+                <script type="text/javascript">
+                    location = '#{request.contextPath}/view/private/admin/periods.jsf'
+                </script>
+            </h:panelGroup>
+            <rich:panel rendered="#{not identity.loggedIn}">
+                <f:facet name="header">#{messages['view.login.login']}</f:facet>
+                <h:form id="lF">
+                    <focus:focus/>
+                    <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
+                        <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
+                                     requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <rich:notifyMessage for="e:i"/>
+                    <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
+                        <h:inputText id="i" value="#{credentials.password}" required="true"
+                                     requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <rich:notifyMessage for="p:i"/>
+                    <h:panelGrid columns="2">
+                        <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
+                        <a4j:commandButton value="#{messages['layout.template.loginPanel.register']}" action="#{registerView.register}" immediate="true"/>
+                    </h:panelGrid>
+                </h:form>
+            </rich:panel>
+        </div>
     </ui:define>
 </ui:composition>
