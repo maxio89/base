@@ -31,6 +31,7 @@
             <module name="com.sun.jsf-impl"/>
             <module name="org.joda.time"/>
             <module name="com.google.guava"/>
+            <module name="org.jboss.jaxbintros"/>
             <module name="com.sun.xml.bind" services="import"/>
         </dependencies>
     </deployment>
