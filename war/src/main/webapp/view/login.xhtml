@@ -33,7 +33,7 @@
                     <rich:notifyMessage for="p:i"/>
                     <h:panelGrid columns="2">
                         <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
-                        <a4j:commandButton value="#{messages['layout.template.loginPanel.register']}" action="#{registerView.register}" immediate="true"/>
+                        <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
                     </h:panelGrid>
                 </h:form>
             </rich:panel>

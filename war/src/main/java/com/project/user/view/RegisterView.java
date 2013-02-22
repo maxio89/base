@@ -3,15 +3,19 @@ package com.project.user.view;
 import com.project.domain.User;
 import com.project.security.PasswordDigester;
 import com.project.user.business.UserHome;
+import com.project.web.UrlHelper;
 
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 
 @Named
 @ViewScoped
-public class RegisterView {
+public class RegisterView implements Serializable {
 
     private PasswordBean passwordBean;
 
@@ -35,11 +39,11 @@ public class RegisterView {
 
     public String register(){
         final User user = getUser();
+        final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         user.setRegistrationDate(new Date());
         user.setPasswordDigest(new PasswordDigester().getDigest(passwordBean.getPassword()));
 
-        //TODO redirect to activation
-        return userHome.persist() ? "success" : "failure";
+        return userHome.persist(UrlHelper.encodeURL(externalContext, "/view/activateAccount.jsf?email=@email@&token=@token@")) ? "success" : "failure";
     }
 
 

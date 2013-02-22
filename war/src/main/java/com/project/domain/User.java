@@ -22,6 +22,12 @@ import java.util.Date;
 @Table(name = "USERS", uniqueConstraints = @UniqueConstraint(name = "UNIQUE___USERS___EMAIL", columnNames = "EMAIL"))
 public class User implements Serializable, Identifiable<Long> {
 
+    @Id
+    @GeneratedValue(generator = "USERS_ID_SEQUENCE", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "USERS_ID_SEQUENCE", sequenceName = "USERS_ID_SEQUENCE", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
+
     @NotNull
     @Email
     @Length(min = 1, max = 255)
@@ -32,12 +38,6 @@ public class User implements Serializable, Identifiable<Long> {
     @Length(max = 255)
     @Column(name = "FIRSTNAME", nullable = false, length = 255)
     private String firstName;
-
-    @Id
-    @GeneratedValue(generator = "USERS_ID_SEQUENCE", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "USERS_ID_SEQUENCE", sequenceName = "USERS_ID_SEQUENCE", allocationSize = 1)
-    @Column(name = "ID")
-    private Long id;
 
     @NotNull
     @Length(max = 255)
