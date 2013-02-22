@@ -1,6 +1,7 @@
 package com.project.security;
 
 import com.project.domain.User;
+import com.project.web.BundleKeys;
 import com.project.web.BundleNames;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
@@ -59,7 +60,7 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
             setUser(new SimpleUser(user.getEmail()));
         } catch (NoResultException e) {
             setStatus(AuthenticationStatus.FAILURE);
-            messages.error(new BundleKey(BundleNames.view.name(), "view.denied.authorizationException"));
+            messages.error(BundleKeys.AUTHORIZATION_EXCEPTION.toString());
         }
     }
 

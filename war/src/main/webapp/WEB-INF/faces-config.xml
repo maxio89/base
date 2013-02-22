@@ -35,5 +35,11 @@
             <redirect include-view-params="true"/>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/view/register.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>

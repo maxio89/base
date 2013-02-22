@@ -61,14 +61,12 @@ public class UserHome extends EntityHome<User> {
         getEntityManager().persist(token);
         getEntityManager().flush();
         try {
-            activationURL = activationURL.replaceAll(URLEncoder.encode("@email@", "UTF-8"), user.getEmail())
-                .replaceAll(URLEncoder.encode("@token@", "UTF-8"), token.getToken());
+            activationURL = activationURL.replaceAll("@email@", URLEncoder.encode(user.getEmail(), "UTF-8"))
+                .replaceAll("@token@", URLEncoder.encode(token.getToken(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
         mailman.get().sendRegistrationMail(user, activationURL);
         return persistResult;
     }
-
-
 }

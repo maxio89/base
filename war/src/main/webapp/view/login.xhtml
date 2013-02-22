@@ -10,7 +10,7 @@
         <div class="prefix_8 grid_8 suffix_8">
             <h:panelGroup rendered="#{identity.loggedIn}">
                 <script type="text/javascript">
-                    location = '#{request.contextPath}/view/private/admin/periods.jsf'
+                    location = '#{request.contextPath}/view/private/'
                 </script>
             </h:panelGroup>
             <rich:panel rendered="#{not identity.loggedIn}">
@@ -31,9 +31,10 @@
                         </h:inputText>
                     </cu:edit>
                     <rich:notifyMessage for="p:i"/>
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="3">
                         <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
                         <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
+                        <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="forgottenPassword"/>
                     </h:panelGrid>
                 </h:form>
             </rich:panel>

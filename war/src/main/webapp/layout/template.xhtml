@@ -18,6 +18,9 @@
         <link href="#{request.contextPath}/stylesheet/text.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/stylesheet/theme.css" rel="stylesheet" type="text/css"/>
 
+        <h:form>
+            <h:commandLink id="logout" rendered="#{identity.loggedIn}" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}"/>
+        </h:form>
         <div class="container_24">
             <ui:insert name="body"/>
         </div>
