@@ -1,0 +1,34 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.org/seam/faces"
+                template="/layout/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="email" value="#{activateAccountView.email}"/>
+        <f:viewParam name="token" value="#{activateAccountView.token}"/>
+        <s:viewAction action="#{activateAccountView.activate}" onPostback="#{false}"/>
+    </f:metadata>
+
+    <ui:define name="body">
+
+        <div class="grid_8 prefix_8 suffix_8">
+            <rich:panel rendered="#{not identity.loggedIn}">
+                <h:panelGroup rendered="#{activateAccountView.activationAttempt}">
+                    <h:panelGroup rendered="#{activateAccountView.activationSuccess}">
+                        #{messages['view.activateAccount.activationSuccess']}
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not activateAccountView.activationSuccess}">
+                        #{messages['view.activateAccount.activationFailure']}
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not activateAccountView.activationAttempt}">
+                    #{messages['view.activateAccount.readEmail']}
+                </h:panelGroup>
+            </rich:panel>
+            <h:panelGroup rendered="#{identity.loggedIn}">
+                <h1>#{messages['view.activateAccount.mayNotBeLoggedIn']}</h1>
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>

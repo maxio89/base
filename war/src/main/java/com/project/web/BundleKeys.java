@@ -14,4 +14,8 @@ public interface BundleKeys {
     BundleKey SELECTED_ELEMENTES_REMOVED_SUCCESSFULLY = new BundleKey(BundleNames.business.name(), "business.selectedElementsRemovedSuccessfully");
     BundleKey SESSION_TIMEOUT = new BundleKey(BundleNames.business.name(), "business.sessionTimeout");
     BundleKey TECHNICAL_ERROR = new BundleKey(BundleNames.business.name(), "business.technicalError");
+
+    BundleKey REGISTER_EMAIL_SUBJECT = new BundleKey(BundleNames.view.name(), "mail.registerEmailSubject");
+    BundleKey EMAIL_ALREADY_REGISTERED = new BundleKey(BundleNames.view.name(), "mail.emailAlreadyRegistered");
+
 }

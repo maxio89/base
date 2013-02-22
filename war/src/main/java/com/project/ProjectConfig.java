@@ -27,6 +27,8 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
 
     private String emailFromAddress;
 
+    private String emailFromName;
+
     private String defaultLanguage;
 
     @SuppressWarnings("CdiInjectionPointsInspection")
@@ -72,6 +74,17 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         this.replyToEmail = replyToEmail;
     }
 
+    public String getEmailFromName()
+    {
+        return emailFromName;
+    }
+
+    public void setEmailFromName(String emailFromName)
+    {
+        save(KEY.REPLY_TO_EMAIL, replyToEmail);
+        this.emailFromName = emailFromName;
+    }
+
     public boolean isProduction()
     {
         if (production == null) {
@@ -85,6 +98,10 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         return production;
     }
 
+    /**
+     * Method starts on application startup (seam event)
+     * @param ignore
+     */
     @SuppressWarnings("UnusedDeclaration")
     protected void onStartup(@Observes @Initialized WebApplication ignore)
     {
@@ -94,8 +111,10 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
 
     protected void reload()
     {
+        emailFromName = load(KEY.EMAIL_FROM_NAME);
         emailFromAddress = load(KEY.EMAIL_FROM_ADDRESS);
         replyToEmail = load(KEY.REPLY_TO_EMAIL);
+        defaultLanguage = load(KEY.DEFAULT_LANGUAGE);
     }
 
 // -------------------------- ENUMERATIONS --------------------------
@@ -104,9 +123,9 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
      * Application specific settings.
      * They are must be exists in DB before deploy.
      */
-
     private static enum KEY {
         REPLY_TO_EMAIL,
+        EMAIL_FROM_NAME,
         EMAIL_FROM_ADDRESS,
         DEFAULT_LANGUAGE
     }
