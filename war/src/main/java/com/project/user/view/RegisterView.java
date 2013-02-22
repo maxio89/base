@@ -17,7 +17,7 @@ import java.util.Date;
 @ViewScoped
 public class RegisterView implements Serializable {
 
-    private PasswordBean passwordBean;
+    private PasswordBean passwordBean = new PasswordBean();
 
     @Inject
     private UserHome userHome;

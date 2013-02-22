@@ -5,30 +5,40 @@
                 xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
 
     <ui:define name="body">
-        <div class="prefix_6 grid_10 suffix_6">
+        <div class="prefix_7 grid_10 suffix_7">
             <rich:panel rendered="#{not identity.loggedIn}">
                 <f:facet name="header">#{messages['view.register.registerHeader']}</f:facet>
                 <h:form id="rF">
                     <focus:focus/>
                     <rich:message for="pM"/>
-                    <rich:graphValidator id="pM" value="#{registerView.passwords}"/>
-                    <cu:edit id="e" label="#{domain['User.email']}">
+                    <rich:graphValidator id="pM" value="#{registerView.passwordBean}"/>
+                    <cu:edit id="email" label="#{domain['User.email']}">
                         <h:inputText id="i" value="#{registerView.user.email}" required="true">
                             <f:validator validatorId="uniqueEmailValidator"/>
                             <rich:validator/>
                         </h:inputText>
                     </cu:edit>
-                    <cu:edit id="p" label="#{domain['User.passwordDigest']}">
+                    <cu:edit id="firstName" label="#{domain['User.firstName']}">
+                        <h:inputText id="i" value="#{registerView.user.firstName}" required="true">
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <cu:edit id="lastName" label="#{domain['User.lastName']}">
+                        <h:inputText id="i" value="#{registerView.user.lastName}" required="true">
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <cu:edit id="password" label="#{domain['User.passwordDigest']}">
                         <h:inputSecret id="i" value="#{registerView.passwordBean.password}" required="true">
                             <rich:validator/>
                         </h:inputSecret>
                     </cu:edit>
-                    <cu:edit id="pC" label="#{messages['view.register.passwordConfirmation']}">
+                    <cu:edit id="passwordConfirmation" label="#{messages['view.register.passwordConfirmation']}">
                         <h:inputSecret id="i" value="#{registerView.passwordBean.passwordConfirmation}" required="true">
                             <rich:validator/>
                         </h:inputSecret>
                     </cu:edit>
-                    <cu:edit id="r" label="#{null}">
+                    <cu:edit id="registerBtn" label="#{null}">
                         <h:commandButton id="r" value="#{messages['view.register.registerButton']}" action="#{registerView.register}"/>
                     </cu:edit>
                 </h:form>
