@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("UnusedDeclaration")
 @HandlesExceptions
 public class ExceptionHandler {
 // ------------------------------ FIELDS ------------------------------
@@ -31,7 +32,7 @@ public class ExceptionHandler {
     public void handleEntityNotFoundException(@Handles @Faces CaughtException<EntityNotFoundException> event, ExceptionMessage message, FacesContext context)
     {
         message.setMessage(BundleKeys.ENTITY_NOT_FOUND);
-        redirect(context, "/view/error.jsf");
+        redirect(context, "/view/404.jsf");
         event.handled();
     }
 

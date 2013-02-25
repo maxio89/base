@@ -35,5 +35,19 @@
             <redirect include-view-params="true"/>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/view/register.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/view/private/userList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>editUser</from-outcome>
+            <to-view-id>/view/private/userDetails.xhtml</to-view-id>
+            <redirect include-view-params="true"/>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>
