@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:f="http://java.sun.com/jsf/core" xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:s="http://jboss.org/seam/faces" xmlns:rich="http://richfaces.org/rich" template="/layout/template.xhtml">
+
+    <ui:define name="body">
+
+        <f:metadata>
+            <f:viewParam name="id" value="#{userDetailsView.userId}"/>
+            <s:viewAction action="#{userDetailsView.initView}"/>
+        </f:metadata>
+
+        <h:form id="userForm" styleClass="prefix_2 grid_20 suffix_2">
+            <h1>#{messages['view.userDetails.header']}</h1>
+            <!--<focus:focus/>-->
+            <cu:formChangeListener listener="#{userDetailsView.formChanged}" render="commands"/>
+
+            <cu:editVertical label="#{domain['User.activeAccount']}">
+                <h:selectBooleanCheckbox id="accountActive" value="#{userDetailsView.user.active}">
+                </h:selectBooleanCheckbox>
+                <cu:formChangeEvent for="accountActive"/>
+            </cu:editVertical>
+
+            <cu:editVertical label="#{domain['User.firstName']}">
+                <h:inputText id="firstName" value="#{userDetailsView.user.firstName}" autocomplete="off">
+                    <a4j:ajax event="change"/>
+                </h:inputText>
+                <cu:formChangeEvent for="firstName"/>
+            </cu:editVertical>
+
+            <cu:editVertical label="#{domain['User.lastName']}">
+                <h:inputText id="lastName" value="#{userDetailsView.user.lastName}" autocomplete="off">
+                    <a4j:ajax event="change"/>
+                </h:inputText>
+                <cu:formChangeEvent for="lastName"/>
+            </cu:editVertical>
+
+            <cu:editVertical label="#{domain['User.email']}">
+                <h:inputText id="email" value="#{userDetailsView.user.email}" autocomplete="off">
+                    <a4j:ajax event="change"/>
+                </h:inputText>
+                <cu:formChangeEvent for="email"/>
+            </cu:editVertical>
+
+            <cu:editVertical label="#{domain['User.registrationDate']}">
+                <h:outputText value="#{userDetailsView.user.registrationDate}"/>
+            </cu:editVertical>
+
+            <h:panelGroup id="commands">
+                <h:commandButton id="cancel" value="#{messages['CRUD.cancel']}" action="#{userDetailsView.cancel}" immediate="true"/>
+                <h:commandButton id="save" value="#{messages['CRUD.save']}" action="#{userDetailsView.saveAndProceed}"
+                                 disabled="#{not userDetailsView.modified}" accesskey="s"/>
+            </h:panelGroup>
+        </h:form>
+
+        <rich:popupPanel id="confirmChangesPP" modal="true" autosized="true">
+            #{messages['CRUD.confirmSaveChanges']}
+            <h:form>
+                <a4j:commandButton value="#{messages['CRUD.yes']}" action="#{userDetailsView.hideSaveChangesConfirmation}"
+                                   onclick="#{rich:component('confirmChangesPP')}.hide()" oncomplete="#{rich:element('userForm:save')}.click()"/>
+                <h:commandButton value="#{messages['CRUD.no']}" action="#{userDetailsView.proceedWithoutSave}"/>
+                <a4j:commandButton value="#{messages['CRUD.cancel']}" action="#{userDetailsView.hideSaveChangesConfirmation}"
+                                   onclick="#{rich:component('confirmChangesPP')}.hide()"/>
+            </h:form>
+        </rich:popupPanel>
+        <h:panelGroup id="chShow">
+            <h:outputScript target="body" rendered="#{userDetailsView.saveChangesConfirmationVisible}">
+                #{rich:component('confirmChangesPP')}.show();
+            </h:outputScript>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>

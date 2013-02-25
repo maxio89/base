@@ -1,8 +1,8 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.org/seam/faces"
-                template="/layout/template.xhtml">
+                xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core" xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:watermark="http://richfaces.org/sandbox/watermark" template="/layout/template.xhtml">
 
     <ui:define name="body">
 
@@ -10,13 +10,70 @@
             <h:outputText value="#{null==currentUser ? 'Not logged in' : currentUser.lastName.concat(currentUser.lastName)}"/>
         </div>
 
-        <div class="prefix_2 grid_20 suffix_2">
-            <rich:dataTable value="#{userListView.usersList}" var="user">
+        <h:form id="userTable" styleClass="prefix_2 grid_20 suffix_2">
+            <h1>#{messages['view.userList.header']}</h1>
+
+            <h:commandButton value="#{messages['CRUD.delete']}" action="#{userListView.removeSelectedEntities}"/>
+
+            <h:inputText id="search" value="#{userListView.entityList.searchCriteria.name}" accesskey="f">
+                <a4j:ajax event="change" render="userTable"/>
+                <watermark:watermark value="#{messages['CRUD.search']}"/>
+            </h:inputText>
+            <rich:dataTable id="userTable" value="#{userListView.entityList.dataModel}" rows="#{userListView.entityList.maxResults}" var="user">
+                <!--@elvariable id="user" type="com.project.domain.User"-->
                 <rich:column>
+                    <f:facet name="header">
+                        <h:selectBooleanCheckbox onchange="toggleRows(event,#{rich:element('aT')},this);"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox value="#{userListView.entitySelection[user]}"/>
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.id']}
+                    </f:facet>
+                    #{user.id}
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.email']}
+                    </f:facet>
+                    #{user.email}
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.firstName']}
+                    </f:facet>
                     #{user.firstName}
                 </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.lastName']}
+                    </f:facet>
+                    #{user.lastName}
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.registrationDate']}
+                    </f:facet>
+                    #{user.registrationDate} <!-- TODO formatter for data? -->
+                </rich:column>
+
+                <rich:column>
+                    <h:link value="#{messages['CRUD.edit']}" outcome="editUser">
+                        <f:param name="id" value="#{user.id}"/>
+                    </h:link>
+                </rich:column>
+
+                <f:facet name="footer">
+                    <rich:dataScroller renderIfSinglePage="false"/>
+                </f:facet>
             </rich:dataTable>
-        </div>
+        </h:form>
 
     </ui:define>
 </ui:composition>
