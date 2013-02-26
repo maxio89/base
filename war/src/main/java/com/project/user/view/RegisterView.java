@@ -3,7 +3,6 @@ package com.project.user.view;
 import com.project.domain.User;
 import com.project.security.PasswordDigester;
 import com.project.user.business.UserHome;
-import com.project.web.UrlHelper;
 
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -32,19 +31,18 @@ public class RegisterView implements Serializable {
         this.passwordBean = passwordBean;
     }
 
-
-    public User getUser(){
+    public User getUser()
+    {
         return userHome.getInstance();
     }
 
-    public String register(){
+    public String register()
+    {
         final User user = getUser();
         final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         user.setRegistrationDate(new Date());
         user.setPasswordDigest(new PasswordDigester().getDigest(passwordBean.getPassword()));
 
-        return userHome.persist(UrlHelper.encodeURL(externalContext, "/view/activateAccount.jsf?email=@email@&token=@token@")) ? "success" : "failure";
+        return userHome.persist("/view/activateAccount.jsf?email=@email@&token=@token@") ? "success" : "failure";
     }
-
-
 }

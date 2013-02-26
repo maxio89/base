@@ -38,9 +38,7 @@
                             <rich:validator/>
                         </h:inputSecret>
                     </cu:edit>
-                    <cu:edit id="registerBtn" label="#{null}">
-                        <h:commandButton id="r" value="#{messages['view.register.registerButton']}" action="#{registerView.register}"/>
-                    </cu:edit>
+                    <h:commandButton id="r" value="#{messages['view.register.registerButton']}" action="#{registerView.register}"/>
                 </h:form>
             </rich:panel>
             <h:panelGroup rendered="#{identity.loggedIn}">

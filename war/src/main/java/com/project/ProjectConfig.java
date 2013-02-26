@@ -1,6 +1,5 @@
 package com.project;
 
-import com.project.language.Language;
 import org.jboss.solder.logging.Logger;
 import org.jboss.solder.servlet.WebApplication;
 import org.jboss.solder.servlet.event.Initialized;
@@ -19,11 +18,14 @@ import java.io.Serializable;
  * All settings values specified in enum at the end of this class,
  * should be initialized in .sql scripts.
  */
-
 @Named
 @ApplicationScoped
 public class ProjectConfig extends ApplicationConfig implements Serializable {
 // ------------------------------ FIELDS ------------------------------
+
+    @SuppressWarnings("CdiInjectionPointsInspection")
+    @Inject
+    private Logger logger;
 
     private String emailFromAddress;
 
@@ -31,9 +33,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
 
     private String defaultLanguage;
 
-    @SuppressWarnings("CdiInjectionPointsInspection")
-    @Inject
-    private Logger logger;
+    private String appURL;
 
     private Boolean production;
 
@@ -85,6 +85,18 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         this.emailFromName = emailFromName;
     }
 
+    public String getAppURL()
+    {
+        //without '/' at the end
+        return appURL.endsWith("/") ? appURL.substring(0, appURL.length() - 1) : appURL;
+    }
+
+    public void setAppURL(String appURL)
+    {
+        save(KEY.APP_URL, appURL);
+        this.appURL = appURL;
+    }
+
     public boolean isProduction()
     {
         if (production == null) {
@@ -100,6 +112,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
 
     /**
      * Method starts on application startup (seam event)
+     *
      * @param ignore
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -115,6 +128,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         emailFromAddress = load(KEY.EMAIL_FROM_ADDRESS);
         replyToEmail = load(KEY.REPLY_TO_EMAIL);
         defaultLanguage = load(KEY.DEFAULT_LANGUAGE);
+        appURL = load(KEY.APP_URL);
     }
 
 // -------------------------- ENUMERATIONS --------------------------
@@ -127,6 +141,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         REPLY_TO_EMAIL,
         EMAIL_FROM_NAME,
         EMAIL_FROM_ADDRESS,
-        DEFAULT_LANGUAGE
+        DEFAULT_LANGUAGE,
+        APP_URL
     }
 }

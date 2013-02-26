@@ -2,42 +2,42 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:focus="http://richfaces.org/sandbox/focus" xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich"
-                xmlns:a4j="http://richfaces.org/a4j" xmlns:f="http://java.sun.com/jsf/core" template="/layout/template.xhtml">
+                xmlns:f="http://java.sun.com/jsf/core" template="/layout/template.xhtml">
 
     <ui:param name="hideLoginPopup" value="true"/>
 
     <ui:define name="body">
-        <div class="prefix_8 grid_8 suffix_8">
-            <h:panelGroup rendered="#{identity.loggedIn}">
-                <script type="text/javascript">
-                    location = '#{request.contextPath}/view/private/'
-                </script>
-            </h:panelGroup>
-            <rich:panel rendered="#{not identity.loggedIn}">
-                <f:facet name="header">#{messages['view.login.login']}</f:facet>
-                <h:form id="lF">
-                    <focus:focus/>
-                    <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
-                        <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
-                                     requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
-                            <rich:validator/>
-                        </h:inputText>
-                    </cu:edit>
-                    <rich:notifyMessage for="e:i"/>
-                    <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                        <h:inputText id="i" value="#{credentials.password}" required="true"
-                                     requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
-                            <rich:validator/>
-                        </h:inputText>
-                    </cu:edit>
-                    <rich:notifyMessage for="p:i"/>
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
-                        <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
-                        <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="forgottenPassword"/>
-                    </h:panelGrid>
-                </h:form>
-            </rich:panel>
-        </div>
+        <!-- redirect to /private if user is logged -->
+        <h:panelGroup rendered="#{identity.loggedIn}">
+            <script type="text/javascript">
+                location = '#{request.contextPath}/view/private/'
+            </script>
+        </h:panelGroup>
+
+        <rich:panel rendered="#{not identity.loggedIn}" styleClass="prefix_6 grid_12 suffix_6">
+            <f:facet name="header">#{messages['view.login.login']}</f:facet>
+            <h:form id="lF">
+                <focus:focus/>
+                <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
+                    <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
+                                 requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:edit>
+                <rich:notifyMessage for="e:i"/>
+                <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
+                    <h:inputSecret id="i" value="#{credentials.password}" required="true"
+                                   requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                        <rich:validator/>
+                    </h:inputSecret>
+                </cu:edit>
+                <rich:notifyMessage for="p:i"/>
+                <h:panelGrid columns="1">
+                    <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
+                    <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
+                    <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="remindPassword"/>
+                </h:panelGrid>
+            </h:form>
+        </rich:panel>
     </ui:define>
 </ui:composition>

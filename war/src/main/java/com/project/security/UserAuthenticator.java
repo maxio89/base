@@ -2,16 +2,14 @@ package com.project.security;
 
 import com.project.domain.User;
 import com.project.web.BundleKeys;
-import com.project.web.BundleNames;
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.security.Authenticator;
 import org.jboss.seam.security.BaseAuthenticator;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
+import org.jboss.solder.logging.Logger;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import org.picketlink.idm.impl.api.model.SimpleUser;
-import org.jboss.solder.logging.Logger;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -59,9 +57,8 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
             setStatus(AuthenticationStatus.SUCCESS);
             setUser(new SimpleUser(user.getEmail()));
         } catch (NoResultException e) {
+            messages.error(BundleKeys.AUTHORIZATION_EXCEPTION);
             setStatus(AuthenticationStatus.FAILURE);
-            messages.error(BundleKeys.AUTHORIZATION_EXCEPTION.toString());
         }
     }
-
 }

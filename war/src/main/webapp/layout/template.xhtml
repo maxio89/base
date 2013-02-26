@@ -11,16 +11,27 @@
         <ui:insert name="head"/>
     </h:head>
     <!--@elvariable id="bodyStyleClass" type="java.lang.String"-->
-    <!--<h:body styleClass="#{bodyStyleClass}">-->
     <h:body>
         <link href="#{request.contextPath}/stylesheet/960_24_col.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/stylesheet/reset.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/stylesheet/text.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/stylesheet/theme.css" rel="stylesheet" type="text/css"/>
 
+        <h:form id="menuForm" styleClass="menu container_24">
+            <h:link outcome="/view/private/userList.xhtml" styleClass="grid_2">Users list</h:link>
+            <h:link outcome="/view/register.xhtml" styleClass="grid_2">Register</h:link>
+            <h:link outcome="/view/remindPassword.xhtml" styleClass="grid_2">Reset pass</h:link>
+            <h:link outcome="/view/private/userList.xhtml"
+                    styleClass="grid_8">Current user: #{null==currentUser ? 'Not logged in' : currentUser.lastName.concat(currentUser.lastName)}</h:link>
+            <h:commandLink id="logout" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}" styleClass="grid_2"
+                           rendered="#{identity.loggedIn}"/>
+            <h:link id="login" value="#{messages['layout.template.toolbar.login']}" outcome="/view/login.xhtml" styleClass="grid_2"
+                    rendered="#{!identity.loggedIn}"/>
+        </h:form>
         <h:form>
             <h:commandLink id="logout" rendered="#{identity.loggedIn}" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}"/>
         </h:form>
+
         <div class="container_24">
             <ui:insert name="body"/>
         </div>

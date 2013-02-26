@@ -6,10 +6,6 @@
 
     <ui:define name="body">
 
-        <div class="grid_2 suffix_22">
-            <h:outputText value="#{null==currentUser ? 'Not logged in' : currentUser.lastName.concat(currentUser.lastName)}"/>
-        </div>
-
         <h:form id="userTable" styleClass="prefix_2 grid_20 suffix_2">
             <h1>#{messages['view.userList.header']}</h1>
 

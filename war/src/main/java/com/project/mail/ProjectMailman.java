@@ -40,11 +40,11 @@ public class ProjectMailman {
      */
     public void sendRegistrationMail(User user, String activationURL)
     {
-
         final String subject = messageBuilder.key(BundleKeys.REGISTER_EMAIL_SUBJECT).defaults(BundleKeys.EMAIL_ALREADY_REGISTERED.toString()).build().getText();
 
         final Map<String, Object> context = new HashMap<String, Object>();
         context.put("activationURL", activationURL);
+        context.put("user", user);
 
         mailMessage.from(new EmailContactImpl(projectConfig.getEmailFromName(), projectConfig.getEmailFromAddress()))
             .replyTo(projectConfig.getReplyToEmail())
@@ -52,6 +52,31 @@ public class ProjectMailman {
             .subject(subject)
             .bodyHtml(new FreeMarkerTemplate(resourceProvider.loadResourceStream("mail/registration.html.ftl")))
             .put(context);
+        mailman.send(mailMessage.mergeTemplates());
+    }
+
+    /**
+     * This method send mail with link to change password from 'passwordChange.html.ftl' template.
+     * Email's FROM section will be fetched from ProjectConfig setting.
+     *
+     * @param user          recipient
+     * @param passChangeURL URL with password change link
+     */
+    public void sendPasswordChangeMail(User user, String passChangeURL)
+    {
+        final String subject = messageBuilder.key(BundleKeys.RESET_PASSWORD_EMAIL_SUBJECT).defaults("Reset password default subject").build().getText();
+
+        final Map<String, Object> context = new HashMap<String, Object>();
+        context.put("resetURL", passChangeURL);
+        context.put("user", user);
+
+        mailMessage.from(new EmailContactImpl(projectConfig.getEmailFromName(), projectConfig.getEmailFromAddress()))
+            .replyTo(projectConfig.getReplyToEmail())
+            .to(user.getEmail())
+            .subject(subject)
+            .bodyHtml(new FreeMarkerTemplate(resourceProvider.loadResourceStream("mail/resetPassword.html.ftl")))
+            .put(context);
+
         mailman.send(mailMessage.mergeTemplates());
     }
 

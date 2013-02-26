@@ -35,18 +35,40 @@
             <redirect include-view-params="true"/>
         </navigation-case>
     </navigation-rule>
+
     <navigation-rule>
         <navigation-case>
             <from-outcome>register</from-outcome>
             <to-view-id>/view/register.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+
     <navigation-rule>
         <from-view-id>/view/private/userList.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>editUser</from-outcome>
             <to-view-id>/view/private/userDetails.xhtml</to-view-id>
             <redirect include-view-params="true"/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/view/forgottenPassword.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>changedPassword</from-outcome>
+            <to-view-id>/view/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cancelChange</from-outcome>
+            <to-view-id>/view/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/view/remindPassword.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>canceled</from-outcome>
+            <to-view-id>/view/home.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 

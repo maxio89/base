@@ -21,4 +21,14 @@
         <view-id value="/view/login.jsf"/>
     </url-mapping>
 
+    <url-mapping id="register">
+        <pattern value="/register"/>
+        <view-id value="/view/register.jsf"/>
+    </url-mapping>
+
+    <url-mapping>
+        <pattern value="/private"/>
+        <view-id value="/view/private/userList.jsf"/>
+    </url-mapping>
+
 </pretty-config>

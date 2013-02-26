@@ -34,6 +34,12 @@ CREATE TABLE user_activation_token (
     user_id bigint NOT NULL
 );
 
+CREATE TABLE user_remind_password_token (
+    token character varying(255) NOT NULL,
+    user_id bigint NOT NULL,
+    generation_date timestamp without time zone NOT NULL
+);
+
 CREATE SEQUENCE users_id_sequence
     START WITH 1
     INCREMENT BY 1
@@ -66,4 +72,8 @@ ALTER TABLE ONLY user_activation_token
 ALTER TABLE ONLY user_activation_token
     ADD CONSTRAINT fk___user_activation_token___user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY user_remind_password_token
+    ADD CONSTRAINT user_remind_password_token_pkey PRIMARY KEY (user_id);
 
+ALTER TABLE ONLY user_remind_password_token
+    ADD CONSTRAINT fk___user_remind_password_token___user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
