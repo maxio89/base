@@ -6,6 +6,8 @@ import pl.com.it_crowd.seam.framework.Identifiable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,6 +58,11 @@ public class User implements Serializable, Identifiable<Long> {
     @NotNull
     @Column(name = "ACTIVE", nullable = false)
     private boolean active;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE", nullable = false)
+    private RoleEnum role;
 
     // ----- GETTERS & SETTERS
 
@@ -127,6 +134,16 @@ public class User implements Serializable, Identifiable<Long> {
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+
+    public RoleEnum getRole()
+    {
+        return role;
+    }
+
+    public void setRole(RoleEnum role)
+    {
+        this.role = role;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.project.user.business;
 
 import com.project.ProjectConfig;
+import com.project.domain.RoleEnum;
 import com.project.domain.User;
 import com.project.domain.UserActivationToken;
 import com.project.domain.UserRemindPasswordToken;
@@ -145,6 +146,7 @@ public class UserHome extends EntityHome<User> {
     public boolean persist(String activationURL)
     {
         final User user = getInstance();
+        user.setRole(RoleEnum.CLIENT); //default role
 
         //if development, all persisted user are active by default
         if (!projectConfig.isProduction()) {

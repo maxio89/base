@@ -1,5 +1,6 @@
 package com.project.user.view;
 
+import com.project.domain.RoleEnum;
 import com.project.domain.User;
 import com.project.framework.business.EntityHome;
 import com.project.framework.view.AbstractDetailsView;
@@ -11,6 +12,8 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: Rafal Gielczowski
@@ -42,6 +45,11 @@ public class UserDetailsView extends AbstractDetailsView<User> implements Serial
     public void initView()
     {
         getHome().getInstance();
+    }
+
+    public List<RoleEnum> getAvailableRoles()
+    {
+        return Arrays.asList(RoleEnum.values());
     }
 
 

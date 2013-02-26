@@ -60,6 +60,13 @@
                 </rich:column>
 
                 <rich:column>
+                    <f:facet name="header">
+                        #{domain['User.role']}
+                    </f:facet>
+                    #{user.role}
+                </rich:column>
+
+                <rich:column>
                     <h:link value="#{messages['CRUD.edit']}" outcome="editUser">
                         <f:param name="id" value="#{user.id}"/>
                     </h:link>

@@ -22,7 +22,7 @@
             <h:link outcome="/view/register.xhtml" styleClass="grid_2">Register</h:link>
             <h:link outcome="/view/remindPassword.xhtml" styleClass="grid_2">Reset pass</h:link>
             <h:link outcome="/view/private/userList.xhtml"
-                    styleClass="grid_8">Current user: #{null==currentUser ? 'Not logged in' : currentUser.lastName.concat(currentUser.lastName)}</h:link>
+                    styleClass="grid_8">Current user: #{null==currentUser ? 'Not logged in' : currentUser.firstName.concat(currentUser.lastName)}</h:link>
             <h:commandLink id="logout" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}" styleClass="grid_2"
                            rendered="#{identity.loggedIn}"/>
             <h:link id="login" value="#{messages['layout.template.toolbar.login']}" outcome="/view/login.xhtml" styleClass="grid_2"

@@ -56,6 +56,7 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
                 .getSingleResult();
             setStatus(AuthenticationStatus.SUCCESS);
             setUser(new SimpleUser(user.getEmail()));
+            identity.addRole(user.getRole().toString(), "USERS", "GROUP");
         } catch (NoResultException e) {
             messages.error(BundleKeys.AUTHORIZATION_EXCEPTION);
             setStatus(AuthenticationStatus.FAILURE);

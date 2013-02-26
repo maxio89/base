@@ -47,6 +47,14 @@
                 <h:outputText value="#{userDetailsView.user.registrationDate}"/>
             </cu:editVertical>
 
+            <cu:editVertical label="#{domain['User.role']}">
+                <h:selectOneMenu id="roles" value="#{userDetailsView.user.role}">
+                    <f:selectItems value="#{userDetailsView.availableRoles}" var="role" itemLabel="#{role}" itemValue="#{role}"/>
+                    <a4j:ajax event="change"/>
+                </h:selectOneMenu>
+                <cu:formChangeEvent for="roles"/>
+            </cu:editVertical>
+
             <h:panelGroup id="commands">
                 <h:commandButton id="cancel" value="#{messages['CRUD.cancel']}" action="#{userDetailsView.cancel}" immediate="true"/>
                 <h:commandButton id="save" value="#{messages['CRUD.save']}" action="#{userDetailsView.saveAndProceed}"
