@@ -22,6 +22,8 @@ import java.util.Date;
 @Table(name = "REMEMBER_ME_TOKEN")
 public class RememberMeToken implements Serializable {
 
+    //TODO update initial.sql
+
     @Id
     @GeneratedValue(generator = "REMEMBER_ME_TOKEN_ID_SEQUENCE", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "REMEMBER_ME_TOKEN_ID_SEQUENCE", sequenceName = "REMEMBER_ME_TOKEN_ID_SEQUENCE", allocationSize = 1, initialValue = 1)
@@ -38,7 +40,18 @@ public class RememberMeToken implements Serializable {
     private String token;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    @Column(name = "CREATED", nullable = false)
+    private Date created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_USE", nullable = false)
+    private Date lastUse;
+
+    @Column(name = "REMOTE_ADDR", nullable = true, length = 63)
+    private String remoteAddr;
+
+    @Column(name = "USER_AGENT_HASH", nullable = true, length = 255)
+    private String userAgentHash;
 
     public Long getId()
     {
@@ -60,16 +73,6 @@ public class RememberMeToken implements Serializable {
         this.user = user;
     }
 
-    public Date getDate()
-    {
-        return date;
-    }
-
-    public void setDate(Date date)
-    {
-        this.date = date;
-    }
-
     public String getToken()
     {
         return token;
@@ -78,6 +81,46 @@ public class RememberMeToken implements Serializable {
     public void setToken(String token)
     {
         this.token = token;
+    }
+
+    public String getRemoteAddr()
+    {
+        return remoteAddr;
+    }
+
+    public void setRemoteAddr(String remoteAddr)
+    {
+        this.remoteAddr = remoteAddr;
+    }
+
+    public String getUserAgentHash()
+    {
+        return userAgentHash;
+    }
+
+    public void setUserAgentHash(String userAgentHash)
+    {
+        this.userAgentHash = userAgentHash;
+    }
+
+    public Date getCreated()
+    {
+        return created;
+    }
+
+    public void setCreated(Date created)
+    {
+        this.created = created;
+    }
+
+    public Date getLastUse()
+    {
+        return lastUse;
+    }
+
+    public void setLastUse(Date lastUse)
+    {
+        this.lastUse = lastUse;
     }
 
     @Override

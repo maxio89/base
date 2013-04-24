@@ -22,14 +22,14 @@
                 <h:form id="lF" styleClass="form-horizontal">
 
                     <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
-                        <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
+                        <h:inputText id="i" value="#{loginView.username}" required="true" accesskey="e"
                                      requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
                             <rich:validator/>
                         </h:inputText>
                     </cu:edit>
                     <rich:notifyMessage for="e:i" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
                     <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                        <h:inputSecret id="i" value="#{credentials.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                        <h:inputSecret id="i" value="#{loginView.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
                             <rich:validator/>
                         </h:inputSecret>
                     </cu:edit>
@@ -43,7 +43,7 @@
                     <hr/>
                     <div class="form-actions">
 
-                        <h:commandButton styleClass="btn btn-info" value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
+                        <h:commandButton styleClass="btn btn-info" value="#{messages['layout.template.loginPanel.login']}" action="#{loginView.login}" accesskey="l"/>
 
                         <div class="row-fluid marginTop10">
                             #{messages['layout.template.loginPanel.register']}

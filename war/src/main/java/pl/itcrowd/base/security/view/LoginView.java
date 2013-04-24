@@ -4,7 +4,6 @@ import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import pl.itcrowd.base.security.PasswordDigester;
-import pl.itcrowd.base.security.RememberMeService;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
