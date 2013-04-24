@@ -42,6 +42,20 @@ CREATE TABLE user_remind_password_token (
     generation_date timestamp without time zone NOT NULL
 );
 
+CREATE TABLE remember_me_token (
+  id bigint NOT NULL,
+  date timestamp without time zone,
+  token character varying(255) NOT NULL,
+  user_id bigint NOT NULL
+);
+
+CREATE SEQUENCE remember_me_token_id_sequence
+  START WITH 1
+  INCREMENT BY 1
+  NO MINVALUE
+  NO MAXVALUE
+  CACHE 1;
+
 CREATE SEQUENCE users_id_sequence
     START WITH 1
     INCREMENT BY 1
@@ -79,3 +93,9 @@ ALTER TABLE ONLY user_remind_password_token
 
 ALTER TABLE ONLY user_remind_password_token
     ADD CONSTRAINT fk___user_remind_password_token___user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY remember_me_token
+ADD CONSTRAINT remember_me_token_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY remember_me_token
+ADD CONSTRAINT fk___remember_me_token___user FOREIGN KEY (user_id) REFERENCES users(id);

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich"
-                xmlns:f="http://java.sun.com/jsf/core" template="/layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core"
+                template="/layout/template.xhtml">
 
     <ui:param name="hideLoginPopup" value="true"/>
 
@@ -18,20 +19,25 @@
             <h:form id="lF">
                 <!--<focus:focus/>-->
                 <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
-                    <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
+                    <h:inputText id="i" value="#{loginView.username}" required="true" accesskey="e"
                                  requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
                         <rich:validator/>
                     </h:inputText>
                 </cu:edit>
                 <rich:notifyMessage for="e:i"/>
                 <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                    <h:inputSecret id="i" value="#{credentials.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                    <h:inputSecret id="i" value="#{loginView.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
                         <rich:validator/>
                     </h:inputSecret>
                 </cu:edit>
+                <cu:edit id="r" label="#{messages['layout.template.loginPanel.rememberMe']}">
+                    <h:selectBooleanCheckbox id="i" value="#{loginView.rememberMeEnabled}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                        <rich:validator/>
+                    </h:selectBooleanCheckbox>
+                </cu:edit>
                 <rich:notifyMessage for="p:i"/>
                 <h:panelGrid columns="1">
-                    <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
+                    <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{loginView.login}" accesskey="l"/>
                     <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
                     <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="remindPassword"/>
                 </h:panelGrid>

@@ -1,7 +1,5 @@
 package pl.itcrowd.base.security;
 
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.web.BundleKeys;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Authenticator;
 import org.jboss.seam.security.BaseAuthenticator;
@@ -11,6 +9,7 @@ import org.jboss.solder.logging.Logger;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import org.picketlink.idm.impl.api.model.SimpleUser;
 import pl.itcrowd.base.domain.User;
+import pl.itcrowd.base.web.BundleKeys;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -47,7 +46,7 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
     public void authenticate()
     {
         final PasswordCredential credential = (PasswordCredential) credentials.getCredential();
-        final String password = credential == null ? "" : passwordDigester.getDigest(credential.getValue());
+        final String password = credential == null ? "" : credential.getValue();
         String username = credentials.getUsername();
         if (username == null) {
             username = "";
