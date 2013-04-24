@@ -1,3 +1,4 @@
 target
 .idea
 *.iml
+src/main/filters/filter-dev.properties

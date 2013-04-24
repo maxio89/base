@@ -3,18 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>project-parent</artifactId>
-        <groupId>com.project</groupId>
+        <artifactId>base-parent</artifactId>
+        <groupId>pl.itcrowd.base</groupId>
         <relativePath>../parent/pom.xml</relativePath>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>project-war</artifactId>
+    <artifactId>base-war</artifactId>
     <packaging>war</packaging>
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.project</groupId>
-                <artifactId>project-bom</artifactId>
+                <groupId>pl.itcrowd.base</groupId>
+                <artifactId>base-bom</artifactId>
                 <version>${project.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
@@ -36,6 +36,17 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.2</version>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -216,7 +227,7 @@
         <dependency>
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-impl</artifactId>
-            <version>4.2.2.Final.ITC1</version>
+            <version>${version.richfaces}</version>
         </dependency>
         <dependency>
             <groupId>org.richfaces.sandbox.ui.accesskeyhelper</groupId>
@@ -231,13 +242,9 @@
             <artifactId>focus-ui</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.richfaces.sandbox.ui.watermark</groupId>
-            <artifactId>watermark-ui</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.richfaces.ui</groupId>
             <artifactId>richfaces-components-ui</artifactId>
-            <version>4.2.2.Final.ITC2</version>
+            <version>${version.richfaces}</version>
         </dependency>
         <dependency>
             <groupId>org.w3c.css.</groupId>
@@ -245,16 +252,29 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>pl.com.it-crowd.seam3.mailman</groupId>
+            <groupId>pl.itcrowd.seam3.mailman</groupId>
             <artifactId>seam3-mailman</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>pl.com.it-crowd.seam3.persistence-framework</groupId>
+            <groupId>pl.itcrowd.seam3.persistence-framework</groupId>
             <artifactId>seam3-persistence-framework</artifactId>
         </dependency>
         <dependency>
-            <groupId>pl.com.it-crowd</groupId>
-            <artifactId>itcrowd-utils</artifactId>
+            <groupId>pl.itcrowd.utils</groupId>
+            <artifactId>itcrowd-utils-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.itcrowd.utils</groupId>
+            <artifactId>itcrowd-utils-faces</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.itcrowd.utils</groupId>
+            <artifactId>itcrowd-utils-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.itcrowd.utils</groupId>
+            <artifactId>itcrowd-utils-test</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -356,6 +376,12 @@
             <groupId>pl.com.it-crowd.mock-contexts-extension</groupId>
             <artifactId>mock-contexts-extension-impl</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <version>1.0.2.Final</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

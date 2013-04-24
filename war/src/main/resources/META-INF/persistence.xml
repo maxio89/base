@@ -7,7 +7,7 @@
         <jta-data-source>${pu.jta.data.source}</jta-data-source>
         <shared-cache-mode>NONE</shared-cache-mode>
 
-        <class>pl.com.it_crowd.utils.config.Setting</class>
+        <class>pl.itcrowd.utils.config.Setting</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
@@ -17,6 +17,7 @@
             <property name="hibernate.default_batch_fetch_size" value="${pu.hibernate.default_batch_fetch_size}"/>
             <property name="hibernate.show_sql" value="${pu.hibernate.show_sql}"/>
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
             <property name="hibernate.cache.use_query.cache" value="true"/>
 
             <!-- Encoding -->

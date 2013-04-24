@@ -1,7 +1,6 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:focus="http://richfaces.org/sandbox/focus" xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich"
+<!DOCTYPE html>
+<html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich"
                 xmlns:f="http://java.sun.com/jsf/core" template="/layout/template.xhtml">
 
     <ui:param name="hideLoginPopup" value="true"/>
@@ -17,7 +16,7 @@
         <rich:panel rendered="#{not identity.loggedIn}" styleClass="prefix_6 grid_12 suffix_6">
             <f:facet name="header">#{messages['view.login.login']}</f:facet>
             <h:form id="lF">
-                <focus:focus/>
+                <!--<focus:focus/>-->
                 <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
                     <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
                                  requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
@@ -26,8 +25,7 @@
                 </cu:edit>
                 <rich:notifyMessage for="e:i"/>
                 <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                    <h:inputSecret id="i" value="#{credentials.password}" required="true"
-                                   requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                    <h:inputSecret id="i" value="#{credentials.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
                         <rich:validator/>
                     </h:inputSecret>
                 </cu:edit>
@@ -41,3 +39,5 @@
         </rich:panel>
     </ui:define>
 </ui:composition>
+</html>
+

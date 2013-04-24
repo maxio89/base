@@ -1,19 +1,20 @@
-<#-- @ftlvariable name="activationURL" type="java.lang.String" -->
-<#-- @ftlvariable name="user" type="com.project.domain.User" -->
+<#-- @ftlvariable name="activeAccountUrl" type="java.lang.String" -->
+<#-- @ftlvariable name="dearUser" type="java.lang.String" -->
+<#-- @ftlvariable name="thanks" type="java.lang.String" -->
+<#-- @ftlvariable name="linkInfo" type="java.lang.String" -->
+<#-- @ftlvariable name="thankYou" type="java.lang.String" -->
+<#-- @ftlvariable name="firmName" type="java.lang.String" -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-Dear ${user.getFirstName()}, <br/>
+${dearUser}<br/>
+${thanks}<br/>
 <br/>
-Thank you for registering at our website.<br/>
-Please click the following link to activate your account:<br/>
+${linkInfo}<br/>
+<a href="${activeAccountUrl}">${activeAccountUrl}</a><br/><br/>
 
-<a href="${activationURL}">${activationURL}</a><br/>
-
-Thank you.<br/>
-
-Your Website Team
-
+${thankYou}<br/>
+${firmName}
 </body>
 </html>

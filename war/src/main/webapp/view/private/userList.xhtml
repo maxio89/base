@@ -16,7 +16,7 @@
                 <watermark:watermark value="#{messages['CRUD.search']}"/>
             </h:inputText>
             <rich:dataTable id="userTable" value="#{userListView.entityList.dataModel}" rows="#{userListView.entityList.maxResults}" var="user">
-                <!--@elvariable id="user" type="com.project.domain.User"-->
+                <!--@elvariable id="user" type="pl.itcrowd.base.domain.User"-->
                 <rich:column>
                     <f:facet name="header">
                         <h:selectBooleanCheckbox onchange="toggleRows(event,#{rich:element('aT')},this);"/>

@@ -37,12 +37,22 @@
 
     <filter>
         <filter-name>ExceptionFilter</filter-name>
-        <filter-class>com.project.framework.view.ExceptionFilter</filter-class>
+        <filter-class>pl.itcrowd.base.framework.view.ExceptionFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ExceptionFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--<servlet>-->
+        <!--<servlet-name>Photos Servlet</servlet-name>-->
+        <!--<servlet-class>pl.itcrowd.base.web.PhotoServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Photos Servlet</servlet-name>-->
+        <!--<url-pattern>/avatar</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

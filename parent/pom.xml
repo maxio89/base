@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.project</groupId>
-    <artifactId>project-parent</artifactId>
+    <groupId>pl.itcrowd.base</groupId>
+    <artifactId>base-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
-        <app>project</app>
-        <app.context>project</app.context>
+        <app>base</app>
+        <app.context>base</app.context>
         <env>dev</env>
         <jdbc.driver.artifactId>postgresql</jdbc.driver.artifactId>
         <jdbc.driver.groupId>postgresql</jdbc.driver.groupId>
@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <version.jbossas>7.1.1.Final</version.jbossas>
-        <version.richfaces>4.3.0.CR2</version.richfaces>
+        <version.richfaces>4.3.1.Final</version.richfaces>
         <version.seam>3.1.0.Final</version.seam>
     </properties>
     <build>
@@ -216,7 +216,7 @@
                                 <resources>
                                     <resource/>
                                     <resource>
-                                        <directory>target/test-classes</directory>
+                                        <directory>target/classes</directory>
                                     </resource>
                                 </resources>
                             </classpath>
@@ -305,6 +305,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <version>7.1.1.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -336,7 +337,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.5.6.201201232323</version>
+                        <version>0.6.2.201302030002</version>
                         <executions>
                             <execution>
                                 <id>initialize</id>
@@ -354,7 +355,10 @@
                         </executions>
                         <configuration>
                             <excludes>
-                                <exclude>com/project/domain/**/*</exclude>
+                                <exclude>pl/itcrowd/base/domain/**/*</exclude>
+                                <exclude>pl/itcrowd/base/**/*List.*</exclude>
+                                <exclude>pl/itcrowd/base/**/*Home.*</exclude>
+                                <exclude>pl/itcrowd/base/**/*Criteria.*</exclude>
                             </excludes>
                         </configuration>
                     </plugin>

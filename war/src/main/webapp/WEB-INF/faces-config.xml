@@ -6,6 +6,7 @@
         <locale-config>
             <default-locale>en</default-locale>
             <supported-locale>en</supported-locale>
+            <supported-locale>pl</supported-locale>
         </locale-config>
 
         <message-bundle>validation</message-bundle>
@@ -24,7 +25,7 @@
     <converter>
         <description>Converter empty string to null</description>
         <converter-for-class>java.lang.String</converter-for-class>
-        <converter-class>pl.com.it_crowd.utils.faces.StringTrimConverter</converter-class>
+        <converter-class>pl.itcrowd.utils.faces.StringTrimConverter</converter-class>
     </converter>
 
     <navigation-rule>

@@ -27,7 +27,8 @@ CREATE TABLE users (
     password_digest character varying(255) NOT NULL,
     registration_date timestamp without time zone NOT NULL,
     active boolean NOT NULL,
-    role character varying(255) NOT NULL
+    role character varying(255) NOT NULL,
+    client_language CHARACTER VARYING(2) NOT NULL DEFAULT 'en'
 );
 
 CREATE TABLE user_activation_token (

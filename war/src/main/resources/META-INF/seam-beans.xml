@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:s="urn:java:ee" xmlns:mail="urn:java:org.jboss.seam.mail.core"
        xmlns:persistence="urn:java:org.jboss.seam.persistence" xmlns:solder-exception="urn:java:org.jboss.solder.exception.control"
-       xmlns:pf-converter="urn:java:pl.com.it_crowd.seam.framework.converter" xmlns:app-config="urn:java:pl.com.it_crowd.utils.config"
-       xmlns:mailman="urn:java:pl.com.it_crowd.seam3.mailman" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:pf-converter="urn:java:pl.itcrowd.seam3.persistence.converter" xmlns:app-config="urn:java:pl.itcrowd.utils.config"
+       xmlns:mailman="urn:java:pl.itcrowd.seam3.mailman" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
-    <mail:MailConfig jndiSessionName="java:/project/mail/Default">
+    <mail:MailConfig jndiSessionName="java:/base/mail/Default">
         <s:modifies/>
     </mail:MailConfig>
 
-    <mailman:Mailman queueName="queue/project/mail">
+    <mailman:Mailman queueName="queue/base/mail">
         <s:modifies/>
     </mailman:Mailman>
 
@@ -29,8 +29,12 @@
         <persistence:flushModeType>MANUAL</persistence:flushModeType>
     </persistence:FlushModeManagerImpl>
 
-    <app-config:PBESpecImpl algorithmJNDI="java:/project/encryption/algorithm" iterationCountJNDI="java:/project/encryption/iterationCount"
-                            passwordJNDI="java:/project/encryption/password" saltJNDI="java:/project/encryption/salt">
+    <app-config:PBESpecImpl algorithmJNDI="java:/base/encryption/algorithm" iterationCountJNDI="java:/base/encryption/iterationCount"
+                            passwordJNDI="java:/base/encryption/password" saltJNDI="java:/base/encryption/salt">
         <s:modifies/>
     </app-config:PBESpecImpl>
+
+    <!--<app-config:PBESpecImpl algorithm="PBEWithMD5AndDES" iterationCount="1410" password="PaniGienia" salt="a^s7i#g@-v">-->
+        <!--<s:replaces/>-->
+    <!--</app-config:PBESpecImpl>-->
 </beans>

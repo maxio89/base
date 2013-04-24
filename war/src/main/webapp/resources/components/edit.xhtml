@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
       xmlns:cc="http://java.sun.com/jsf/composite" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <head>
@@ -8,7 +7,7 @@
 
 <body>
 
-<cc:interface componentType="com.project.web.UIInputContainer">
+<cc:interface componentType="pl.itcrowd.base.web.UIInputContainer">
     <cc:attribute name="label" required="true"/>
     <cc:attribute name="ajax" required="false" default="false"/>
     <cc:attribute name="inputs" required="false" default="1"/>
@@ -18,9 +17,11 @@
 <cc:implementation>
 
     <div class="prop#{empty cc.attrs.styleClass ? '' : ' '.concat(cc.attrs.styleClass)}#{cc.attrs.invalid ? ' errors' : ''}" id="#{cc.clientId}">
-        <h:outputLabel id="label" for="" value="#{cc.attrs.label}:" styleClass="label">
+        <h:outputLabel id="label" for="" value="#{cc.attrs.label}" styleClass="label">
             <h:panelGroup styleClass="required" rendered="#{cc.attrs.required}">*</h:panelGroup>
         </h:outputLabel>
+
+        <div class="inputWrapper">
          <span class="input">
              <f:validateBean>
                  <h:panelGroup>
@@ -28,11 +29,17 @@
                  </h:panelGroup>
              </f:validateBean>
          </span>
-        <h:panelGroup rendered="#{cc.attrs.invalid}" styleClass="messages">
-            <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
-                <h:message id="message#{i}" for=""/>
-            </c:forEach>
-        </h:panelGroup>
+            <h:panelGroup rendered="#{cc.attrs.valueSet and not cc.attrs.invalid}">
+                <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
+                    <img id="valid#{i}" src="#{request.contextPath}/img/green_circle.png" alt="green" class="validCircle"/>
+                </c:forEach>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{cc.attrs.invalid}" styleClass="messages">
+                <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
+                    <h:message id="message#{i}" for=""/>
+                </c:forEach>
+            </h:panelGroup>
+        </div>
     </div>
 
 </cc:implementation>

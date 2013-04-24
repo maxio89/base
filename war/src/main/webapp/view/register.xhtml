@@ -1,15 +1,14 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:focus="http://richfaces.org/sandbox/focus" xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
+<!DOCTYPE html>
+<html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:rich="http://richfaces.org/rich"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
 
     <ui:define name="body">
         <div class="prefix_7 grid_10 suffix_7">
             <rich:panel rendered="#{not identity.loggedIn}">
                 <f:facet name="header">#{messages['view.register.registerHeader']}</f:facet>
                 <h:form id="rF">
-                    <focus:focus/>
+                    <!--<focus:focus/>-->
                     <rich:message for="pM"/>
                     <rich:graphValidator id="pM" value="#{registerView.passwordBean}"/>
                     <cu:edit id="email" label="#{domain['User.email']}">
@@ -47,3 +46,4 @@
         </div>
     </ui:define>
 </ui:composition>
+</html>
