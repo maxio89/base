@@ -1,42 +1,87 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j">
 
 <f:view locale="#{localeSelector.selectedLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="version" content="#{initParam['appVersion']}"/>
-        <!--<link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>-->
         <ui:insert name="head"/>
+        <title>#{messages['view.pageTitle']}</title>
+        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico"/>
     </h:head>
+
+    <link href="#{request.contextPath}/bootstrap/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/stylesheet/custom.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'/>
+    <script type="text/javascript" src="#{request.contextPath}/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="#{request.contextPath}/bootstrap/js/bootstrap.js"></script>
+    <h:outputScript name="languageMenu.js"/>
     <!--@elvariable id="bodyStyleClass" type="java.lang.String"-->
-    <h:body>
-        <link href="#{request.contextPath}/stylesheet/960_24_col.css" rel="stylesheet" type="text/css"/>
-        <link href="#{request.contextPath}/stylesheet/reset.css" rel="stylesheet" type="text/css"/>
-        <link href="#{request.contextPath}/stylesheet/text.css" rel="stylesheet" type="text/css"/>
-        <link href="#{request.contextPath}/stylesheet/theme.css" rel="stylesheet" type="text/css"/>
+    <h:body styleClass="#{bodyStyleClass}">
 
-        <h:form id="menuForm" styleClass="menu container_24">
-            <h:link outcome="/view/private/userList.xhtml" styleClass="grid_2">Users list</h:link>
-            <h:link outcome="/view/register.xhtml" styleClass="grid_2">Register</h:link>
-            <h:link outcome="/view/remindPassword.xhtml" styleClass="grid_2">Reset pass</h:link>
-            <h:link outcome="/view/private/userList.xhtml"
-                    styleClass="grid_8">Current user: #{null==currentUser ? 'Not logged in' : currentUser.firstName.concat(currentUser.lastName)}</h:link>
-            <h:commandLink id="logout" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}" styleClass="grid_2"
-                           rendered="#{identity.loggedIn}"/>
-            <h:link id="login" value="#{messages['layout.template.toolbar.login']}" outcome="/view/login.xhtml" styleClass="grid_2"
-                    rendered="#{!identity.loggedIn}"/>
-        </h:form>
-        <h:form>
-            <h:commandLink id="logout" rendered="#{identity.loggedIn}" value="#{messages['layout.template.toolbar.logout']}" action="#{identity.logout}"/>
-        </h:form>
+        <rich:notifyMessages globalOnly="true" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
 
-        <div class="container_24">
-            Logged:#{identity.loggedIn}
-            Autologged:#{rememberMeService.userAutologged}
-            <ui:insert name="body"/>
+        <div class="container">
+            <div class="row-fluid">
+
+                <h:form id="headerForm">
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <h:link styleClass="brand" value="Title" outcome="home"/>
+                            <ul class="nav">
+                                <li><h:link id="login" value="#{messages['layout.template.toolbar.login']}" outcome="login" rendered="#{!identity.loggedIn}"/></li>
+                                <li><h:link outcome="home"
+                                            value="#{messages['view.welcome']} #{null==currentUser ? ' Not logged in' : currentUser.firstName.concat(currentUser.lastName)}"
+                                            rendered="#{identity.loggedIn}"/></li>
+                                <li><h:link outcome="register" value="#{messages['layout.template.toolbar.signup']}" rendered="#{!identity.loggedIn}"/></li>
+                                <li>
+                                    <h:commandLink id="logout" action="#{identity.logout}" value="#{messages['layout.template.toolbar.logout']}" rendered="#{identity.loggedIn}"/>
+                                </li>
+                                <li class="languageMenu">
+                                    <a href="#">
+                                        <h:outputText value="#{localeSelector.selectedLocale.getDisplayLanguage(localeSelector.selectedLocale)}"/>
+                                    </a>
+                                    <ul>
+                                        <a4j:repeat value="#{localeSelector.availableLocales}" var="loc">
+                                            <li>
+                                                <h:commandLink action="#{languageChangeView.changeUserLocale(loc)}">
+                                                    <h:outputText value="#{loc.getDisplayLanguage(loc)}"/>
+                                                </h:commandLink>
+                                            </li>
+                                        </a4j:repeat>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
         </div>
 
+        <div class="container marginTop20">
+            <ui:insert name="body"/>
+
+            <ul class="nav nav-pills">
+                <li>Logged:#{identity.loggedIn}</li>
+                <li>Autologged:#{rememberMeService.userAutologged}</li>
+                <li><h:link outcome="/view/register.xhtml">Register</h:link></li>
+                <li><h:link outcome="/view/private/userList.xhtml">Users list</h:link></li>
+                <li><h:link outcome="/view/remindPassword.xhtml">Reset pass</h:link></li>
+            </ul>
+        </div>
+
+        <div id="footer">
+            <div id="footerContent" class="container">
+                <div class="row-fluid">
+                    <small>
+                        <h:link value="About us" styleClass="muted">
+                            <f:param name="content" value="ABOUT"/>
+                        </h:link>
+                    </small>
+                </div>
+            </div>
+        </div>
 
     </h:body>
 </f:view>

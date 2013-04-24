@@ -6,7 +6,8 @@
 
 <suppressions>
     <suppress files=".*/test/.*.java" checks="MagicNumber"/>
-    <suppress files="MessageKeys.java" checks="InterfaceIsTypeCheck"/>
+    <suppress files="BundleKeys.java" checks="InterfaceIsTypeCheck"/>
+    <suppress files="Constants.java" checks="InterfaceIsTypeCheck"/>
     <suppress files="ConvolveFilter.java" checks="CyclomaticComplexityCheck"/>
     <suppress files="GaussianFilter.java" checks="CyclomaticComplexityCheck"/>
     <suppress files="PixelUtils.java" checks="CyclomaticComplexityCheck"/>

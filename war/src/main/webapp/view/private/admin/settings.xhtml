@@ -1,0 +1,123 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:rich="http://richfaces.org/rich"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:a4j="http://java.sun.com/jsf/html" template="/layout/template.xhtml">
+
+    <ui:param name="activeStyleAdmin" value="SETTINGS"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.myAccount.header']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+
+            <ui:include src="/layout/myAccountNav.xhtml"/>
+
+            <div class="row-fluid">
+                <ui:include src="/layout/myAccountAdminNav.xhtml"/>
+
+                <div class="span9">
+
+                    <h:form id="settTable" styleClass="form-horizontal">
+                        <rich:panel>
+                            <h:panelGroup>
+
+                                <p class="modal-header">#{messages['view.adminSettings.general']}</p>
+                                <cu:editVertical label="#{domain['Setting.activeAccountUrl']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.activeAccountUrl}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.activeSubscriptionUrl']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.activeSubscriptionUrl}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.appURL']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.appURL}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.commissionPercentValue']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.commissionPercentValue}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.defaultLanguage']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.defaultLanguage}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.emailFromAddress']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.emailFromAddress}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.emailFromName']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.emailFromName}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.minimalWithdrawAmount']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.minimalWithdrawAmount}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.passwordResetLink']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.passwordResetLink}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.replyToEmail']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.replyToEmail}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.urlToVOPfacebook']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.urlToVOPfacebook}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.urlToVOPtwitter']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.urlToVOPtwitter}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+
+                                <p class="modal-header">#{domain['PayPal.payPal']}</p>
+                                <cu:editVertical label="#{domain['Setting.sandboxEmailAddress']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.sandboxEmailAddress}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.acct1AppId']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.acct1AppId}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.acct1Password']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.acct1Password}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.acct1Signature']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.acct1Signature}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.acct1UserName']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.acct1UserName}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.merchantId']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.merchantId}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointAdaptiveAccounts']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointAdaptiveAccounts}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointAdaptivePayments']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointAdaptivePayments}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointInvoice']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointInvoice}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointPayPalAPI']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointPayPalAPI}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointPayPalAPIAA']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointPayPalAPIAA}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceEndPointPermissions']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceEndPointPermissions}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceIPNEndpoint']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceIPNEndpoint}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                                <cu:editVertical label="#{domain['Setting.serviceRedirectURL']}">
+                                    <h:inputText styleClass="inputSett" value="#{projectConfigView.serviceRedirectURL}" disabled="#{not projectConfigView.edit}"/>
+                                </cu:editVertical>
+                            </h:panelGroup>
+                        </rich:panel>
+
+                        <div class="form-actions">
+                            <h:button value="#{messages['CRUD.back']}" outcome="home" styleClass="btn"/>
+                            <a4j:commandButton value="#{messages['CRUD.save']}" action="#{projectConfigView.save}" styleClass="btn btn-info pull-right"
+                                               rendered="#{projectConfigView.edit}"/>
+                            <a4j:commandButton value="#{messages['CRUD.edit']}" action="#{projectConfigView.editAtr}" styleClass="btn btn-info pull-right"
+                                               rendered="#{not projectConfigView.edit}"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

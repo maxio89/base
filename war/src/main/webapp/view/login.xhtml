@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core"
-                template="/layout/template.xhtml">
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:rich="http://richfaces.org/rich" template="/layout/template.xhtml">
 
     <ui:param name="hideLoginPopup" value="true"/>
 
@@ -10,39 +9,58 @@
         <!-- redirect to /private if user is logged -->
         <h:panelGroup rendered="#{identity.loggedIn}">
             <script type="text/javascript">
-                location = '#{request.contextPath}/view/private/'
+                location = '#{request.contextPath}/view/home.jsf'
             </script>
         </h:panelGroup>
 
-        <rich:panel rendered="#{not identity.loggedIn}" styleClass="prefix_6 grid_12 suffix_6">
-            <f:facet name="header">#{messages['view.login.login']}</f:facet>
-            <h:form id="lF">
-                <!--<focus:focus/>-->
-                <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
-                    <h:inputText id="i" value="#{loginView.username}" required="true" accesskey="e"
-                                 requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
-                        <rich:validator/>
-                    </h:inputText>
-                </cu:edit>
-                <rich:notifyMessage for="e:i"/>
-                <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
-                    <h:inputSecret id="i" value="#{loginView.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
-                        <rich:validator/>
-                    </h:inputSecret>
-                </cu:edit>
-                <cu:edit id="r" label="#{messages['layout.template.loginPanel.rememberMe']}">
-                    <h:selectBooleanCheckbox id="i" value="#{loginView.rememberMeEnabled}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
-                        <rich:validator/>
-                    </h:selectBooleanCheckbox>
-                </cu:edit>
-                <rich:notifyMessage for="p:i"/>
-                <h:panelGrid columns="1">
-                    <h:commandButton value="#{messages['layout.template.loginPanel.login']}" action="#{loginView.login}" accesskey="l"/>
-                    <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
-                    <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="remindPassword"/>
-                </h:panelGrid>
-            </h:form>
-        </rich:panel>
+        <cu:underlinedHeader value="#{messages['view.login.login']}"/>
+        <!-- content area -->
+
+        <div class="row-fluid">
+            <rich:panel rendered="#{not identity.loggedIn}">
+                <!--<f:facet name="header">#{messages['view.login.login']}</f:facet>-->
+                <h:form id="lF" styleClass="form-horizontal">
+
+                    <cu:edit id="e" label="#{messages['layout.template.loginPanel.loginOrEmail']}">
+                        <h:inputText id="i" value="#{credentials.username}" required="true" accesskey="e"
+                                     requiredMessage="#{messages['layout.template.loginPanel.loginOrEmail.required']}">
+                            <rich:validator/>
+                        </h:inputText>
+                    </cu:edit>
+                    <rich:notifyMessage for="e:i" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                    <cu:edit id="p" label="#{messages['layout.template.loginPanel.password']}">
+                        <h:inputSecret id="i" value="#{credentials.password}" required="true" requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                            <rich:validator/>
+                        </h:inputSecret>
+                    </cu:edit>
+                    <cu:edit id="r" label="#{messages['layout.template.loginPanel.rememberMe']}">
+                        <h:selectBooleanCheckbox id="i" value="#{loginView.rememberMeEnabled}" required="true"
+                                                 requiredMessage="#{messages['layout.template.loginPanel.password.required']}">
+                            <rich:validator/>
+                        </h:selectBooleanCheckbox>
+                    </cu:edit>
+                    <rich:notifyMessage for="p:i" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                    <hr/>
+                    <div class="form-actions">
+
+                        <h:commandButton styleClass="btn btn-info" value="#{messages['layout.template.loginPanel.login']}" action="#{identity.login}" accesskey="l"/>
+
+                        <div class="row-fluid marginTop10">
+                            #{messages['layout.template.loginPanel.register']}
+                            <h:link value="#{messages['layout.template.loginPanel.register']}" outcome="register"/>
+                        </div>
+                        <div class="row-fluid marginTop10">
+
+                            <h:link value="#{messages['view.login.forgottenPasswordLink']}" outcome="remindPassword"/>
+                        </div>
+                        <div class="row-fluid marginTop10">
+                            <h:link value="#{messages['view.resentToken.resendTextInLoginPanel']}" outcome="resendToken"/>
+                        </div>
+                    </div>
+
+                </h:form>
+            </rich:panel>
+        </div>
     </ui:define>
 </ui:composition>
 </html>

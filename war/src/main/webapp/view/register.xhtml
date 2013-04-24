@@ -4,10 +4,15 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
 
     <ui:define name="body">
-        <div class="prefix_7 grid_10 suffix_7">
-            <rich:panel rendered="#{not identity.loggedIn}">
-                <f:facet name="header">#{messages['view.register.registerHeader']}</f:facet>
-                <h:form id="rF">
+
+        <cu:underlinedHeader value="#{messages['view.register.registerHeader']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+            <rich:panel rendered="#{not registerView.registerCompleted and not identity.loggedIn}">
+                <!--<f:facet name="header">#{messages['view.register.registerHeader']}</f:facet>-->
+                <h:form id="rF" styleClass="form-horizontal">
                     <!--<focus:focus/>-->
                     <rich:message for="pM"/>
                     <rich:graphValidator id="pM" value="#{registerView.passwordBean}"/>
@@ -37,13 +42,27 @@
                             <rich:validator/>
                         </h:inputSecret>
                     </cu:edit>
-                    <h:commandButton id="r" value="#{messages['view.register.registerButton']}" action="#{registerView.register}"/>
+                    <hr/>
+                    <div class="form-actions">
+                        <h:commandButton id="registerBtn" styleClass="btn btn-info pull-right" value="#{messages['view.register.registerButton']}"
+                                         action="#{registerView.register}"/>
+                        <h:button id="cancel" styleClass="btn" outcome="home" value="#{messages['CRUD.cancel']}"/>
+                    </div>
                 </h:form>
             </rich:panel>
             <h:panelGroup rendered="#{identity.loggedIn}">
-                <h1>#{messages['view.register.mayNotBeLoggedIn']}</h1>
+                <div class="alert alert-info">
+                    <h3>#{messages['view.register.mayNotBeLoggedIn']}</h3>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{registerView.registerCompleted}">
+                <div class="alert alert-success">
+                    <h3>#{messages['view.register.successfulRegistrationMsg']}</h3>
+                </div>
+
             </h:panelGroup>
         </div>
+
     </ui:define>
 </ui:composition>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:a4j="http://richfaces.org/a4j" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+    <title>This will not be present in rendered output</title>
+</head>
+
+<body>
+
+<cc:interface>
+    <cc:attribute name="value" required="true"/>
+    <cc:attribute name="ajaxStatus" default="true"/>
+</cc:interface>
+<cc:implementation>
+
+    <div class="row-fluid underlinedHeader">
+        <div class="span3 blueUnderline">
+            <h4 class="heading">#{cc.attrs.value}</h4>
+        </div>
+        <a4j:status rendered="#{cc.attrs.ajaxStatus}">
+            <f:facet name="start">
+                <h:graphicImage styleClass="pull-right" value="/img/ajax-loader.gif" alt="ai"/>
+            </f:facet>
+            <f:facet name="stop">&nbsp;</f:facet>
+        </a4j:status>
+
+    </div>
+
+</cc:implementation>
+
+</body>
+
+</html>

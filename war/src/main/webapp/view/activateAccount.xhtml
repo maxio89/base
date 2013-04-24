@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.org/seam/faces"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.org/seam/faces"
                 template="/layout/template.xhtml">
 
     <f:metadata>
@@ -10,24 +10,38 @@
         <s:viewAction action="#{activateAccountView.activate}" onPostback="#{false}"/>
     </f:metadata>
 
+    <ui:param name="bodyStyleClass" value="forgot-password"/>
+
     <ui:define name="body">
 
-        <div class="grid_8 prefix_8 suffix_8">
-            <rich:panel rendered="#{not identity.loggedIn}">
+        <cu:underlinedHeader value="#{messages['view.activateAccount.header']}"/>
+
+        <!-- content area -->
+
+        <div class="row-fluid">
+            <h:panelGroup rendered="#{not identity.loggedIn}">
                 <h:panelGroup rendered="#{activateAccountView.activationAttempt}">
                     <h:panelGroup rendered="#{activateAccountView.activationSuccess}">
-                        #{messages['view.activateAccount.activationSuccess']}
+                        <div class="alert alert-success">
+                            <h3>#{messages['view.activateAccount.activationSuccess']} </h3>
+                        </div>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{not activateAccountView.activationSuccess}">
-                        #{messages['view.activateAccount.activationFailure']}
+                        <div class="alert alert-error">
+                            <h3> #{messages['view.activateAccount.activationFailure']} </h3>
+                        </div>
                     </h:panelGroup>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{not activateAccountView.activationAttempt}">
-                    #{messages['view.activateAccount.readEmail']}
+                    <div class="alert alert-info">
+                        <h3> #{messages['view.activateAccount.readEmail']}</h3>
+                    </div>
                 </h:panelGroup>
-            </rich:panel>
+            </h:panelGroup>
             <h:panelGroup rendered="#{identity.loggedIn}">
-                <h1>#{messages['view.activateAccount.mayNotBeLoggedIn']}</h1>
+                <div class="alert alert-info">
+                    <h3>#{messages['view.activateAccount.mayNotBeLoggedIn']}</h3>
+                </div>
             </h:panelGroup>
         </div>
     </ui:define>

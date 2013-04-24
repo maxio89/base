@@ -46,14 +46,13 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
     public void authenticate()
     {
         final PasswordCredential credential = (PasswordCredential) credentials.getCredential();
-        final String password = credential == null ? "" : credential.getValue();
+        final String password = credential == null ? "" : passwordDigester.getDigest(credential.getValue());
         String username = credentials.getUsername();
         if (username == null) {
             username = "";
         }
         try {
-            final User user = (User) entityManager.createQuery(
-                "select u from User u where u.email=:email and u.passwordDigest=:passwordDigest")
+            final User user = (User) entityManager.createQuery("select u from User u where u.email=:email and u.passwordDigest=:passwordDigest and u.active=TRUE")
                 .setParameter("email", username)
                 .setParameter("passwordDigest", password)
                 .getSingleResult();

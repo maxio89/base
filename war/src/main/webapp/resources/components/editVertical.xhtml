@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:cc="http://java.sun.com/jsf/composite" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 <head>
     <title>This will not be present in rendered output</title>
 </head>
@@ -16,12 +16,14 @@
 </cc:interface>
 <cc:implementation>
 
-    <div class="propVertical#{empty cc.attrs.styleClass ? '' : ' '.concat(cc.attrs.styleClass)}#{cc.attrs.invalid ? ' errors' : ''}" id="#{cc.clientId}">
-        <h:outputLabel id="label" for="" value="#{cc.attrs.label}:" styleClass="label">
+    <!--<div class="propVertical#{empty cc.attrs.styleClass ? '' : ' '.concat(cc.attrs.styleClass)}#{cc.attrs.invalid ? ' errors' : ''}" id="#{cc.clientId}">-->
+    <div class="control-group #{cc.attrs.invalid ? 'error' : ''} propVertical#{empty cc.attrs.styleClass ? '' : ' '.concat(cc.attrs.styleClass)}#{cc.attrs.invalid ? ' errors' : ''}"
+         id="#{cc.clientId}">
+        <h:outputLabel id="label" for="" value="#{cc.attrs.label}:" styleClass="label control-label #{cc.attrs.invalid ? 'label-important' : ''} ">
             <h:panelGroup styleClass="required" rendered="#{cc.attrs.required}">*</h:panelGroup>
         </h:outputLabel>
 
-        <div class="input">
+        <div class="controls">
             <f:validateBean>
                 <h:panelGroup>
                     <cc:insertChildren/>
@@ -30,7 +32,9 @@
         </div>
         <h:panelGroup rendered="#{cc.attrs.invalid}" styleClass="messages" layout="block">
             <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
+                <span class="help-inline">
                 <h:message id="message#{i}" for=""/>
+                </span>
             </c:forEach>
         </h:panelGroup>
     </div>
