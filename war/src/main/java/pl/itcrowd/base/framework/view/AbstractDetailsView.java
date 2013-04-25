@@ -1,8 +1,5 @@
 package pl.itcrowd.base.framework.view;
 
-import pl.itcrowd.base.framework.business.EntityHome;
-import pl.itcrowd.base.framework.business.EntitySelected;
-import pl.itcrowd.base.web.BundleKeys;
 import org.apache.commons.lang.ObjectUtils;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.solder.core.Veto;
@@ -12,6 +9,8 @@ import pl.itcrowd.base.framework.business.EntitySelected;
 import pl.itcrowd.base.web.BundleKeys;
 import pl.itcrowd.seam3.persistence.Identifiable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
 import javax.persistence.EntityNotFoundException;
@@ -44,7 +43,7 @@ public abstract class AbstractDetailsView<E> implements Serializable {
     {
     }
 
-    protected AbstractDetailsView(Logger logger, Messages messages)
+    protected AbstractDetailsView(@Nonnull Logger logger, @Nonnull Messages messages)
     {
         this.logger = logger;
         this.messages = messages;
@@ -64,6 +63,7 @@ public abstract class AbstractDetailsView<E> implements Serializable {
 
 // -------------------------- OTHER METHODS --------------------------
 
+    @Nonnull
     public String cancel()
     {
         if (isModified()) {
@@ -80,6 +80,7 @@ public abstract class AbstractDetailsView<E> implements Serializable {
         return createNew();
     }
 
+    @Nonnull
     public String createNew()
     {
         if (isModified()) {
@@ -104,12 +105,14 @@ public abstract class AbstractDetailsView<E> implements Serializable {
         markModified();
     }
 
+    @Nonnull
     public String hideSaveChangesConfirmation()
     {
         saveChangesConfirmationVisible = false;
         return "success";
     }
 
+    @Nullable
     public String proceedWithoutSave()
     {
         hideSaveChangesConfirmation();
@@ -123,6 +126,7 @@ public abstract class AbstractDetailsView<E> implements Serializable {
         return OUTCOME_FAILURE;
     }
 
+    @Nonnull
     public String save()
     {
         final EntityHome<E> home = getHome();
@@ -142,6 +146,7 @@ public abstract class AbstractDetailsView<E> implements Serializable {
         }
     }
 
+    @Nullable
     public String saveAndProceed()
     {
         final String outcome = save();

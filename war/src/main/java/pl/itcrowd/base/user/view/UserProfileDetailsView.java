@@ -1,10 +1,5 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.user.CurrentUser;
-import pl.itcrowd.base.user.business.UserHome;
-import pl.itcrowd.base.util.ImageScaling;
-import pl.itcrowd.base.web.BundleKeys;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.solder.logging.Logger;
 import org.richfaces.event.FileUploadEvent;
@@ -14,6 +9,7 @@ import pl.itcrowd.base.user.business.UserHome;
 import pl.itcrowd.base.util.ImageScaling;
 import pl.itcrowd.base.web.BundleKeys;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -21,6 +17,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 
+@SuppressWarnings("UnusedDeclaration")
 @Named
 @ConversationScoped
 public class UserProfileDetailsView implements Serializable {
@@ -77,7 +74,7 @@ public class UserProfileDetailsView implements Serializable {
         return user;
     }
 
-    public void photoUploading(FileUploadEvent event)
+    public void photoUploading(@Nonnull FileUploadEvent event)
     {
         formChanged();
         byte[] data = event.getUploadedFile().getData();
@@ -123,8 +120,7 @@ public class UserProfileDetailsView implements Serializable {
     {
 //        avatar = user.getAvatar();
 
-        if (conversation.isTransient())
-        {
+        if (conversation.isTransient()) {
             conversation.begin();
         }
     }
@@ -139,4 +135,8 @@ public class UserProfileDetailsView implements Serializable {
         avatar = null;
     }
 
+    public String getFileUploadMessage()
+    {
+        return fileUploadMessage;
+    }
 }

@@ -21,7 +21,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>14.0-rc2</version>
+                <version>11.0.2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -73,15 +73,15 @@
                 <scope>provided</scope>
             </dependency>
             <!--<dependency>-->
-                <!--<groupId>edu.uci.ics</groupId>-->
-                <!--<artifactId>crawler4j</artifactId>-->
-                <!--<version>3.3</version>-->
-                <!--<exclusions>-->
-                    <!--<exclusion>-->
-                        <!--<artifactId>geronimo-stax-api_1.0_spec</artifactId>-->
-                        <!--<groupId>org.apache.geronimo.specs</groupId>-->
-                    <!--</exclusion>-->
-                <!--</exclusions>-->
+            <!--<groupId>edu.uci.ics</groupId>-->
+            <!--<artifactId>crawler4j</artifactId>-->
+            <!--<version>3.3</version>-->
+            <!--<exclusions>-->
+            <!--<exclusion>-->
+            <!--<artifactId>geronimo-stax-api_1.0_spec</artifactId>-->
+            <!--<groupId>org.apache.geronimo.specs</groupId>-->
+            <!--</exclusion>-->
+            <!--</exclusions>-->
             <!--</dependency>-->
             <dependency>
                 <groupId>javax.activation</groupId>

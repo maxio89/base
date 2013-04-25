@@ -3,13 +3,13 @@ package pl.itcrowd.base.language;
 import pl.itcrowd.base.domain.Language;
 import pl.itcrowd.base.framework.business.ApplicationDefault;
 import pl.itcrowd.base.setting.business.ProjectConfig;
-import pl.itcrowd.base.framework.business.ApplicationDefault;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+@SuppressWarnings("UnusedDeclaration")
 @ApplicationScoped
 public class DefaultLanguageProducer {
 // ------------------------------ FIELDS ------------------------------

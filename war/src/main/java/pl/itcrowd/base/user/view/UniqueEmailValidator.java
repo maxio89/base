@@ -1,8 +1,7 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.user.business.UserHome;
-import pl.itcrowd.base.web.BundleKeys;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
+import pl.itcrowd.base.user.business.UserHome;
 import pl.itcrowd.base.web.BundleKeys;
 
 import javax.enterprise.context.RequestScoped;
@@ -13,7 +12,6 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 
 @FacesValidator("uniqueEmailValidator")
 @RequestScoped
@@ -45,15 +43,11 @@ public class UniqueEmailValidator implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value)
     {
         String email = (String) value;
-        try {
-            userHome.loadByEmail(email);
-            final String text = messageBuilder.key(BundleKeys.EMAIL_ALREADY_REGISTERED)
-                .defaults(BundleKeys.EMAIL_ALREADY_REGISTERED.toString())
-                .build()
-                .getText();
+        if (userHome.loadByEmail(email)) {
+            final String text = messageBuilder.key(BundleKeys.EMAIL_ALREADY_REGISTERED).defaults(BundleKeys.EMAIL_ALREADY_REGISTERED.toString()).build().getText();
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, text, text));
-        } catch (NoResultException ignore) {
-            //email is unique
+        } else {
+            return; //email is unique
         }
     }
 }

@@ -176,7 +176,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
         } else {
             getAttributes().put(getInvalidAttributeName(), false);
         }
-        getAttributes().put(getValueSetAttributeName(),elements.hasValueSet());
+        getAttributes().put(getValueSetAttributeName(), elements.hasValueSet());
 
         // set the required attribute, but only if the user didn't already assign it
         if (!getAttributes().containsKey(getRequiredAttributeName()) && elements.hasRequiredInput()) {
@@ -248,7 +248,8 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
         return "enclose";
     }
 
-    public String getValueSetAttributeName(){
+    public String getValueSetAttributeName()
+    {
         return "valueSet";
     }
 
@@ -338,8 +339,11 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
 
     private boolean labelHasEmptyValue(InputContainerElements elements)
     {
-        return !(elements.getLabel() == null || elements.getLabel().getValue() == null) && (elements.getLabel().getValue().toString().trim().equals(":")
-            || elements.getLabel().getValue().toString().trim().equals(""));
+        return !(elements.getLabel() == null || elements.getLabel().getValue() == null) && (elements.getLabel().getValue().toString().trim().equals(":") || elements.getLabel()
+            .getValue()
+            .toString()
+            .trim()
+            .equals(""));
     }
 
     /**
@@ -411,8 +415,8 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
 
         public boolean valueSet = false;
 
-// --------------------- GETTER / SETTER METHODS ---------------------
-
+        // --------------------- GETTER / SETTER METHODS ---------------------
+        @SuppressWarnings("UnusedDeclaration")
         public List<EditableValueHolder> getInputs()
         {
             return inputs;
@@ -428,6 +432,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             this.label = label;
         }
 
+        @SuppressWarnings("UnusedDeclaration")
         public List<UIMessage> getMessages()
         {
             return messages;
@@ -443,7 +448,8 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             return validationError;
         }
 
-        public boolean hasValueSet(){
+        public boolean hasValueSet()
+        {
             return valueSet;
         }
 
@@ -459,8 +465,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
                 return null;
             }
 
-            propertyName = (String) new ValueExpressionAnalyzer(((UIComponent) inputs.get(0)).getValueExpression("value")).getValueReference(
-                context.getELContext()).getProperty();
+            propertyName = (String) new ValueExpressionAnalyzer(((UIComponent) inputs.get(0)).getValueExpression("value")).getValueReference(context.getELContext()).getProperty();
             return propertyName;
         }
 
@@ -470,7 +475,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             if (input.isRequired() || isRequiredByConstraint(input, validator, context)) {
                 requiredInput = true;
             }
-            valueSet = null!=input.getValue();
+            valueSet = null != input.getValue();
             if (!input.isValid()) {
                 validationError = true;
             } else if (!validationError) {

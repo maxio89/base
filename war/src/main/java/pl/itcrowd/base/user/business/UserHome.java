@@ -1,5 +1,7 @@
 package pl.itcrowd.base.user.business;
 
+import org.jboss.seam.transaction.Transactional;
+import org.jboss.solder.logging.Logger;
 import pl.itcrowd.base.domain.RoleEnum;
 import pl.itcrowd.base.domain.User;
 import pl.itcrowd.base.domain.UserActivationToken;
@@ -8,20 +10,14 @@ import pl.itcrowd.base.framework.business.EntityHome;
 import pl.itcrowd.base.mail.ProjectMailman;
 import pl.itcrowd.base.security.PasswordDigester;
 import pl.itcrowd.base.setting.business.ProjectConfig;
-import org.jboss.seam.transaction.Transactional;
-import org.jboss.solder.logging.Logger;
-import pl.itcrowd.base.domain.RoleEnum;
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.mail.ProjectMailman;
-import pl.itcrowd.base.security.PasswordDigester;
 import pl.itcrowd.seam3.persistence.EntityRemoved;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Date;
@@ -38,6 +34,7 @@ public class UserHome extends EntityHome<User> {
 
     private Logger logger;
 
+    @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
     public UserHome(Instance<ProjectMailman> mailman, ProjectConfig projectConfig, Logger logger)
     {
@@ -48,7 +45,7 @@ public class UserHome extends EntityHome<User> {
 
     // -------------------------- OTHER METHODS --------------------------
 
-    public boolean activate(String email, String token)
+    public boolean activate(@Nonnull String email, @Nonnull String token)
     {
         try {
             final String qlString = "select t from UserActivationToken t where t.user.email=:email and t.token=:token";
@@ -65,149 +62,32 @@ public class UserHome extends EntityHome<User> {
         }
     }
 
-    /**
-     * Method will persist new UserRemindPasswordToken
-     * and send mail to user with password change link
-     *
-     * @param resetLink link with email and token placeholders
-     */
-    @Transactional
-    public boolean saveResetPasswordRequest(String resetLink)
-    {
-        final User user = getInstance(); //current user
-        try {
-            String query = "select t from UserRemindPasswordToken t where t.user.email=:email";
-            getEntityManager().createQuery(query).setParameter("email", user.getEmail()).getSingleResult();
-            return false;
-        } catch (NoResultException nre) { //if token wasn't found, its ok
-
-            //create new token
-            UserRemindPasswordToken passwordToken = new UserRemindPasswordToken();
-            passwordToken.setUser(user);
-            passwordToken.setToken(UUID.randomUUID().toString());
-            passwordToken.setGenerationDate(new Date());
-            getEntityManager().persist(passwordToken);
-            getEntityManager().flush();
-
-            //generate reset URL from reset link
-            String resetURL = projectConfig.getAppURL().concat(resetLink);
-            try {
-                resetURL = resetURL.replaceAll("@email@", URLEncoder.encode(user.getEmail(), "UTF-8"))
-                    .replaceAll("@token@", URLEncoder.encode(passwordToken.getToken(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                logger.error("Unsupported encoding ex in saveResetPassword. Maybe wrong reset link?:" + resetLink);
-                e.printStackTrace();
-            }
-
-            mailman.get().sendPasswordChangeMail(this.getInstance(), resetURL);
-            return true;
-        }
-    }
-
-    /**
-     * This method checks if provided email and password is valid for password reminding.
-     * One call to this method will remove UserRemindPasswordToken connected instance.
-     *
-     * @param email user email
-     * @param token uuid token
-     *
-     * @return true if valid, otherwise false
-     */
-    public boolean validatePasswordToken(String email, String token)
+    public boolean loadByEmail(@Nonnull String email)
     {
         try {
-            final String query = "select t from UserRemindPasswordToken t where t.user.email=:email and t.token=:token";
-            UserRemindPasswordToken passwordToken = (UserRemindPasswordToken) getEntityManager().createQuery(query)
-                .setParameter("email", email)
-                .setParameter("token", token)
-                .getSingleResult();
-            getEntityManager().remove(passwordToken);
-            getEntityManager().flush();
+            final User user = (User) getEntityManager().createQuery("select u from User u where u.email=:email").setParameter("email", email).getSingleResult();
+            setInstance(user);
             return true;
-        } catch (NoResultException nre) {
+        } catch (NoResultException e) {
             return false;
         }
     }
 
-    public User loadByEmail(String email)
-    {
-        final User user = (User) getEntityManager().createQuery("select u from User u where u.email=:email").setParameter("email", email).getSingleResult();
-        setInstance(user);
-        return user;
-    }
-
-    public User getById(Long id)
+    @SuppressWarnings("UnusedDeclaration")
+    public User getById(@Nonnull Long id)
     {
         final User user = (User) getEntityManager().createQuery("select u from User u where u.id=:id").setParameter("id", id).getSingleResult();
         setInstance(user);
         return user;
     }
 
-    @Transactional
-    public boolean persist()
+    public boolean resendActivationMail(@Nonnull String email)
     {
-        final User user = getInstance();
-        user.setRole(RoleEnum.CLIENT); //default role
-        user.setClientLanguage(Locale.ENGLISH.getLanguage());
-
-        //if development, all persisted user are active by default
-        if (!projectConfig.isProduction()) {
-            user.setActive(true);
+        if (email.isEmpty()) {
+            throw new IllegalArgumentException("Email was empty");
         }
 
-        final boolean persistResult = super.persist();
-        final UserActivationToken token = new UserActivationToken();
-        token.setUser(user);
-        token.setToken(UUID.randomUUID().toString());
-        getEntityManager().persist(token);
-        getEntityManager().flush();
-
-        //generate reset URL from reset link
-        String activationURL = projectConfig.getActiveAccountUrl();
-
-        try {
-            activationURL = activationURL.replaceAll("@email@", URLEncoder.encode(user.getEmail(), "UTF-8")).replaceAll("@token@", URLEncoder.encode(token.getToken(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-
-        mailman.get().sendRegistrationMail(user, activationURL);
-        return persistResult;
-    }
-
-    @Override
-    public int remove(Collection<User> elements)
-    {
-        if (elements.isEmpty()) {
-            return 0;
-        }
-        final Set<Long> ids = new HashSet<Long>();
-        for (User user : elements) {
-            ids.add(user.getId());
-        }
-        ids.remove(null);
-        final int count = getEntityManager().createQuery("delete User where id in (:ids)").setParameter("ids", ids).executeUpdate();
-        for (User element : elements) {
-            beanManager.fireEvent(element, new AnnotationLiteral<EntityRemoved>() {
-            });
-        }
-        return count;
-    }
-
-    public boolean resendActivationMail(String email)
-    {
-        if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email was null or empty");
-        }
-        boolean userExists;
-        try {
-            loadByEmail(email);
-            userExists = true;
-        } catch (NoResultException nre) {
-            userExists = false;
-        }
-
-        if (userExists) {
+        if (loadByEmail(email)) {
 
             if (getInstance().isActive()) {
                 return false;
@@ -284,12 +164,8 @@ public class UserHome extends EntityHome<User> {
      *
      * @return true if change was successful, otherwise false
      */
-    public boolean changePassword(String email, String newPassword, String token)
+    public boolean changePassword(@Nonnull String email, @Nonnull String newPassword, @Nonnull String token)
     {
-        if (email == null || newPassword == null || token == null) {
-            throw new IllegalArgumentException("email, password or token was null");
-        }
-
         UserRemindPasswordToken tokenEntity;
         try {
             final String query = "select t from UserRemindPasswordToken t where t.user.email=:email and t.token=:token";
@@ -308,5 +184,56 @@ public class UserHome extends EntityHome<User> {
             getEntityManager().flush();
             return true;
         }
+    }
+
+    @Transactional
+    public boolean persist()
+    {
+        final User user = getInstance();
+        user.setRole(RoleEnum.USER); //default role
+        user.setClientLanguage(Locale.ENGLISH.getLanguage());
+
+        //if development, all persisted user are active by default
+        if (!projectConfig.isProduction()) {
+            user.setActive(true);
+        }
+
+        final boolean persistResult = super.persist();
+        final UserActivationToken token = new UserActivationToken();
+        token.setUser(user);
+        token.setToken(UUID.randomUUID().toString());
+        getEntityManager().persist(token);
+        getEntityManager().flush();
+
+        //generate reset URL from reset link
+        String activationURL = projectConfig.getActiveAccountUrl();
+
+        try {
+            activationURL = activationURL.replaceAll("@email@", URLEncoder.encode(user.getEmail(), "UTF-8")).replaceAll("@token@", URLEncoder.encode(token.getToken(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        mailman.get().sendRegistrationMail(user, activationURL);
+        return persistResult;
+    }
+
+    @Override
+    public int remove(@Nonnull Collection<User> elements)
+    {
+        if (elements.isEmpty()) {
+            return 0;
+        }
+        final Set<Long> ids = new HashSet<Long>();
+        for (User user : elements) {
+            ids.add(user.getId());
+        }
+        ids.remove(null);
+        final int count = getEntityManager().createQuery("delete User where id in (:ids)").setParameter("ids", ids).executeUpdate();
+        for (User element : elements) {
+            beanManager.fireEvent(element, new AnnotationLiteral<EntityRemoved>() {
+            });
+        }
+        return count;
     }
 }

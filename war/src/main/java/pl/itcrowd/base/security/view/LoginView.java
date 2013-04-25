@@ -5,6 +5,7 @@ import org.jboss.seam.security.Identity;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import pl.itcrowd.base.security.PasswordDigester;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,6 +33,7 @@ public class LoginView implements Serializable {
 
     private boolean rememberMeEnabled;
 
+    @Nonnull
     public String login()
     {
         credentials.setUsername(username);

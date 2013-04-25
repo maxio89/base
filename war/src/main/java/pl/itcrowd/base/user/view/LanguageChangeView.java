@@ -2,9 +2,8 @@ package pl.itcrowd.base.user.view;
 
 import pl.itcrowd.base.user.business.UserLocaleChanged;
 import pl.itcrowd.base.web.LocaleSelector;
-import pl.itcrowd.base.user.business.UserLocaleChanged;
-import pl.itcrowd.base.web.LocaleSelector;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -33,7 +32,7 @@ public class LanguageChangeView implements Serializable {
         this.localeSelector = localeSelector;
     }
 
-    public void changeUserLocale(Locale locale)
+    public void changeUserLocale(@Nonnull Locale locale)
     {
         //save change in DB
         localeChangeEvent.fire(locale);

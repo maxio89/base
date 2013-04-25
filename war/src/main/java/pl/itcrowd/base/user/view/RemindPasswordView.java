@@ -1,8 +1,5 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.user.business.UserHome;
-import pl.itcrowd.base.web.BundleKeys;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.seam.international.status.Messages;
 import pl.itcrowd.base.user.business.UserHome;
 import pl.itcrowd.base.web.BundleKeys;
@@ -10,8 +7,6 @@ import pl.itcrowd.base.web.BundleKeys;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,8 +19,6 @@ public class RemindPasswordView implements Serializable {
     private UserHome userHome;
 
     private Messages messages;
-
-    private boolean passwordResetInitiationSuccessful = false;
 
     @SuppressWarnings("UnusedDeclaration")
     public RemindPasswordView()
@@ -47,14 +40,12 @@ public class RemindPasswordView implements Serializable {
      */
     public void initiatePasswordReset()
     {
-        try {
-            userHome.loadByEmail(email);
-        } catch (NoResultException nre) {
+        if (!userHome.loadByEmail(email)) {
             messages.error(BundleKeys.EMAIL_NOT_FOUND);
             return;
         }
 
-        passwordResetInitiationSuccessful = userHome.initiatePasswordReset();
+        boolean passwordResetInitiationSuccessful = userHome.initiatePasswordReset();
 
         if (passwordResetInitiationSuccessful) {
             messages.info(BundleKeys.RESET_PASSWORD_EMAIL_SENT);
@@ -63,8 +54,6 @@ public class RemindPasswordView implements Serializable {
         }
     }
 
-    @NotNull
-    @NotEmpty
     public String getEmail()
     {
         return email;

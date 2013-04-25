@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Invalidates session when user logs out.
  */
+@SuppressWarnings("UnusedDeclaration")
 @RequestScoped
 public class SessionInvalidator {
 // ------------------------------ FIELDS ------------------------------
@@ -25,7 +26,6 @@ public class SessionInvalidator {
      *
      * @param event logout event
      */
-    @SuppressWarnings("UnusedDeclaration")
     public void handlePostLoggedOutEvent(@Observes final PostLoggedOutEvent event)
     {
         httpRequest.getSession().invalidate();

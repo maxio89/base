@@ -1,18 +1,13 @@
 package pl.itcrowd.base.security;
 
-import pl.itcrowd.base.domain.RoleEnum;
-import pl.itcrowd.base.security.annotations.Admin;
-import pl.itcrowd.base.security.annotations.Authenticated;
-import pl.itcrowd.base.user.CurrentUser;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.annotations.Secures;
 import pl.itcrowd.base.domain.RoleEnum;
-import pl.itcrowd.base.security.annotations.Admin;
 import pl.itcrowd.base.security.annotations.Authenticated;
+import pl.itcrowd.base.security.annotations.permissions.AdminRole;
+import pl.itcrowd.base.security.annotations.permissions.UserRole;
 
-import javax.inject.Inject;
-
-@SuppressWarnings("UnusedDeclaration")
+@SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
 public class UserAuthorizer {
 
     /**
@@ -22,16 +17,11 @@ public class UserAuthorizer {
      *
      * @return true if authorized
      */
-
-    @Inject
-    @CurrentUser
-    private pl.itcrowd.base.domain.User currentUser;
-
     @Secures
-    @Admin
-    public boolean isAdmin(Identity identity)
+    @AdminRole
+    public boolean canManageUsers(Identity identity)
     {
-        return identity.isLoggedIn() && currentUser.getRole().equals(RoleEnum.ADMIN);
+        return identity.isLoggedIn() && identity.hasRole(RoleEnum.ADMIN.name(), "USERS", "GROUP");
     }
 
     @Secures
@@ -39,5 +29,12 @@ public class UserAuthorizer {
     public boolean isAuthenticated(Identity identity)
     {
         return identity.isLoggedIn();
+    }
+
+    @Secures
+    @UserRole
+    public boolean isUser(Identity identity)
+    {
+        return identity.isLoggedIn() && identity.hasRole(RoleEnum.USER.name(), "USERS", "GROUP");
     }
 }

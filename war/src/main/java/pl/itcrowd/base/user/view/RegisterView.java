@@ -1,12 +1,10 @@
 package pl.itcrowd.base.user.view;
 
+import org.jboss.seam.international.status.Messages;
 import pl.itcrowd.base.domain.User;
 import pl.itcrowd.base.security.PasswordDigester;
 import pl.itcrowd.base.user.business.UserHome;
 import pl.itcrowd.base.web.BundleKeys;
-import org.jboss.seam.international.status.Messages;
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.security.PasswordDigester;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -69,6 +67,5 @@ public class RegisterView implements Serializable {
         user.setPasswordDigest(new PasswordDigester().getDigest(passwordBean.getPassword()));
 
         registerCompleted = userHome.persist();
-
     }
 }

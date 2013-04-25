@@ -3,6 +3,7 @@ package pl.itcrowd.base.web;
 import org.jboss.seam.international.Alter;
 import org.jboss.solder.core.Client;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Instance;
@@ -33,6 +34,7 @@ public class LocaleSelector implements Serializable {
 
 // --------------------- GETTER / SETTER METHODS ---------------------
 
+    @Nonnull
     public List<Locale> getAvailableLocales()
     {
         if (availableLocales == null) {

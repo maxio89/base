@@ -5,6 +5,7 @@ import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
 import java.util.List;
 
+@SuppressWarnings("UnusedDeclaration")
 public abstract class HotDataModel<E> extends DataModel<E> {
 // ------------------------------ FIELDS ------------------------------
 

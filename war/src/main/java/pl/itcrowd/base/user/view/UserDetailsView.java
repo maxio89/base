@@ -1,10 +1,6 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.domain.RoleEnum;
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.framework.business.EntityHome;
-import pl.itcrowd.base.framework.view.AbstractDetailsView;
-import pl.itcrowd.base.user.business.UserHome;
+import com.google.common.collect.Lists;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.solder.logging.Logger;
@@ -14,11 +10,12 @@ import pl.itcrowd.base.framework.business.EntityHome;
 import pl.itcrowd.base.framework.view.AbstractDetailsView;
 import pl.itcrowd.base.user.business.UserHome;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 @Named
@@ -57,20 +54,22 @@ public class UserDetailsView extends AbstractDetailsView<User> implements Serial
 
     public List<RoleEnum> getAvailableRoles()
     {
-        return Arrays.asList(RoleEnum.values());
+        return Lists.newArrayList(RoleEnum.values());
     }
 
+    @Nonnull
     public User getUser()
     {
         return userHome.getInstance();
     }
 
+    @Nullable
     public Long getUserId()
     {
         return (Long) getHome().getId();
     }
 
-    public void setUserId(Long userId)
+    public void setUserId(@Nullable Long userId)
     {
         this.getHome().setId(userId);
     }

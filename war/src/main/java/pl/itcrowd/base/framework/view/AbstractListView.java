@@ -1,15 +1,14 @@
 package pl.itcrowd.base.framework.view;
 
-import pl.itcrowd.base.Constants;
-import pl.itcrowd.base.framework.business.EntityHome;
-import pl.itcrowd.base.framework.business.EntityQuery;
 import org.jboss.seam.international.status.Messages;
 import pl.itcrowd.base.Constants;
+import pl.itcrowd.base.framework.business.EntityHome;
 import pl.itcrowd.base.framework.business.EntityQuery;
 import pl.itcrowd.seam3.persistence.EntityPersisted;
 import pl.itcrowd.seam3.persistence.EntityRemoved;
 import pl.itcrowd.seam3.persistence.EntityUpdated;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -40,7 +39,7 @@ public abstract class AbstractListView<T> {
     {
     }
 
-    protected AbstractListView(EntityHome<T> entityHome, EntityQuery<T> entityQuery, Event<T> entitySelectedEvent, Messages messages)
+    protected AbstractListView(@Nonnull EntityHome<T> entityHome, @Nonnull EntityQuery<T> entityQuery, @Nonnull Event<T> entitySelectedEvent, @Nonnull Messages messages)
     {
         this.entityHome = entityHome;
         this.entityQuery = entityQuery;
@@ -50,6 +49,7 @@ public abstract class AbstractListView<T> {
 
 // --------------------- GETTER / SETTER METHODS ---------------------
 
+    @Nonnull
     public Map<T, Boolean> getEntitySelection()
     {
         return entitySelection;
@@ -69,6 +69,7 @@ public abstract class AbstractListView<T> {
         }
     }
 
+    @Nonnull
     public EntityQuery<T> getEntityList()
     {
         return entityQuery;
@@ -80,11 +81,13 @@ public abstract class AbstractListView<T> {
         entityQuery.setMaxResults(Constants.DEFAULT_MAX_RESULTS);
     }
 
+    @Nonnull
     public String removeSelectedEntities()
     {
         return ListViewHelper.removeSelectedElements(entitySelection, entityHome, messages);
     }
 
+    @Nonnull
     public String select(T entity)
     {
         entitySelectedEvent.fire(entity);
@@ -93,9 +96,10 @@ public abstract class AbstractListView<T> {
 
     /**
      * Observers for entity events
+     *
      * @param entity
      */
-    @SuppressWarnings("UnusedDeclaration")
+    @SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
     private void onEntityPersisted(@Observes(notifyObserver = Reception.IF_EXISTS) @EntityPersisted T entity)
     {
         entityQuery.refresh();

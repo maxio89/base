@@ -37,6 +37,10 @@
         </navigation-case>
     </navigation-rule>
 
+    <!-- GLOBAL RULES -->
+
+    <!-- public -->
+
     <navigation-rule>
         <navigation-case>
             <from-outcome>register</from-outcome>
@@ -45,13 +49,77 @@
     </navigation-rule>
 
     <navigation-rule>
-        <from-view-id>/view/private/userList.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>editUser</from-outcome>
-            <to-view-id>/view/private/userDetails.xhtml</to-view-id>
-            <redirect include-view-params="true"/>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/view/home.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>forgottenPassword</from-outcome>
+            <to-view-id>/view/forgottenPassword.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/view/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>remindPassword</from-outcome>
+            <to-view-id>/view/remindPassword.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>resendToken</from-outcome>
+            <to-view-id>/view/resendToken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- private -->
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>changePassword</from-outcome>
+            <to-view-id>/view/private/changePassword.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- admin -->
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>userList</from-outcome>
+            <to-view-id>/view/private/admin/userList.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>settings</from-outcome>
+            <to-view-id>/view/private/admin/settings.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>userDetails</from-outcome>
+            <to-view-id>/view/private/admin/userDetails.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!---->
+
+    <!-- OTHERS RULES -->
+
+    <!-- public -->
 
     <navigation-rule>
         <from-view-id>/view/forgottenPassword.xhtml</from-view-id>
@@ -72,5 +140,21 @@
             <to-view-id>/view/home.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+
+    <!-- private -->
+
+    <navigation-rule>
+        <from-view-id>/view/private/admin/userList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>editUser</from-outcome>
+            <to-view-id>/view/private/admin/userDetails.xhtml</to-view-id>
+            <redirect include-view-params="true"/>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- admin -->
+
+
+    <!---->
 
 </faces-config>

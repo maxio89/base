@@ -2,6 +2,7 @@ package pl.itcrowd.base.framework.view;
 
 import org.jboss.solder.logging.Logger;
 
+import javax.annotation.Nonnull;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,7 +29,7 @@ public class ExceptionFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
+    public void doFilter(@Nonnull ServletRequest request, @Nonnull ServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException
     {
         try {
             chain.doFilter(request, response);

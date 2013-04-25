@@ -2,7 +2,6 @@ package pl.itcrowd.base.language;
 
 import pl.itcrowd.base.domain.Language;
 import pl.itcrowd.base.framework.business.EntityQuery;
-import pl.itcrowd.base.framework.business.EntityQuery;
 
 import java.io.Serializable;
 

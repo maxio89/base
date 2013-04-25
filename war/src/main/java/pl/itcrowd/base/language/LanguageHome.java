@@ -1,8 +1,9 @@
 package pl.itcrowd.base.language;
 
 import pl.itcrowd.base.domain.Language;
-import pl.itcrowd.base.domain.Language;
 import pl.itcrowd.seam3.persistence.EntityHome;
+
+import javax.annotation.Nonnull;
 
 public class LanguageHome extends EntityHome<Language> {
 // -------------------------- OTHER METHODS --------------------------
@@ -17,7 +18,7 @@ public class LanguageHome extends EntityHome<Language> {
      * @throws javax.persistence.NoResultException
      *          if no language with such code is found
      */
-    public Language getLanguageByISO6391(String code)
+    public Language getLanguageByISO6391(@Nonnull String code)
     {
         return (Language) getEntityManager().createQuery("select l from Language l where l.iso6391=:iso").setParameter("iso", code).getSingleResult();
     }

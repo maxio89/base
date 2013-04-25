@@ -33,7 +33,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
 
     private String emailFromName;
 
-    @SuppressWarnings({"CdiInjectionPointsInspection", "UnusedDeclaration"})
+    @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
     private Logger logger;
 
@@ -123,7 +123,6 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
         this.replyToEmail = replyToEmail;
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public boolean isProduction()
     {
         if (production == null) {
@@ -143,7 +142,7 @@ public class ProjectConfig extends ApplicationConfig implements Serializable {
      * @param ignore
      */
     @Transactional
-    @SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
+    @SuppressWarnings("JavaDoc")
     protected void onStartup(@Observes @Initialized WebApplication ignore) throws Exception
     {
         init();

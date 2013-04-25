@@ -5,6 +5,7 @@ import pl.itcrowd.seam3.persistence.EntityHome;
 import pl.itcrowd.utils.config.Setting;
 import pl.itcrowd.utils.config.SettingDAO;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,7 +25,8 @@ public class SettingHome extends EntityHome<Setting> implements SettingDAO {
 // ------------------------ INTERFACE METHODS ------------------------
 
     @Override
-    public Setting load(String id)
+    @Nonnull
+    public Setting load(@Nonnull String id)
     {
         clearInstance();
         setId(id);
@@ -32,7 +34,8 @@ public class SettingHome extends EntityHome<Setting> implements SettingDAO {
     }
 
     @Override
-    public Setting save(Setting setting)
+    @Nonnull
+    public Setting save(@Nonnull Setting setting)
     {
         clearInstance();
         setInstance(setting);

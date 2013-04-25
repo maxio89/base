@@ -18,11 +18,10 @@ public class UserList extends EntityQuery<User> implements Serializable {
     {
         setEjbql("select distinct u from User u");
 
-        //search criteria for user entity (by firstname, lastname or email)
-        final FreeCondition firstnameCondition = new FreeCondition("lower(u.firstName) like lower(concat(", searchCriteria.nameBridge, ",'%'))");
-        final FreeCondition lastnameCondition = new FreeCondition("lower(u.lastName) like lower(concat(", searchCriteria.nameBridge, ",'%'))");
+        final FreeCondition firstNameCondition = new FreeCondition("lower(u.firstName) like lower(concat(", searchCriteria.nameBridge, ",'%'))");
+        final FreeCondition lastNameCondition = new FreeCondition("lower(u.lastName) like lower(concat(", searchCriteria.nameBridge, ",'%'))");
         final FreeCondition emailCondition = new FreeCondition("lower(u.email) like lower(concat(", searchCriteria.nameBridge, ",'%'))");
-        final AbstractCondition anyNameCondition = new OrCondition(firstnameCondition, lastnameCondition, emailCondition);
+        final AbstractCondition anyNameCondition = new OrCondition(firstNameCondition, lastNameCondition, emailCondition);
         setConditions(Arrays.asList(anyNameCondition));
     }
 

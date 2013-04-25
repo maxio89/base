@@ -1,7 +1,5 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.user.business.UserHome;
 import org.apache.commons.lang.StringUtils;
 import pl.itcrowd.base.domain.User;
 import pl.itcrowd.base.user.business.UserHome;
@@ -9,7 +7,6 @@ import pl.itcrowd.base.user.business.UserHome;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 
 @Named
 @RequestScoped
@@ -63,9 +60,9 @@ public class ActivateAccountView {
     {
         final User user;
 
-        try {
-            user = userHome.loadByEmail(this.email);
-        } catch (NoResultException nre) {
+        if (userHome.loadByEmail(email)) {
+            user = userHome.getInstance();
+        } else {
             return;
         }
 

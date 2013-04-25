@@ -1,5 +1,6 @@
 package pl.itcrowd.base.util;
 
+import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Image;
@@ -11,7 +12,8 @@ import java.io.Serializable;
 
 public class ImageScaling implements Serializable {
 
-    public byte[] scale(byte[] fileData, int width, int height) throws IOException
+    @Nonnull
+    public byte[] scale(@Nonnull byte[] fileData, int width, int height) throws IOException
     {
         ByteArrayInputStream in = new ByteArrayInputStream(fileData);
         BufferedImage img = ImageIO.read(in);

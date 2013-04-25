@@ -2,6 +2,7 @@ package pl.itcrowd.base;
 
 import org.jboss.solder.exception.control.ExceptionStack;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,6 +24,7 @@ public class ExceptionView {
 
 // --------------------- GETTER / SETTER METHODS ---------------------
 
+    @Nonnull
     public List<Throwable> getCauses()
     {
         if (causes == null) {

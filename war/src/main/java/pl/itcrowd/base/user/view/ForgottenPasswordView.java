@@ -1,8 +1,5 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.Constants;
-import pl.itcrowd.base.user.business.UserHome;
-import pl.itcrowd.base.web.BundleKeys;
 import org.jboss.seam.international.status.Messages;
 import pl.itcrowd.base.Constants;
 import pl.itcrowd.base.user.business.UserHome;

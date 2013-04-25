@@ -116,7 +116,7 @@
     border: 1px solid rgba(182, 171, 184, 0.52);
     border-radius: 6px;
 
-    background: rgba(245, 234, 244, 0.76);
+    background: rgba(255, 255, 255, 0.75);
 }
 
 .rf-ntf-det {
@@ -148,11 +148,6 @@
 .rf-cal-inp {
     width: 120px
 }
-
-/*.rf-dt .table th, .rf-dt .table td {*/
-/*text-align: center;*/
-/*padding: 2px;*/
-/*}*/
 
 /*Richfaces input slider*/
 .rf-insp {
@@ -426,12 +421,12 @@ i.icon {
 .rf-fu-btn-cnt-add.active,
 .rf-ds-btn:active,
 .rf-ds-btn.active {
-    background-color: #24748c                                         \9;
+    background-color: #24748c                                           \9;
 }
 
 .rf-ds-btn:active,
 .rf-ds-btn.active {
-    background-color: #cccccc                               \9;
+    background-color: #cccccc                                 \9;
 }
 
 .rf-ds-btn:active,

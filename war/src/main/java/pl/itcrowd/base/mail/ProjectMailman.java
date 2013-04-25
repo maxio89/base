@@ -1,17 +1,18 @@
 package pl.itcrowd.base.mail;
 
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.setting.business.ProjectConfig;
-import pl.itcrowd.base.web.BundleKeys;
-import pl.itcrowd.base.web.LocaleSelector;
 import org.apache.commons.lang.LocaleUtils;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 import org.jboss.seam.mail.api.MailMessage;
 import org.jboss.seam.mail.core.EmailContact;
 import org.jboss.seam.mail.templating.freemarker.FreeMarkerTemplate;
 import org.jboss.solder.resourceLoader.ResourceProvider;
+import pl.itcrowd.base.domain.User;
+import pl.itcrowd.base.setting.business.ProjectConfig;
+import pl.itcrowd.base.web.BundleKeys;
+import pl.itcrowd.base.web.LocaleSelector;
 import pl.itcrowd.seam3.mailman.Mailman;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 public class ProjectMailman {
 
+    @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
     private ProjectConfig projectConfig;
 
@@ -32,6 +34,7 @@ public class ProjectMailman {
     @Inject
     private BundleTemplateMessage messageBuilder;
 
+    @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
     private ResourceProvider resourceProvider;
 
@@ -48,7 +51,7 @@ public class ProjectMailman {
      * @param user          recipient
      * @param passChangeURL URL with password change link
      */
-    public void sendPasswordChangeMail(User user, String passChangeURL)
+    public void sendPasswordChangeMail(@Nonnull User user, @Nonnull String passChangeURL)
     {
         Locale before = localeSelector.getSelectedLocale();
         Locale localeForMail = LocaleUtils.toLocale(user.getClientLanguage());
@@ -88,7 +91,7 @@ public class ProjectMailman {
      * @param user             recipient
      * @param activeAccountUrl URL with activation link
      */
-    public void sendRegistrationMail(User user, String activeAccountUrl)
+    public void sendRegistrationMail(@Nonnull User user, @Nonnull String activeAccountUrl)
     {
         BundleTemplateMessage messageBuilder = messageBuilderFactory.get();
         final String subject = messageBuilder.key(BundleKeys.REGISTER_EMAIL_SUBJECT).build().getText();
@@ -126,7 +129,7 @@ public class ProjectMailman {
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-        private EmailContactImpl(String name, String address)
+        private EmailContactImpl(@Nonnull String name, @Nonnull String address)
         {
             this.name = name;
             this.address = address;

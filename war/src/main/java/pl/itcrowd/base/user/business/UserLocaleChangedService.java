@@ -1,11 +1,10 @@
 package pl.itcrowd.base.user.business;
 
-import pl.itcrowd.base.domain.User;
-import pl.itcrowd.base.user.CurrentUser;
-import pl.itcrowd.base.web.LocaleSelector;
 import org.apache.commons.lang.LocaleUtils;
 import org.jboss.seam.security.events.LoggedInEvent;
 import pl.itcrowd.base.domain.User;
+import pl.itcrowd.base.user.CurrentUser;
+import pl.itcrowd.base.web.LocaleSelector;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -24,7 +23,6 @@ public class UserLocaleChangedService {
 
     private LocaleSelector localeSelector;
 
-    @SuppressWarnings("UnusedDeclaration")
     public UserLocaleChangedService()
     {
     }
@@ -38,7 +36,6 @@ public class UserLocaleChangedService {
         this.localeSelector = localeSelector;
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public void onUserLocaleChange(@Observes @UserLocaleChanged Locale locale)
     {
         if (currentUser != null && currentUser.getId() != null && !currentUser.getClientLanguage().equals(locale.getLanguage())) {
@@ -47,7 +44,6 @@ public class UserLocaleChangedService {
         }
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public void onUserLogin(@Observes final LoggedInEvent event)
     {
         if (currentUser != null) {

@@ -1,7 +1,5 @@
 package pl.itcrowd.base.user.view;
 
-import pl.itcrowd.base.user.business.UserHome;
-import pl.itcrowd.base.web.BundleKeys;
 import org.hibernate.validator.constraints.Email;
 import org.jboss.seam.international.status.Messages;
 import pl.itcrowd.base.user.business.UserHome;

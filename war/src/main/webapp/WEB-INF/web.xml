@@ -28,11 +28,16 @@
     </context-param>
     <context-param>
         <param-name>org.richfaces.skin</param-name>
-        <param-value>emeraldTown</param-value>
+        <param-value>plain</param-value>
     </context-param>
     <context-param>
         <param-name>org.richfaces.enableControlSkinning</param-name>
         <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <description>Richfaces FileUpload - attribute defines max size in bytes of the uploaded files</description>
+        <param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
+        <param-value>1000000</param-value>
     </context-param>
 
     <filter>
@@ -45,13 +50,13 @@
     </filter-mapping>
 
     <!--<servlet>-->
-        <!--<servlet-name>Photos Servlet</servlet-name>-->
-        <!--<servlet-class>pl.itcrowd.base.web.PhotoServlet</servlet-class>-->
-        <!--<load-on-startup>1</load-on-startup>-->
+    <!--<servlet-name>Photos Servlet</servlet-name>-->
+    <!--<servlet-class>pl.itcrowd.base.web.PhotoServlet</servlet-class>-->
+    <!--<load-on-startup>1</load-on-startup>-->
     <!--</servlet>-->
     <!--<servlet-mapping>-->
-        <!--<servlet-name>Photos Servlet</servlet-name>-->
-        <!--<url-pattern>/avatar</url-pattern>-->
+    <!--<servlet-name>Photos Servlet</servlet-name>-->
+    <!--<url-pattern>/avatar</url-pattern>-->
     <!--</servlet-mapping>-->
 
     <servlet>
@@ -67,7 +72,7 @@
     <session-config>
         <session-timeout>1</session-timeout>
         <!--<cookie-config>-->
-            <!--<max-age>-1</max-age>-->
+        <!--<max-age>-1</max-age>-->
         <!--</cookie-config>-->
     </session-config>
     <security-constraint>

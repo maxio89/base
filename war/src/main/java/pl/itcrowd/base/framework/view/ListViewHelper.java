@@ -1,10 +1,11 @@
 package pl.itcrowd.base.framework.view;
 
-import pl.itcrowd.base.framework.business.EntityHome;
-import pl.itcrowd.base.web.BundleKeys;
 import org.hibernate.exception.ConstraintViolationException;
 import org.jboss.seam.international.status.Messages;
+import pl.itcrowd.base.framework.business.EntityHome;
+import pl.itcrowd.base.web.BundleKeys;
 
+import javax.annotation.Nonnull;
 import javax.persistence.PersistenceException;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +23,8 @@ public final class ListViewHelper {
     {
     }
 
-    public static <T> String removeSelectedElements(Map<T, Boolean> selection, EntityHome<T> dao, Messages messages)
+    @Nonnull
+    public static <T> String removeSelectedElements(@Nonnull Map<T, Boolean> selection, @Nonnull EntityHome<T> dao, @Nonnull Messages messages)
     {
         Set<T> elementsToRemove = new HashSet<T>();
         for (Map.Entry<T, Boolean> entry : selection.entrySet()) {

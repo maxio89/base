@@ -1,7 +1,5 @@
 package pl.itcrowd.base.framework.view;
 
-import pl.itcrowd.base.framework.business.ExceptionMessage;
-import pl.itcrowd.base.web.BundleKeys;
 import org.jboss.seam.faces.qualifier.Faces;
 import org.jboss.solder.exception.control.CaughtException;
 import org.jboss.solder.exception.control.Handles;
@@ -9,7 +7,10 @@ import org.jboss.solder.exception.control.HandlesExceptions;
 import org.jboss.solder.exception.control.Precedence;
 import org.jboss.solder.exception.control.TraversalMode;
 import org.jboss.solder.logging.Logger;
+import pl.itcrowd.base.framework.business.ExceptionMessage;
+import pl.itcrowd.base.web.BundleKeys;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.context.NonexistentConversationException;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.FacesContext;
@@ -28,17 +29,15 @@ public class ExceptionHandler {
 
 // -------------------------- OTHER METHODS --------------------------
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void handleEntityNotFoundException(@Handles @Faces CaughtException<EntityNotFoundException> event, ExceptionMessage message, FacesContext context)
+    public void handleEntityNotFoundException(@Handles @Faces CaughtException<EntityNotFoundException> event, @Nonnull ExceptionMessage message, @Nonnull FacesContext context)
     {
         message.setMessage(BundleKeys.ENTITY_NOT_FOUND);
         redirect(context, "/view/404.jsf");
         event.handled();
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
     public void handleException(@Handles(precedence = Precedence.BUILT_IN, during = TraversalMode.DEPTH_FIRST) @Faces CaughtException<Throwable> event,
-                                FacesContext context)
+                                @Nonnull FacesContext context)
     {
         //noinspection ThrowableResultOfMethodCallIgnored
         log.infov("Handling exception {0}", event.getException());
@@ -46,28 +45,26 @@ public class ExceptionHandler {
         event.handled();
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void handleNonexistentConversationException(@Handles @Faces CaughtException<NonexistentConversationException> event, ExceptionMessage message,
-                                                       FacesContext context)
+    public void handleNonexistentConversationException(@Handles @Faces CaughtException<NonexistentConversationException> event, @Nonnull ExceptionMessage message,
+                                                       @Nonnull FacesContext context)
     {
         handleSessionTimeout(context, message);
         event.handled();
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void handleViewExpiredException(@Handles @Faces CaughtException<ViewExpiredException> event, ExceptionMessage message, FacesContext context)
+    public void handleViewExpiredException(@Handles @Faces CaughtException<ViewExpiredException> event, @Nonnull ExceptionMessage message, @Nonnull FacesContext context)
     {
         handleSessionTimeout(context, message);
         event.handled();
     }
 
-    private void handleSessionTimeout(FacesContext context, ExceptionMessage message)
+    private void handleSessionTimeout(@Nonnull FacesContext context, @Nonnull ExceptionMessage message)
     {
         message.setMessage(BundleKeys.SESSION_TIMEOUT);
         redirect(context, "/view/login.jsf");
     }
 
-    private void redirect(FacesContext context, String path)
+    private void redirect(@Nonnull FacesContext context, @Nonnull String path)
     {
         try {
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();

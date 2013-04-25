@@ -1,10 +1,5 @@
 package pl.itcrowd.base.framework.view;
 
-import pl.itcrowd.base.domain.Translatable;
-import pl.itcrowd.base.framework.business.EntityHome;
-import pl.itcrowd.base.framework.business.EntitySelected;
-import pl.itcrowd.base.domain.Language;
-import pl.itcrowd.base.language.LanguageList;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.solder.core.Veto;
 import org.jboss.solder.logging.Logger;
@@ -14,6 +9,7 @@ import pl.itcrowd.base.framework.business.EntityHome;
 import pl.itcrowd.base.framework.business.EntitySelected;
 import pl.itcrowd.base.language.LanguageList;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
@@ -23,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings("CdiManagedBeanInconsistencyInspection")
+@SuppressWarnings({"CdiManagedBeanInconsistencyInspection", "UnusedDeclaration"})
 @Veto
 public abstract class AbstractTranslatableDetailsView<E extends Translatable<T>, T> extends AbstractDetailsView<E> {
 // ------------------------------ FIELDS ------------------------------
@@ -42,7 +38,7 @@ public abstract class AbstractTranslatableDetailsView<E extends Translatable<T>,
         super();
     }
 
-    protected AbstractTranslatableDetailsView(Logger logger, Messages messages, LanguageList languageList)
+    protected AbstractTranslatableDetailsView(@Nonnull Logger logger, @Nonnull Messages messages, @Nonnull LanguageList languageList)
     {
         super(logger, messages);
         this.languageList = languageList;
@@ -58,6 +54,7 @@ public abstract class AbstractTranslatableDetailsView<E extends Translatable<T>,
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
+    @Nonnull
     public String createNew()
     {
         final String result = super.createNew();
@@ -73,6 +70,7 @@ public abstract class AbstractTranslatableDetailsView<E extends Translatable<T>,
     }
 
     @Override
+    @Nonnull
     public String save()
     {
         final EntityHome<E> home = getHome();
