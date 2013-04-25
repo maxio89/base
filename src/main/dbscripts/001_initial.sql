@@ -44,8 +44,11 @@ CREATE TABLE user_remind_password_token (
 
 CREATE TABLE remember_me_token (
   id bigint NOT NULL,
-  date timestamp without time zone,
+  created timestamp without time zone NOT NULL,
+  last_use timestamp without time zone NOT NULL,
+  remote_addr character varying(63),
   token character varying(255) NOT NULL,
+  user_agent_hash character varying(255),
   user_id bigint NOT NULL
 );
 
