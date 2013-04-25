@@ -22,8 +22,6 @@ import java.util.Date;
 @Table(name = "REMEMBER_ME_TOKEN")
 public class RememberMeToken implements Serializable {
 
-    //TODO update initial.sql
-
     @Id
     @GeneratedValue(generator = "REMEMBER_ME_TOKEN_ID_SEQUENCE", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "REMEMBER_ME_TOKEN_ID_SEQUENCE", sequenceName = "REMEMBER_ME_TOKEN_ID_SEQUENCE", allocationSize = 1, initialValue = 1)

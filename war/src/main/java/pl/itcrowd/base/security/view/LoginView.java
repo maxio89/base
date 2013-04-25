@@ -72,5 +72,10 @@ public class LoginView implements Serializable {
     {
         this.password = password;
     }
+
+    public boolean isAutoLogged()
+    {
+        return rememberMeService.isUserAutologged();
+    }
 }
 

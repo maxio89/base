@@ -17,10 +17,6 @@ import javax.persistence.NoResultException;
 
 @SuppressWarnings("UnusedDeclaration")
 public class UserAuthenticator extends BaseAuthenticator implements Authenticator {
-// ------------------------ INTERFACE METHODS ------------------------
-
-
-// --------------------- Interface Authenticator ---------------------
 
     @Inject
     private Credentials credentials;
@@ -37,16 +33,13 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
     private Messages messages;
 
     @Inject
-    private PasswordDigester passwordDigester;
-
-    @Inject
     private Identity identity;
 
     @Override
     public void authenticate()
     {
         final PasswordCredential credential = (PasswordCredential) credentials.getCredential();
-        final String password = credential == null ? "" : passwordDigester.getDigest(credential.getValue());
+        final String password = credential == null ? "" : credential.getValue();
         String username = credentials.getUsername();
         if (username == null) {
             username = "";
@@ -62,7 +55,7 @@ public class UserAuthenticator extends BaseAuthenticator implements Authenticato
             identity.addRole(user.getRole().toString(), "USERS", "GROUP");
         } catch (NoResultException e) {
             messages.error(BundleKeys.AUTHORIZATION_EXCEPTION);
-            log.info("Authentication error for user:" + username + " with password:" + password);
+            log.info("Authentication error for user:" + username);
             setStatus(AuthenticationStatus.FAILURE);
         }
     }

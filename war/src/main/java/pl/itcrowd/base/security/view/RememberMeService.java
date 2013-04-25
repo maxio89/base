@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.PreLoggedOutEvent;
+import org.jboss.seam.transaction.Transactional;
 import org.jboss.solder.logging.Logger;
 import org.jboss.solder.servlet.event.Initialized;
 import org.picketlink.idm.impl.api.PasswordCredential;
@@ -11,8 +12,11 @@ import pl.itcrowd.base.domain.RememberMeToken;
 import pl.itcrowd.base.domain.User;
 import pl.itcrowd.base.user.CurrentUser;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Instance;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -65,8 +69,12 @@ public class RememberMeService implements Serializable {
 
     private boolean userAutologged;
 
+    private boolean sessionStarted;
+
+    @Transactional
     public void createRememberMeToken()
     {
+        collectUserDetails();
         EntityManager entityManager = entityManagerInstance.get();
         User user = currentUser.get();
         if (user != null && user.getId() != null) {
@@ -116,66 +124,72 @@ public class RememberMeService implements Serializable {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public void observeSessionInitialized(@Observes @Initialized HttpSession session)
+    @Transactional
+    public void observeSessionInitialized(@Observes(notifyObserver = Reception.ALWAYS) @Initialized HttpSession session)
     {
-        collectUserDetails();
-
-        final Map<String, Object> requestCookieMap = facesContext.getExternalContext().getRequestCookieMap();
-
-        if (requestCookieMap != null && requestCookieMap.size() > 0 && requestCookieMap.containsKey(COOKIE_NAME)) {
-            Cookie cookie = (Cookie) requestCookieMap.get(COOKIE_NAME);
-            String tokenFromCookie = cookie.getValue();
-
+        if (!sessionStarted) {
+            sessionStarted = true;
+            collectUserDetails();
             if (token == null) {
                 return;
             }
 
-            RememberMeToken token = findToken(tokenFromCookie);
-            if (token == null) {
+            RememberMeToken rMtoken = findToken(token);
+            if (rMtoken == null) {
                 return;
             }
 
-            boolean tokenValid = validateToken(token);
+            boolean tokenValid = validateToken(rMtoken);
 
             if (!tokenValid) {
-                removeRememberMeToken(token.getToken());
+                removeRememberMeToken(rMtoken.getToken());
                 return;
             }
 
-            User user = token.getUser();
-
+            User user = rMtoken.getUser();
             credentials.setUsername(user.getEmail());
             credentials.setCredential(new PasswordCredential(user.getPasswordDigest()));
-            identity.quietLogin();
+            identity.login();
             userAutologged = true;
         }
     }
 
     @SuppressWarnings("UnusedDeclaration")
+    @Transactional
     public void onLogout(@Observes PreLoggedOutEvent event)
     {
-        if (userAutologged && token != null) {
+        if (token != null) {
             removeRememberMeToken(token);
         }
     }
 
-    public void removeRememberMeToken(String token)
+    @Transactional
+    public void removeRememberMeToken(@Nonnull String token)
     {
         final String query = "delete from RememberMeToken t where t.token=:token";
-        int ignore = entityManagerInstance.get().createQuery(query).setParameter("token", token).executeUpdate();
+        entityManagerInstance.get().createQuery(query).setParameter("token", token).executeUpdate();
     }
 
-    private void collectUserDetails()
+    public void collectUserDetails()
     {
-        final ExternalContext externalContext = facesContext.getExternalContext();
-        remoteAddr = ((HttpServletRequest) externalContext.getRequest()).getRemoteAddr();
-        String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
-        if (userAgent != null) {
-            userAgentHash = DigestUtils.md5Hex(userAgent);
+        if (remoteAddr == null || userAgentHash == null) {
+            final ExternalContext externalContext = facesContext.getExternalContext();
+            remoteAddr = ((HttpServletRequest) externalContext.getRequest()).getRemoteAddr();
+            String userAgent = externalContext.getRequestHeaderMap().get("User-Agent");
+            if (userAgent != null) {
+                userAgentHash = DigestUtils.md5Hex(userAgent);
+            }
+
+            final Map<String, Object> requestCookieMap = externalContext.getRequestCookieMap();
+            if (requestCookieMap != null && requestCookieMap.size() > 0 && requestCookieMap.containsKey(COOKIE_NAME)) {
+                Cookie cookie = (Cookie) requestCookieMap.get(COOKIE_NAME);
+                token = cookie.getValue();
+            }
         }
     }
 
-    private RememberMeToken findToken(String token)
+    @Transactional
+    private RememberMeToken findToken(@Nonnull String token)
     {
         String query = "select t from RememberMeToken t where t.token=:token";
         EntityManager em = entityManagerInstance.get();
@@ -186,13 +200,15 @@ public class RememberMeService implements Serializable {
         }
     }
 
+    @Nonnull
     private String getUniqueToken()
     {
         return UUID.randomUUID().toString();
     }
 
-    private boolean validateToken(RememberMeToken token)
+    private boolean validateToken(@Nullable RememberMeToken rMToken)
     {
-        return token != null && token.getToken().equals(this.token) && token.getRemoteAddr().equals(remoteAddr) && token.getUserAgentHash().equals(userAgentHash);
+        return token != null && rMToken != null && rMToken.getToken().equals(this.token) && rMToken.getRemoteAddr().equals(remoteAddr) && rMToken.getUserAgentHash()
+            .equals(userAgentHash);
     }
 }
