@@ -6,7 +6,9 @@ import org.jboss.seam.mail.api.MailMessage;
 import org.jboss.seam.mail.core.EmailContact;
 import org.jboss.seam.mail.templating.freemarker.FreeMarkerTemplate;
 import org.jboss.solder.resourceLoader.ResourceProvider;
+import pl.itcrowd.base.domain.Order;
 import pl.itcrowd.base.domain.User;
+import pl.itcrowd.base.framework.business.EnumTranslator;
 import pl.itcrowd.base.setting.business.ProjectConfig;
 import pl.itcrowd.base.web.BundleKeys;
 import pl.itcrowd.base.web.LocaleSelector;
@@ -20,6 +22,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ProjectMailman {
+
+    @Inject
+    private EnumTranslator enumTranslator;
 
     @SuppressWarnings("CdiInjectionPointsInspection")
     @Inject
@@ -116,6 +121,46 @@ public class ProjectMailman {
             .bodyHtml(new FreeMarkerTemplate(resourceProvider.loadResourceStream("mail/registration.html.ftl")))
             .put(context);
         mailman.send(mailMessage.mergeTemplates());
+    }
+
+    public void sendOrderStatusChangedNotification(User user, Order order)
+    {
+        if (user == null || order == null) {
+            throw new IllegalArgumentException("User or order was null");
+        }
+
+        Locale before = localeSelector.getSelectedLocale();
+        Locale localeForMail = LocaleUtils.toLocale(user.getClientLanguage());
+        localeSelector.setSelectedLocale(localeForMail);
+
+        BundleTemplateMessage messageBuilder = messageBuilderFactory.get();
+
+        final String subject = messageBuilder.key(BundleKeys.ORDER_STATUS_CHANGED_SUBJECT).build().getText();
+       /*TODO uncomment when getName() was added*/
+//        final String dearUser = messageBuilder.key(BundleKeys.MAIL_DEAR_USER_HEADER).params(user.getName()).build().getText();
+        final String orderStatusInfo = messageBuilder.key(BundleKeys.ORDER_STATUS_CHANGED_INFO).build().getText();
+        final String currentStatusLabel = messageBuilder.key(BundleKeys.ORDER_STATUS_CHANGED_CURR_LABEL).build().getText();
+        final String orderInfo = messageBuilder.key(BundleKeys.ORDER_STATUS_CHANGED_ORDER_INFO).build().getText();
+        final String orderStatus = enumTranslator.translate(order.getStatus());
+
+        final Map<String, Object> context = new HashMap<String, Object>();
+        context.put("user", user);
+        context.put("order", order);
+//        context.put("dearUser", dearUser);
+        context.put("orderStatus", orderStatus);
+        context.put("orderStatusInfo", orderStatusInfo);
+        context.put("currentStatusLabel", currentStatusLabel);
+        context.put("orderInfo", orderInfo);
+
+        mailMessage.from(new EmailContactImpl(projectConfig.getEmailFromName(), projectConfig.getEmailFromAddress()))
+            .replyTo(projectConfig.getReplyToEmail())
+            .to(user.getEmail())
+            .subject(subject)
+            .bodyHtml(new FreeMarkerTemplate(resourceProvider.loadResourceStream("mail/orderStatus.html.ftl")))
+            .put(context);
+        mailman.send(mailMessage.mergeTemplates());
+
+        localeSelector.setSelectedLocale(before);
     }
 
 // -------------------------- INNER CLASSES --------------------------

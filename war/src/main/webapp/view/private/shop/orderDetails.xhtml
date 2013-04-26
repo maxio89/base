@@ -1,0 +1,177 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:rich="http://richfaces.org/rich" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:s="http://jboss.org/seam/faces"
+                template="/layout/template.xhtml">
+
+    <ui:param name="bodyStyleClass" value="my-account"/>
+
+    <ui:param name="activeStyleOrders" value="ACTIVE"/>
+
+    <ui:define name="body">
+        <f:metadata>
+            <f:viewParam name="orderId" value="#{orderDetailsView.orderId}"/>
+            <s:viewAction action="#{orderDetailsView.initView}"/>
+        </f:metadata>
+
+        <cu:underlinedHeader value="#{messages['view.orderDetails.header']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+
+            <ui:include src="/layout/myAccountNav.xhtml"/>
+
+            <div class="row-fluid">
+                <ui:include src="/layout/myAccountOrdersNav.xhtml"/>
+
+                <div class="span9">
+                    <h:form styleClass="form-horizontal">
+                        <p class="modal-header">#{messages['view.orderDetails.header']}</p>
+
+                        <cu:edit label="#{domain['Order.id']}">
+                            <h:outputText value="#{orderDetailsView.order.id}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['Order.status']}">
+                            <h:outputText value="#{enumTranslator.translate(orderDetailsView.order.status)}"/>
+                        </cu:edit>
+
+                        <p class="modal-header">#{domain['Order.buyer']}</p>
+
+                        <cu:edit label="#{domain['User.firstName']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerFirstName}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.lastName']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerLastName}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.address1']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerAddress1}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.address2']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerAddress2}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.city']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerCity}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.zipCode']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerZipCode}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.regionState']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerRegion}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.country']}">
+                            <h:outputText value="#{orderDetailsView.order.buyerCountry}"/>
+                        </cu:edit>
+
+                        <p class="modal-header">#{domain['Order.seller']}</p>
+
+                        <cu:edit label="#{domain['User.firstName']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerFirstName}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.lastName']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerLastName}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.address1']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerAddress1}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.address2']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerAddress2}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.city']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerCity}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.zipCode']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerZipCode}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.regionState']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerRegion}"/>
+                        </cu:edit>
+
+                        <cu:edit label="#{domain['User.country']}">
+                            <h:outputText value="#{orderDetailsView.order.sellerCountry}"/>
+                        </cu:edit>
+
+                        <p class="modal-header">#{messages['view.orderDetails.orderedItems']}</p>
+
+                        <rich:dataTable value="#{orderDetailsView.order.lineItems}" var="item" rows="#{orderDetailsView.order.lineItems.size}" styleClass="table">
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.name']}</f:facet>
+                                <h:outputText value="#{item.name}" rendered="#{item.product==null}"/>
+                                <h:link value="#{item.name}" outcome="product" rendered="#{item.product!=null}">
+                                    <f:param name="productId" value="#{item.product.id}"/>
+                                </h:link>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.pricePerUnit']}</f:facet>
+                                #{item.pricePerUnit}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.quantity']}</f:facet>
+                                #{item.quantity}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.totalPrice']}</f:facet>
+                                #{item.totalPrice}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.shippingCost']}</f:facet>
+                                #{item.shippingCost}
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">#{domain['OrderItem.totalWShipping']}</f:facet>
+                                #{item.totalPrice.add(item.shippingCost)}
+                            </rich:column>
+                        </rich:dataTable>
+
+                        <p class="modal-header">#{messages['view.orderDetails.summaryPrices']}</p>
+                        <cu:edit label="#{messages['view.orderDetails.summaryPrice']}">
+                            <h:outputText value="#{orderDetailsView.order.totalPrice.subtract(orderDetailsView.order.shippingPrice)}"/>
+                        </cu:edit>
+                        <cu:edit label="#{messages['view.orderDetails.summaryShipping']}">
+                            <h:outputText value="#{orderDetailsView.order.shippingPrice}"/>
+                        </cu:edit>
+                        <cu:edit label="#{messages['view.orderDetails.summaryTotal']}">
+                            <h:outputText value="#{orderDetailsView.order.totalPrice}"/>
+                        </cu:edit>
+
+                        <h:panelGroup rendered="#{orderDetailsView.showBuyCreditsOption}">
+                            <div class="text-center alert alert-error">
+                                #{messages['view.orderDetails.buyAdditionalCredits']}
+                                <h:button value="#{messages['view.orderDetails.buyAdditionalCreditsBtn']}" outcome="buyCredits" styleClass="btn btn-info">
+                                    <f:param name="predefinedQuantity" value="#{orderDetailsView.buyDifferenceValue}"/>
+                                </h:button>
+                            </div>
+                        </h:panelGroup>
+
+                        <rich:panel styleClass="noMargin noborder no-padding" rendered="#{not orderDetailsView.showBuyCreditsOption}">
+                            <cu:edit label="#{messages['view.orderDetails.changeShippingPrice']}" rendered="#{orderDetailsView.changeShippingPriceAvailable}">
+                                <h:inputText value="#{orderDetailsView.shippingPrice}"/>
+                            </cu:edit>
+                            <h:commandButton
+                                    value="#{messages['view.orderDetails.changeStatus']} #{orderDetailsView.nextAvailableStatus!=null ? enumTranslator.translate(orderDetailsView.nextAvailableStatus) : ''}"
+                                    action="#{orderDetailsView.changeOrderStatus}" styleClass="btn btn-info" disabled="#{orderDetailsView.nextAvailableStatus==null}"/>
+                        </rich:panel>
+
+                        <div class="form-actions">
+                            <h:button outcome="list" value="#{messages['CRUD.back']}" styleClass="btn pull-left"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

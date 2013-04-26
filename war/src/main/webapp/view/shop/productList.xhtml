@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich" xmlns:cu="http://java.sun.com/jsf/composite/components">
+
+    <div class="span9 products">
+
+        <div class="row-fluid">
+            <h:form styleClass="form-inline pull-right">
+                <h:outputLabel for="sort" value="#{messages['view.productList.sortBy']} " styleClass="label label-info "/>
+                <h:selectOneMenu id="sort" value="#{marketplaceView.sortBy}">
+                    <f:selectItems value="#{enumValues.sortBy}" var="enum" itemLabel="#{enumTranslator.translate(enum)}" itemValue="#{enum}"/>
+
+                    <a4j:ajax event="change" render="panel scroller"/>
+                </h:selectOneMenu>
+                <h:outputLabel for="rows" value="#{messages['view.productList.show']} " styleClass="label label-info"/>
+                <h:selectOneMenu id="rows" value="#{marketplaceView.productList.maxResults}">
+                    <f:selectItem itemLabel="8" itemValue="8"/>
+                    <f:selectItem itemLabel="12" itemValue="12"/>
+                    <f:selectItem itemLabel="16" itemValue="16"/>
+                    <a4j:ajax event="change" render="panel scroller"/>
+                </h:selectOneMenu>
+
+            </h:form>
+        </div>
+        <a4j:outputPanel id="panel" layout="block">
+
+            <div id="row_0" class="row-fluid marginTop10">
+                <a4j:repeat value="#{marketplaceView.productList.dataModel}" var="product" id="repeat" rows="#{marketplaceView.productList.maxResults}" iterationStatusVar="idx">
+                    <!--@elvariable id="product" type="com.base.domain.Product"-->
+                    <h:outputText value="&lt;/div&gt;&lt;div id='row_#{idx.index}' class='row-fluid marginTop10'&gt;" escape="false"
+                                  rendered="#{not idx.first and idx.index%4==0 and idx.index!=0}"/>
+
+                    <cu:productBox product="#{product}" bestPrice="#{marketplaceView.getBestPriceForProduct(product)}" photoSize="144"/>
+
+                </a4j:repeat>
+            </div>
+
+
+        </a4j:outputPanel>
+
+        <div class="row-fluid scroller marginTop10">
+            <a4j:outputPanel id="scroller" layout="block">
+                <rich:dataScroller id="chargerScr" boundaryControls="hide" for="repeat" maxPages="5" stepControls="auto" fastControls="hide" renderIfSinglePage="true"
+                                   render="panel">
+                    <f:facet name="previous">
+                        <i class="icon-caret-left"/>
+                    </f:facet>
+                    <f:facet name="next">
+                        <i class="icon-caret-right"/>
+                    </f:facet>
+                </rich:dataScroller>
+            </a4j:outputPanel>
+        </div>
+
+    </div>
+
+</ui:composition>
+</html>

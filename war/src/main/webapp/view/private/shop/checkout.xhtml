@@ -1,0 +1,152 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cu="http://java.sun.com/jsf/composite/components"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:itc="http://it-crowd.com.pl/jsf"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.org/seam/faces" template="/layout/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="dummy"/>
+        <s:viewAction action="#{checkoutView.initView}"/>
+        <s:viewAction action="#{checkoutView.isCartEmpty}"/>
+    </f:metadata>
+
+    <ui:param name="bodyStyleClass" value="cart"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.checkout.header']}"/>
+
+        <h:panelGroup styleClass="" rendered="#{checkoutView.insufficientFunds}">
+            <div class="span12 text-center alert alert-error">
+                #{messages['view.checkout.insufficientFundsBuyMore']}
+                <h:button value="#{messages['view.checkout.buyMoreCredits']}" outcome="buyCredits" styleClass="btn btn-info text-right">
+                    <f:param name="predefinedQuantity" value="#{checkoutView.buyDifferenceValue}"/>
+                </h:button>
+            </div>
+        </h:panelGroup>
+
+        <!-- content area -->
+        <div class="span12">
+
+            <h:form id="rF" styleClass="form-horizontal">
+                <p class="modal-header row-bold">#{messages['view.checkout.buyerDetails']}</p>
+
+                <cu:editVertical id="firstName" label="#{domain['User.firstName']}">
+                    <h:outputText id="i" value="#{checkoutView.order.buyer.firstName}"/>
+                </cu:editVertical>
+                <cu:editVertical id="lastName" label="#{domain['User.lastName']}">
+                    <h:outputText id="i" value="#{checkoutView.order.buyer.lastName}"/>
+                </cu:editVertical>
+
+                <cu:editVertical label="#{messages['view.checkout.newAddress']}">
+                    <h:selectBooleanCheckbox id="newAddress" value="#{checkoutView.useExistingAddress}">
+                        <a4j:ajax render="telephone addr1 addr2 city zipcode country region"/>
+                    </h:selectBooleanCheckbox>
+                </cu:editVertical>
+
+                <cu:editVertical id="telephone" label="#{domain['User.telephone']}">
+                    <h:inputText id="i" value="#{checkoutView.order.buyer.telephone}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+                <cu:editVertical id="addr1" label="#{domain['User.address1']}">
+                    <h:inputText id="i" value="#{checkoutView.order.buyer.address1}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+                <cu:editVertical id="addr2" label="#{domain['User.address2']}">
+                    <h:inputText id="i" value="#{checkoutView.order.buyer.address2}" required="false" disabled="#{checkoutView.useExistingAddress}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+                <cu:editVertical id="city" label="#{domain['User.city']}">
+                    <h:inputText id="i" value="#{checkoutView.order.buyer.city}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+                <cu:editVertical id="zipcode" label="#{domain['User.zipCode']}">
+                    <h:inputText id="i" value="#{checkoutView.order.buyer.zipCode}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+                <cu:editVertical id="country" label="#{domain['User.country']}">
+                    <h:selectOneMenu id="i" value="#{checkoutView.selectedCountry}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <f:selectItem noSelectionOption="true"/>
+                        <f:selectItems id="items" value="#{checkoutView.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country}"/>
+                        <itc:convertEntity/>
+                        <a4j:ajax event="change" render="region"/>
+                        <rich:validator/>
+                    </h:selectOneMenu>
+                </cu:editVertical>
+                <cu:editVertical id="region" label="#{domain['User.regionState']}">
+                    <h:selectOneMenu id="i" value="#{checkoutView.selectedCountryRegion}" required="true" disabled="#{checkoutView.useExistingAddress}">
+                        <f:selectItem noSelectionOption="true"/>
+                        <f:selectItems id="items" value="#{checkoutView.selectedCountry.regions}" var="region" itemLabel="#{region.name}" itemValue="#{region}"/>
+                        <itc:convertEntity/>
+                        <rich:validator/>
+                    </h:selectOneMenu>
+                </cu:editVertical>
+
+                <p class="modal-header row-bold ">#{messages['view.checkout.choosenItemsHeader']}</p>
+                <rich:dataTable id="cartTable" styleClass="table" value="#{cart.items}" var="item" rows="#{cart.cartSize}">
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.productName']}</f:facet>
+                        #{item.name}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.quantity']}</f:facet>
+                        #{item.quantity}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.pricePerUnit']}</f:facet>
+                        #{item.pricePerUnit}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.totalPrice']}</f:facet>
+                        #{item.totalPrice}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.shippingCost']}</f:facet>
+                        #{item.shippingCost}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.checkout.totalPriceWShipping']}</f:facet>
+                        #{item.totalPrice.add(item.shippingCost)}
+                    </rich:column>
+                    <f:facet name="footer">
+                        <div class="span5 offset6 modal-header text-right">
+                            <p>#{messages['view.cart.totalItemsValue']} #{cartView.cart.totalItemsPrice}</p>
+
+                            <p>#{messages['view.cart.totalShippingValue']} #{cartView.cart.totalShippingValue}</p>
+                        </div>
+                        <span class="span5 offset6 modal-header text-right">#{messages['view.cart.totalCartValue']} #{cartView.cart.cartTotalValue}</span>
+                    </f:facet>
+                </rich:dataTable>
+
+                <p class="modal-header row-bold ">#{messages['view.checkout.currentShippingAgree']}</p>
+                <cu:editVertical label="#{messages['view.checkout.negotiateShipping']}">
+                    <h:selectBooleanCheckbox id="newAddress" value="#{checkoutView.userWantNegotiation}">
+                        <a4j:ajax render="suggestedPrice suggestedMessage"/>
+                    </h:selectBooleanCheckbox>
+                </cu:editVertical>
+
+                <cu:editVertical id="suggestedPrice" label="#{messages['view.checkout.suggestedPrice']}">
+                    <h:inputText value="#{checkoutView.suggestedPrice}" required="true" disabled="#{not checkoutView.userWantNegotiation}">
+                        <rich:validator/>
+                    </h:inputText>
+                </cu:editVertical>
+
+                <cu:editVertical id="suggestedMessage" label="#{messages['view.checkout.suggestedPriceMessage']}">
+                    <h:inputTextarea value="#{checkoutView.suggestedPriceMessage}" required="true" disabled="#{not checkoutView.userWantNegotiation}">
+                        <rich:validator/>
+                    </h:inputTextarea>
+                </cu:editVertical>
+
+                <div class="form-actions">
+                    <h:button value="#{messages['CRUD.cancel']}" outcome="cart" styleClass="btn pull-left"/>
+                    <h:commandButton value="#{messages['view.checkout.submit']}" action="#{checkoutView.saveOrder}" styleClass="btn btn-info pull-right"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

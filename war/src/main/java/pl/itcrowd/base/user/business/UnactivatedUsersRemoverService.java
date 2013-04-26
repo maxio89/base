@@ -1,9 +1,9 @@
 package pl.itcrowd.base.user.business;
 
-import pl.itcrowd.base.framework.business.Unmanaged;
 import org.apache.commons.lang.time.DateUtils;
 import org.jboss.seam.transaction.Transactional;
 import org.jboss.solder.logging.Logger;
+import pl.itcrowd.base.framework.business.Unmanaged;
 
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
@@ -51,7 +51,7 @@ public class UnactivatedUsersRemoverService {
     @Transactional
     public int removeUnactivatedAccounts()
     {
-        Date destinationDate = DateUtils.addDays(new Date(), NUMBER_OF_DAYS);
+        Date destinationDate = DateUtils.addDays(new Date(), -NUMBER_OF_DAYS);
         String query = "delete User u where u.registrationDate < :date and u.active=false";
         return entityManager.createQuery(query).setParameter("date", destinationDate).executeUpdate();
     }

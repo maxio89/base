@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j" xmlns:h="http://java.sun.com/jsf/html" xmlns:cu="http://java.sun.com/jsf/composite/components"
+                template="/layout/template.xhtml">
+
+    <ui:param name="bodyStyleClass" value="cart"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.cart.header']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+            <h:form>
+                <rich:dataTable id="cartTable" styleClass="table" value="#{cartView.cart.items}" var="item" rows="#{cartView.cart.cartSize}">
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.cart.productName']}</f:facet>
+                        <h:link value="#{item.name}" outcome="psychicProductDetails" rendered="#{not empty item.product}">
+                            <f:param name="productId" value="#{item.product.id}"/>
+                        </h:link>
+                        <h:outputText value="#{item.product}" rendered="#{empty item.product}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.cart.quantity']}</f:facet>
+                        <rich:inputNumberSpinner value="#{item.quantity}" step="1" minValue="1" maxValue="#{item.product.quantity}" inputSize="3" inputClass="span1">
+                            <a4j:ajax event="change" render="cartTable" listener="#{cartView.updateItems}"/>
+                        </rich:inputNumberSpinner>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.cart.pricePerUnit']}</f:facet>
+                        #{item.pricePerUnit}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.cart.totalPrice']}</f:facet>
+                        #{item.totalPrice}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">#{messages['view.cart.shippingCost']}</f:facet>
+                        #{item.shippingCost}
+                    </rich:column>
+                    <rich:column>
+                        <h:commandButton value="#{messages['view.cart.removeProduct']}" action="#{cartView.removeItem(item)}" styleClass="btn btn-danger"/>
+                    </rich:column>
+                    <f:facet name="footer">
+                        <div class="span5 offset6 modal-header text-right">
+                            <p>#{messages['view.cart.totalItemsValue']} #{cartView.cart.totalItemsPrice}</p>
+
+                            <p>#{messages['view.cart.totalShippingValue']} #{cartView.cart.totalShippingValue}</p>
+                        </div>
+                        <span class="span5 offset6 modal-header text-right">#{messages['view.cart.totalCartValue']} #{cartView.cart.cartTotalValue}</span>
+                    </f:facet>
+                </rich:dataTable>
+
+                <div class="form-actions">
+                    <h:button value="#{messages['CRUD.back']}" outcome="home" styleClass="btn"/>
+                    <h:commandButton value="#{messages['view.cart.checkout']}" action="checkout" styleClass="btn btn-info pull-right marginLeft10"
+                                     disabled="#{cartView.cart.items.size == 0}"/>
+                    <h:commandButton value="#{messages['view.cart.clearCart']}" action="#{cartView.clearCart}" styleClass="btn pull-right"
+                                     disabled="#{cartView.cart.items.size == 0}"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

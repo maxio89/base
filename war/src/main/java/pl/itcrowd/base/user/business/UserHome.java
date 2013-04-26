@@ -2,6 +2,7 @@ package pl.itcrowd.base.user.business;
 
 import org.jboss.seam.transaction.Transactional;
 import org.jboss.solder.logging.Logger;
+import pl.itcrowd.base.domain.Country;
 import pl.itcrowd.base.domain.RoleEnum;
 import pl.itcrowd.base.domain.User;
 import pl.itcrowd.base.domain.UserActivationToken;
@@ -44,6 +45,12 @@ public class UserHome extends EntityHome<User> {
     }
 
     // -------------------------- OTHER METHODS --------------------------
+
+    @Nonnull
+    public Long getCountUserForCountry(@Nonnull Country country)
+    {
+        return (Long) getEntityManager().createQuery("select count(u) from User u where u.country=:country").setParameter("country", country).getSingleResult();
+    }
 
     public boolean activate(@Nonnull String email, @Nonnull String token)
     {

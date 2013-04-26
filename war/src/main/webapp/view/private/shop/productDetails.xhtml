@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:itc="http://it-crowd.com.pl/jsf" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.org/seam/faces" xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="productId" value="#{productDetailsView.selectedProductId}"/>
+        <s:viewAction action="#{productDetailsView.initView}"/>
+    </f:metadata>
+
+    <ui:param name="bodyStyleClass" value="my-account"/>
+
+    <ui:param name="activeStyleProducts" value="#{productDetailsView.selectedProductId == null ? 'NEW' : '' }"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.myAccountPanel.products']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+
+            <ui:include src="/layout/myAccountNav.xhtml"/>
+
+            <div class="row-fluid">
+
+                <ui:include src="/layout/myAccountProductsNav.xhtml"/>
+
+                <div class="span9">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#general" data-toggle="tab">#{messages['view.productDetails.general']}</a></li>
+                        <li><a href="#prices" data-toggle="tab">#{messages['view.productDetails.specialPrices']}</a></li>
+                        <li><a href="#discounts" data-toggle="tab">Quantity discounts</a></li>
+                    </ul>
+
+                    <rich:panel id="tabP">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="general">
+                                <h:form id="f" styleClass="form-horizontal">
+                                    <h:panelGroup>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.name']}">
+                                            <h:inputText id="name" value="#{productDetailsView.selectedProduct.name}"/>
+                                        </cu:editVertical>
+                                        <cu:editVertical label="#{messages['view.user.addProduct.description']}">
+                                            <h:inputTextarea id="description" value="#{productDetailsView.selectedProduct.description}" cols="3" rows="3"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.price']}">
+                                            <h:inputText id="price" value="#{productDetailsView.selectedProduct.price}"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.shippingCost']}">
+                                            <h:inputText id="shippingCost" value="#{productDetailsView.selectedProduct.shippingCost}"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.quantity']}">
+                                            <h:inputText id="quantity" value="#{productDetailsView.selectedProduct.quantity}"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.maxQuantity']}">
+                                            <h:inputText id="maxQuantity" value="#{productDetailsView.selectedProduct.maxQuantityInParcel}"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.productTags']}">
+                                            <h:inputText id="tag" value="#{productDetailsView.productTags}"/>
+                                        </cu:editVertical>
+
+                                        <cu:editVertical label="#{messages['view.user.addProduct.category']}">
+                                            <h:selectOneListbox id="parentCategories" size="6" value="#{productDetailsView.selectedParentCategory}">
+                                                <f:selectItems value="#{productDetailsView.productParentCategories}" var="category" itemValue="#{category}"
+                                                               itemLabel="#{category.name}"/>
+                                                <itc:convertEntity/>
+                                                <rich:validator/>
+                                                <a4j:ajax event="change" execute="@this" render="childCategories"/>
+                                            </h:selectOneListbox>
+                                            <h:selectOneListbox id="childCategories" size="6" value="#{productDetailsView.selectedProduct.category}">
+                                                <f:selectItems value="#{productDetailsView.selectedParentCategory.childrens}" var="category" itemValue="#{category}"
+                                                               itemLabel="#{category.name}"/>
+                                                <itc:convertEntity/>
+                                                <rich:validator/>
+
+                                            </h:selectOneListbox>
+                                        </cu:editVertical>
+                                        <hr/>
+                                        <cu:editVertical label="#{messages['view.user.addProduct.photos']}">
+                                            <rich:dataTable value="#{productDetailsView.productPhotos}" var="photo" id="photos" styleClass="table">
+
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['view.user.addProduct.thumbnail']}</f:facet>
+                                                    <h:graphicImage id="thumbnail" styleClass="avatar thumbnail"
+                                                                    value="#{not empty photo.content ? photo.contentToBase64 : '/img/placeholder.png'}" height="100" width="100"/>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['CRUD.remove']}</f:facet>
+                                                    <a4j:commandLink id="remove" styleClass="btn btn-danger" action="#{productDetailsView.removePhoto(photo)}" render="photos"
+                                                                     execute="@this">
+                                                        <i class="icon-remove noBackground"/>
+                                                    </a4j:commandLink>
+                                                </rich:column>
+
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['view.product.markAsThumbnail']}</f:facet>
+                                                    <a4j:commandLink styleClass="btn btn-warning" action="#{productDetailsView.markAsThumbnail(photo)}" execute="@this"
+                                                                     render="photos">
+                                                        <i class="icon-ok noBackground"/>
+                                                    </a4j:commandLink>
+                                                </rich:column>
+                                            </rich:dataTable>
+                                        </cu:editVertical>
+                                        <hr/>
+                                        <h:panelGrid id="photoUpload" columns="2">
+                                            <rich:fileUpload acceptedTypes="jpg, gif, png, bmp, jpeg" ontyperejected="alert('Only JPG, GIF, PNG and BMP files are accepted');"
+                                                             fileUploadListener="#{productDetailsView.photoUploaded}" immediateUpload="true" listHeight="0"
+                                                             styleClass="avatarUpload">
+                                                <a4j:ajax event="uploadcomplete" execute="@none" render="photos photoUpload"/>
+                                            </rich:fileUpload>
+                                            <h4>#{productDetailsView.fileUploadMessage}</h4>
+                                        </h:panelGrid>
+                                        <hr/>
+                                        <h:panelGroup id="commands1">
+                                            <div class="form-actions">
+                                                <h:commandButton styleClass="btn btn-info pull-right" value="Save product" action="#{productDetailsView.save}"/>
+                                                <h:button styleClass="btn pull-left" value="Cancel" outcome="productList"/>
+                                            </div>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:form>
+                            </div>
+                            <div class="tab-pane" id="prices">
+                                <h:form id="f2">
+                                    <h:panelGroup>
+                                        <h:panelGroup id="pGrid">
+                                            <rich:dataTable value="#{productDetailsView.discountSpecialList}" var="discount" id="repDisc" styleClass="table">
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['view.user.addProduct.price']}</f:facet>
+                                                    <h:outputText value="#{discount.price}"/>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['view.user.addProduct.startDate']}</f:facet>
+                                                    <h:outputFormat value="{0, date, MM-dd-yyyy}">
+                                                        <f:param value="#{discount.startDate}"/>
+                                                    </h:outputFormat>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">#{messages['view.product.endDate']}</f:facet>
+                                                    <h:outputFormat value="{0, date, MM-dd-yyyy}">
+                                                        <f:param value="#{discount.endDate}"/>
+                                                    </h:outputFormat>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <a4j:commandLink styleClass="btn btn-danger" render="repDisc" action="#{productDetailsView.removeSpecialDiscount(discount)}"
+                                                                     immediate="true">
+                                                        <i class="icon-remove noBackground"/>
+                                                    </a4j:commandLink>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <h:outputText value="#{messages['view.product.discount.expired']}" styleClass="text-error row-bold"
+                                                                  rendered="#{productDetailsView.isDiscountExpired(discount)}" data-toggle="tooltip"
+                                                                  title="#{messages['view.product.discount.expiredTooltip']}"/>
+                                                </rich:column>
+                                                <f:facet name="footer">
+                                                    <rich:columnGroup>
+                                                        <rich:column>
+                                                            <h:inputText value="#{productDetailsView.specialPriceDiscount.price}" id="priceSpecial" class="inputDiscounts"
+                                                                         required="true" requiredMessage="#{messages['view.product.discount.priceRequired']}">
+                                                                <f:convertNumber integerOnly="true" type="number"/>
+                                                            </h:inputText>
+                                                            <rich:notifyMessage for="priceSpecial" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                        </rich:column>
+                                                        <rich:column>
+                                                            <rich:calendar value="#{productDetailsView.specialPriceDiscount.startDate}" id="calendar" datePattern="MM/dd/yyyy"
+                                                                           styleClass="calendar" required="true"
+                                                                           requiredMessage="#{messages['view.product.discount.startDateRequired']}">
+                                                            </rich:calendar>
+                                                            <rich:notifyMessage for="calendar" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                        </rich:column>
+                                                        <rich:column>
+                                                            <rich:calendar value="#{productDetailsView.specialPriceDiscount.endDate}" id="calendar2" datePattern="MM/dd/yyyy"
+                                                                           styleClass="calendar" required="true"
+                                                                           requiredMessage="#{messages['view.product.discount.endDateRequired']}">
+                                                            </rich:calendar>
+                                                            <rich:notifyMessage for="calendar2" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                        </rich:column>
+                                                        <rich:column>
+                                                            <a4j:commandButton styleClass="btn btn-info  pull-right" value="#{messages['CRUD.add']}"
+                                                                               action="#{productDetailsView.addSpecialPrice}" render="repDisc"/>
+                                                        </rich:column>
+                                                    </rich:columnGroup>
+                                                </f:facet>
+                                            </rich:dataTable>
+                                        </h:panelGroup>
+
+                                    </h:panelGroup>
+
+                                </h:form>
+                            </div>
+                            <div class="tab-pane" id="discounts">
+                                <h:form id="f3">
+                                    <h:panelGroup>
+                                        <rich:dataTable value="#{productDetailsView.discountQuantityList}" var="discount2" id="repQuantDisc" styleClass="table">
+                                            <rich:column>
+                                                <f:facet name="header">#{messages['view.user.addProduct.quantity']}</f:facet>
+                                                <h:outputText value="#{discount2.quantity}"/>
+                                            </rich:column>
+                                            <rich:column>
+                                                <f:facet name="header">#{messages['view.user.addProduct.discount']}</f:facet>
+                                                <h:outputText value="#{discount2.price}"/>
+                                            </rich:column>
+                                            <rich:column>
+                                                <f:facet name="header">#{messages['view.user.addProduct.startDate']}</f:facet>
+                                                <h:outputFormat value="{0, date, MM-dd-yyyy}">
+                                                    <f:param value="#{discount2.startDate}"/>
+                                                </h:outputFormat>
+                                            </rich:column>
+                                            <rich:column>
+                                                <f:facet name="header">#{messages['view.product.endDate']}</f:facet>
+                                                <h:outputFormat value="{0, date, MM-dd-yyyy}">
+                                                    <f:param value="#{discount2.endDate}"/>
+                                                </h:outputFormat>
+                                            </rich:column>
+                                            <rich:column>
+                                                <a4j:commandLink styleClass="btn btn-danger" render="repQuantDisc" action="#{productDetailsView.removeQuantityDiscount(discount2)}"
+                                                                 immediate="true">
+                                                    <i class="icon-remove noBackground"/>
+                                                </a4j:commandLink>
+                                            </rich:column>
+                                            <rich:column>
+                                                <h:outputText value="#{messages['view.product.discount.expired']}" styleClass="text-error row-bold"
+                                                              rendered="#{productDetailsView.isDiscountExpired(discount2)}" data-toggle="tooltip"
+                                                              title="#{messages['view.product.discount.expiredTooltip']}"/>
+                                            </rich:column>
+                                            <f:facet name="footer">
+                                                <rich:columnGroup>
+                                                    <rich:column>
+                                                        <h:inputText value="#{productDetailsView.quantityDiscount.quantity}" id="quantity" class="inputDiscounts" required="true"
+                                                                     requiredMessage="#{messages['view.product.discount.quantityRequired']}">
+                                                            <f:convertNumber integerOnly="true" type="number"/>
+                                                        </h:inputText>
+                                                        <rich:notifyMessage for="quantity" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                    </rich:column>
+                                                    <rich:column>
+                                                        <h:inputText value="#{productDetailsView.quantityDiscount.price}" id="discount2" class="inputDiscounts" required="true"
+                                                                     requiredMessage="#{messages['view.product.discount.discountRequired']}">
+                                                            <f:convertNumber integerOnly="true" type="number"/>
+                                                        </h:inputText>
+                                                        <rich:notifyMessage for="discount2" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                    </rich:column>
+                                                    <rich:column>
+                                                        <rich:calendar value="#{productDetailsView.quantityDiscount.startDate}" id="calendar3" datePattern="MM/dd/yyyy"
+                                                                       required="true" requiredMessage="#{messages['view.product.discount.startDateRequired']}">
+                                                        </rich:calendar>
+                                                        <rich:notifyMessage for="calendar3" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                    </rich:column>
+                                                    <rich:column>
+                                                        <rich:calendar value="#{productDetailsView.quantityDiscount.endDate}" id="calendar4" datePattern="MM/dd/yyyy"
+                                                                       required="true" requiredMessage="#{messages['view.product.discount.endDateRequired']}">
+                                                        </rich:calendar>
+                                                        <rich:notifyMessage for="calendar4" nonblocking="true" nonblockingOpacity="0.6" onclick="$(this).hide()"/>
+                                                    </rich:column>
+                                                    <rich:column>
+                                                        <a4j:commandButton styleClass="btn btn-info pull-right" value="#{messages['CRUD.add']}"
+                                                                           action="#{productDetailsView.addQuantityDiscount}" render="repQuantDisc"/>
+                                                    </rich:column>
+                                                </rich:columnGroup>
+                                            </f:facet>
+                                        </rich:dataTable>
+
+                                    </h:panelGroup>
+                                </h:form>
+                            </div>
+                        </div>
+                    </rich:panel>
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

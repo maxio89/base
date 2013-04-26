@@ -83,6 +83,13 @@
         </navigation-case>
     </navigation-rule>
 
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>cart</from-outcome>
+            <to-view-id>/view/resendToken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
     <!-- private -->
 
     <navigation-rule>

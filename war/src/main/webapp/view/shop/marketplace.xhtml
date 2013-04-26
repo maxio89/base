@@ -1,0 +1,71 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j" xmlns:cu="http://java.sun.com/jsf/composite/components" template="/layout/template.xhtml"
+                xmlns:s="http://jboss.org/seam/faces">
+
+    <f:metadata>
+        <f:viewParam name="categoryId" value="#{marketplaceView.categoryId}"/>
+        <f:viewParam name="tagId" value="#{marketplaceView.tagId}"/>
+        <s:viewAction action="#{marketplaceView.initView}"/>
+    </f:metadata>
+
+    <ui:param name="bodyStyleClass" value="marketplace"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.marketplace.header']}"/>
+
+        <!-- content area -->
+
+        <div class="row-fluid product-categories">
+            <div class="span3">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="well noSidePadding">
+                            <h4 class="category-name offset1">#{messages['view.marketplace.categories']}</h4>
+                            <hr/>
+
+                            <ul class="nav nav-list">
+                                <li class="#{empty marketplaceView.productList.searchCriteria.categoryId ? 'active' : ''}">
+                                    <h:link value="#{messages['CRUD.all']}" outcome="marketplace"/>
+                                </li>
+                                <a4j:repeat value="#{marketplaceView.productParentCategories}" var="parentCategory">
+                                    <h:panelGroup rendered="#{not empty parentCategory.childrens}">
+                                        <li class="nav-header">#{parentCategory.name}:</li>
+                                        <a4j:repeat value="#{parentCategory.childrens}" var="childCategory">
+
+                                            <li class="#{marketplaceView.productList.searchCriteria.categoryId == childCategory.id ? 'active' : ''}">
+                                                <h:link value="#{childCategory.name}" outcome="marketplace">
+                                                    <f:param name="categoryId" value="#{childCategory.id}"/>
+                                                </h:link>
+                                            </li>
+                                        </a4j:repeat>
+                                    </h:panelGroup>
+                                </a4j:repeat>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <h4 class="modal-header">Popular tags:</h4>
+
+                        <div class="span12 tags">
+                            <a4j:repeat value="#{marketplaceView.tags}" var="tag">
+                                <h:link styleClass="badge clearfix" value="#{tag.name}">
+                                    <f:param name="tagId" value="#{tag.id}"/>
+                                </h:link>
+                            </a4j:repeat>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ui:include src="/layout/productList.xhtml"/>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

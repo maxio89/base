@@ -1,0 +1,95 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:cu="http://java.sun.com/jsf/composite/components"
+                template="/layout/template.xhtml">
+
+    <ui:param name="bodyStyleClass" value="my-account"/>
+
+    <ui:param name="activeStyleOrders" value="ORDERS"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.orderList.header']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+
+            <ui:include src="/layout/myAccountNav.xhtml"/>
+
+            <div class="row-fluid">
+                <ui:include src="/layout/myAccountOrdersNav.xhtml"/>
+
+                <div class="span9">
+                    <rich:panel>
+
+                        <h:form>
+                            <h:selectOneMenu value="#{orderListView.orderList.searchCriteria.status}">
+                                <f:selectItem itemLabel="#{messages['view.orderList.selectStatusCriteria']}" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{enumValues.orderStatus}" var="status" itemLabel="#{enumTranslator.translate(status)}" itemValue="#{status}"/>
+                                <a4j:ajax render="orderTable"/>
+                            </h:selectOneMenu>
+                            <rich:dataTable id="orderTable" value="#{orderListView.orderList.dataModel}" var="order" rows="15" styleClass="table">
+                                <!--@elvariable id="order" type="com.base.domain.Order"-->
+                                <rich:column>
+                                    <f:facet name="header">
+                                        #{messages['view.orderList.orderDate']}
+                                    </f:facet>
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                        <f:param value="#{order.createdTs}"/>
+                                    </h:outputFormat>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        #{messages['view.orderList.buyer']}
+                                    </f:facet>
+                                    #{order.buyerName}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        #{messages['view.orderList.seller']}
+                                    </f:facet>
+                                    #{order.sellerName}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        #{messages['view.orderList.totalValue']}
+                                    </f:facet>
+                                    #{order.totalPrice}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        #{messages['view.orderList.status']}
+                                    </f:facet>
+                                    #{enumTranslator.translate(order.status)}
+                                </rich:column>
+                                <rich:column>
+                                    <h:button value="#{messages['view.orderList.showOrder']}" outcome="singleOrder" styleClass="btn btn-info">
+                                        <f:param name="orderId" value="#{order.id}"/>
+                                    </h:button>
+                                </rich:column>
+                                <f:facet name="footer">
+                                    <div class="row-fluid scroller marginTop10">
+                                        <rich:dataScroller id="chargerScr" boundaryControls="hide" maxPages="5" stepControls="auto" fastControls="hide" renderIfSinglePage="true">
+                                            <f:facet name="previous">
+                                                <i class="icon-caret-left"/>
+                                            </f:facet>
+                                            <f:facet name="next">
+                                                <i class="icon-caret-right"/>
+                                            </f:facet>
+                                        </rich:dataScroller>
+                                    </div>
+                                </f:facet>
+                            </rich:dataTable>
+
+                            <div class="form-actions"></div>
+                        </h:form>
+                    </rich:panel>
+
+                </div>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

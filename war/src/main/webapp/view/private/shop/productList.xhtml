@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:rich="http://richfaces.org/rich" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cu="http://java.sun.com/jsf/composite/components" xmlns:f="http://java.sun.com/jsf/core" xmlns:a4j="http://richfaces.org/a4j"
+                template="/layout/template.xhtml">
+
+    <ui:param name="bodyStyleClass" value="my-account"/>
+
+    <ui:param name="activeStyleProducts" value="PRODUCTS"/>
+
+    <ui:define name="body">
+
+        <cu:underlinedHeader value="#{messages['view.myAccountPanel.products']}"/>
+
+        <!-- content area -->
+
+        <div class="span12">
+
+            <ui:include src="/layout/myAccountNav.xhtml"/>
+
+            <div class="row-fluid">
+                <ui:include src="/layout/myAccountProductsNav.xhtml"/>
+
+                <div class="span9">
+                    <rich:panel>
+
+                        <h:form id="form">
+                            <rich:dataTable value="#{productListView.productList.dataModel}" var="product" id="pData" rows="#{productListView.productList.maxResults}"
+                                            styleClass="table">
+                                <!--@elvariable id="product" type="com.base.domain.Product"-->
+                                <f:facet name="header">
+                                    <rich:columnGroup>
+                                        <rich:column>
+                                        </rich:column>
+                                        <rich:column>
+                                            <h:outputText value="#{messages['view.user.addProduct.name']}"/>
+                                        </rich:column>
+                                        <rich:column>
+                                            <h:outputText value="#{messages['view.user.addProduct.thumbnail']}"/>
+                                        </rich:column>
+                                        <rich:column>
+                                            <h:outputText value="#{messages['view.user.addProduct.price']}"/>
+                                        </rich:column>
+                                        <rich:column>
+                                            <h:outputText value="#{messages['view.user.addProduct.category']}"/>
+                                        </rich:column>
+                                        <rich:column>
+                                            <h:outputText value="#{messages['view.user.addProduct.quantity']}"/>
+                                        </rich:column>
+                                    </rich:columnGroup>
+                                </f:facet>
+                                <rich:column>
+                                    <h:selectBooleanCheckbox value="#{productListView.entitySelection[product]}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:outputText value="#{product.name}" styleClass="#{product.quantity == 0 ? 'text-error' : ''}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:graphicImage value="#{not empty product.thumbnailToBase64 ? product.thumbnailToBase64 : '/img/placeholder.png'}" height="100" width="100"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:outputText value="#{product.price}" styleClass="#{product.quantity == 0 ? 'text-error' : ''}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:outputText value="#{product.category.name}" styleClass="#{product.quantity == 0 ? 'text-error' : ''}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:outputText value="#{product.quantity}" styleClass="#{product.quantity == 0 ? 'text-error'.concat(' row-bold') : ''}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <h:button styleClass="btn btn-info" value="#{messages['CRUD.edit']}" outcome="productDetails">
+                                        <f:param name="productId" value="#{product.id}"/>
+                                    </h:button>
+                                </rich:column>
+                                <rich:dataScroller id="chargerScr" boundaryControls="hide" for="pData" align="right" maxPages="5" stepControls="auto" fastControls="hide"
+                                                   renderIfSinglePage="true" render="panel">
+                                    <f:facet name="previous">
+                                        <i class="icon-caret-left"/>
+                                    </f:facet>
+                                    <f:facet name="next">
+                                        <i class="icon-caret-right"/>
+                                    </f:facet>
+                                </rich:dataScroller>
+                            </rich:dataTable>
+                            <a4j:jsFunction name="remove" action="#{productListView.removeSelectedEntities()}"/>
+
+                            <div class="form-actions">
+                                <a4j:commandButton styleClass="btn btn-danger pull-left" value="#{messages['CRUD.remove']}" onclick="#{rich:component('confirmChangesPP')}.show();"
+                                                   render="pData"/>
+                            </div>
+                        </h:form>
+                    </rich:panel>
+
+                </div>
+            </div>
+        </div>
+
+        <rich:popupPanel id="confirmChangesPP" modal="true" autosized="true" styleClass="popup">
+            <p class="modal-header row-bold">#{messages['CRUD.confirmAction']}</p>
+            <h:form>
+                <a4j:commandButton value="#{messages['CRUD.no']}" onclick="#{rich:component('confirmChangesPP')}.hide()" styleClass="btn btn-info pull-left"/>
+                <a4j:commandButton value="#{messages['CRUD.yes']}" action="#{createMessageView.hideSaveChangesConfirmation}" styleClass="btn btn-warning pull-right marginLeft10"
+                                   onclick="#{rich:component('confirmChangesPP')}.hide();remove();" render="pData" immediate="true"/>
+            </h:form>
+        </rich:popupPanel>
+
+    </ui:define>
+</ui:composition>
+</html>
+
+
+      

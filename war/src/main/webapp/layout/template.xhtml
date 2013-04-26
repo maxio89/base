@@ -34,6 +34,10 @@
                                 <li><h:link outcome="home"
                                             value="#{messages['view.welcome']} #{null==currentUser ? ' Not logged in' : currentUser.firstName.concat(currentUser.lastName)}"
                                             rendered="#{identity.loggedIn}"/></li>
+                                <li><h:link styleClass="shopping-cart" outcome="cart">
+                                    <i class="icon-shopping-cart"/>
+                                    (#{cartView.cart.totalQuantity})
+                                </h:link></li>
                                 <li><h:link outcome="register" value="#{messages['layout.template.toolbar.signup']}" rendered="#{!identity.loggedIn}"/></li>
                                 <li>
                                     <h:commandLink id="logout" action="#{identity.logout}" value="#{messages['layout.template.toolbar.logout']}" rendered="#{identity.loggedIn}"/>
